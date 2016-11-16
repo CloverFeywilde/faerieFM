@@ -8,15 +8,11 @@ window.onresize = function (event) {
   var newHeight = window.innerHeight;
   renderer.view.style.width = newWidth + "px";
   renderer.view.style.height = newHeight + "px";
- // renderer.resize(w,h);  
 }
 window.onresize();
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 var container = new PIXI.DisplayObjectContainer();
-//container.x = renderer.view.style.width;
-//container.y = renderer.view.style.height;
-//container.scale.x = 9;
-//container.scale.y = 16;
+container.scale.x = container.scale.y = 2;
 stage.addChild(container);
 
 //Aliases and Globals
