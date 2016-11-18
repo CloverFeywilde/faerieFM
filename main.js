@@ -1,11 +1,13 @@
 //Renderer Setup
+//document.getElementsByTagName('canvas')[0].width
 var stage = new PIXI.Container()
-renderer = PIXI.autoDetectRenderer(720, 1280);
+var renderer = PIXI.autoDetectRenderer(720, 1280);
 document.body.appendChild(renderer.view);
 window.onresize = function (event) {
   var w = window.innerWidth;
-  var newWidth = (newHeight*9)/16
   var newHeight = window.innerHeight;
+  var newWidth = (newHeight*9)/16
+ // renderer.resize(newWidth, newHeight);
   renderer.view.style.width = newWidth + "px";
   renderer.view.style.height = newHeight + "px";
 }
@@ -14,10 +16,9 @@ PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 var container = new PIXI.DisplayObjectContainer();
 container.scale.x = container.scale.y = 2;
 stage.addChild(container);
-
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state
+var state, newPosition;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -81,9 +82,17 @@ function onDragEnd()
 function onDragMove()
 {
     if (this.dragging)
-    {
-        var newPosition = this.data.getLocalPosition(this.parent);
+    {     
+        newPosition = this.data.getLocalPosition(this.parent);
+        var screenWidth = toInt(renderer.view.style.width);
+        if (newPosition.x <= 50 || newPosition.x >= screenWidth - 50){
+         // alert("hit");
+         return; 
+         }
+        else{
         this.position.x = newPosition.x;
         this.position.y = newPosition.y;
+        }
     }
 }
+
