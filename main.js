@@ -14,11 +14,11 @@ window.onresize = function (event) {
 window.onresize();
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 var container = new PIXI.DisplayObjectContainer();
-container.scale.x = container.scale.y = 2;
+container.scale.x = container.scale.y = 1;
 stage.addChild(container);
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition;
+var state, newPosition, test;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -26,7 +26,7 @@ PIXI.loader
   .load(setup);
 
 function setup(){
-  var test = new Sprite(
+    test = new Sprite(
     PIXI.loader.resources['images/tester.png'].texture  
   );
 test.interactive = true;
@@ -84,8 +84,8 @@ function onDragMove()
     if (this.dragging)
     {     
         newPosition = this.data.getLocalPosition(this.parent);
-        var screenWidth = toInt(renderer.view.style.width);
-        if (newPosition.x <= 50 || newPosition.x >= screenWidth - 50){
+        // var screenWidth = parseInt(renderer.view.style.width);
+        if (newPosition.x <= 50 || newPosition.x >= renderer.width-50){
          // alert("hit");
          return; 
          }

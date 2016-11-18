@@ -1,13 +1,16 @@
 //String to Int Converter
 function toInt(str){
 var i = 0;
-var thing = str[i];
+//var thing = str[i];
 var num;
 var newInt;
 
-while(thing != "p"){
-  num += thing
+while(str[i] != "p"){
+  num += str[i];
   i++
+  if (i > str.length){
+  break;
+}
 }
  
 newInt = parseInt(num);
