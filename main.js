@@ -84,17 +84,18 @@ function onDragMove()
     if (this.dragging)
     {     
         newPosition = this.data.getLocalPosition(this.parent);
-        // var screenWidth = parseInt(renderer.view.style.width);
-        if (newPosition.x <= 50 || newPosition.x >= renderer.width-50){
-          return; 
+        if (newPosition.x >= 50 && newPosition.x <= renderer.width-50 && newPosition.y >=50 && newPosition.y <= renderer.height-50){
+          this.position.x = newPosition.x;
+          this.position.y = newPosition.y;  
+          return;
          }
-        else if(newPosition.y <=50 || newPosition.y >= renderer.height-50){
+        else if(newPosition.y >=50 && newPosition.y <= renderer.height-50){
+          this.position.y = newPosition.y;
+          return; 
+        }
+        else if(newPosition.x >= 50 && newPosition.x <= renderer.width-50){
+          this.position.x = newPosition.x;
           return;
         }
-        else{
-        this.position.x = newPosition.x;
-        this.position.y = newPosition.y;
-        }
-    }
 }
-
+}
