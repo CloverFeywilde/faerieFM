@@ -42,8 +42,8 @@ test
   .on('mousemove', onDragMove)
   .on('touchmove', onDragMove);
 
-test.position.x = 100;
-test.position.y = 200;
+test.position.x = 200;
+test.position.y = 500;
 
 container.addChild(test);
 state = play;
@@ -86,9 +86,11 @@ function onDragMove()
         newPosition = this.data.getLocalPosition(this.parent);
         // var screenWidth = parseInt(renderer.view.style.width);
         if (newPosition.x <= 50 || newPosition.x >= renderer.width-50){
-         // alert("hit");
-         return; 
+          return; 
          }
+        else if(newPosition.y <=50 || newPosition.y >= renderer.height-50){
+          return;
+        }
         else{
         this.position.x = newPosition.x;
         this.position.y = newPosition.y;
