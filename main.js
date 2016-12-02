@@ -23,12 +23,23 @@ var state, newPosition, test;
 //Sprite creation & Setup function
 PIXI.loader
   .add("images/tester.png")
+  .add("images/background.png")
   .load(setup);
 
 function setup(){
-    test = new Sprite(
-    PIXI.loader.resources['images/tester.png'].texture  
-  );
+
+testBG = new Sprite(
+  PIXI.loader.resources['images/background.png'].texture
+);
+test = new Sprite(
+PIXI.loader.resources['images/tester.png'].texture
+);
+testBG.interactive = true;
+testBG.buttonMode = true;
+testBG.on('mousedown', clicked);
+testBG.position.x=0;
+testBG.position.y=0;
+
 test.interactive = true;
 test.buttonMode = true;
 test.anchor.set(0.5);
@@ -44,11 +55,12 @@ test
 
 test.position.x = 200;
 test.position.y = 500;
-
+container.addChild(testBG);
 container.addChild(test);
 state = play;
 gameLoop();
 }
+
 
 //Game Loop
 function gameLoop(){
@@ -62,12 +74,24 @@ function play(){
 
 }
 
+function clicked(event){
+  console.log(event.data.global);
+  moveShip(event.data.global)
+}
+
+function moveShip(location){
+  console.log("move ship to: ", location);
+  test.position.x = location.x;
+  test.position.y = location.y;
+}
+
 //Mouse Drag Functions
 function onDragStart(event)
 {
     // store a reference to the data
     // the reason for this is because of multitouch
     // we want to track the movement of this particular touch
+    console.log(event.data);
     this.data = event.data;
     this.dragging = true;
 }
@@ -82,16 +106,16 @@ function onDragEnd()
 function onDragMove()
 {
     if (this.dragging)
-    {     
+    {
         newPosition = this.data.getLocalPosition(this.parent);
         if (newPosition.x >= 50 && newPosition.x <= renderer.width-50 && newPosition.y >=50 && newPosition.y <= renderer.height-50){
           this.position.x = newPosition.x;
-          this.position.y = newPosition.y;  
+          this.position.y = newPosition.y;
           return;
          }
         else if(newPosition.y >=50 && newPosition.y <= renderer.height-50){
           this.position.y = newPosition.y;
-          return; 
+          return;
         }
         else if(newPosition.x >= 50 && newPosition.x <= renderer.width-50){
           this.position.x = newPosition.x;
