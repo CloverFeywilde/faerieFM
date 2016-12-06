@@ -1,5 +1,4 @@
 //Renderer Setup
-//document.getElementsByTagName('canvas')[0].width
 var stage = new PIXI.Container()
 var renderer = PIXI.autoDetectRenderer(720, 1280);
 document.body.appendChild(renderer.view);
@@ -7,7 +6,6 @@ window.onresize = function (event) {
   var w = window.innerWidth;
   var newHeight = window.innerHeight;
   var newWidth = (newHeight*9)/16
- // renderer.resize(newWidth, newHeight);
   renderer.view.style.width = newWidth + "px";
   renderer.view.style.height = newHeight + "px";
 }
@@ -16,6 +14,7 @@ PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 var container = new PIXI.DisplayObjectContainer();
 container.scale.x = container.scale.y = 1;
 stage.addChild(container);
+
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
 var state, newPosition, test;
@@ -76,13 +75,16 @@ function play(){
 
 function clicked(event){
   console.log(event.data.global);
-  moveShip(event.data.global)
+  moveShip(event)
 }
 
 function moveShip(location){
-  console.log("move ship to: ", location);
-  test.position.x = location.x;
-  test.position.y = location.y;
+  var location2 = location.data.global
+  console.log("move ship to: ", location2);
+  test.position.x = location2.x;
+  test.position.y = location2.y;
+  onDragStart(location);
+  onDragMove();
 }
 
 //Mouse Drag Functions
@@ -92,33 +94,33 @@ function onDragStart(event)
     // the reason for this is because of multitouch
     // we want to track the movement of this particular touch
     console.log(event.data);
-    this.data = event.data;
-    this.dragging = true;
+    test.data = event.data;
+    test.dragging = true;
 }
 
 function onDragEnd()
 {
-    this.dragging = false;
+    test.dragging = false;
     // set the interaction data to null
-    this.data = null;
+    test.data = null;
 }
 
 function onDragMove()
 {
-    if (this.dragging)
+    if (test.dragging)
     {
-        newPosition = this.data.getLocalPosition(this.parent);
+        newPosition = test.data.getLocalPosition(test.parent);
         if (newPosition.x >= 50 && newPosition.x <= renderer.width-50 && newPosition.y >=50 && newPosition.y <= renderer.height-50){
-          this.position.x = newPosition.x;
-          this.position.y = newPosition.y;
+          test.position.x = newPosition.x;
+          test.position.y = newPosition.y;
           return;
          }
         else if(newPosition.y >=50 && newPosition.y <= renderer.height-50){
-          this.position.y = newPosition.y;
+          test.position.y = newPosition.y;
           return;
         }
         else if(newPosition.x >= 50 && newPosition.x <= renderer.width-50){
-          this.position.x = newPosition.x;
+          test.position.x = newPosition.x;
           return;
         }
 }
