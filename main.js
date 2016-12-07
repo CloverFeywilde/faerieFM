@@ -17,7 +17,7 @@ stage.addChild(container);
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, test;
+var state, newPosition, test, stage;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -26,7 +26,7 @@ PIXI.loader
   .load(setup);
 
 function setup(){
-
+//code needs to be refactored here so the background is called at the appropriate time within the play state.
 testBG = new Sprite(
   PIXI.loader.resources['images/background.png'].texture
 );
@@ -57,6 +57,7 @@ test.position.y = 500;
 container.addChild(testBG);
 container.addChild(test);
 state = play;
+stage = stage1;
 gameLoop();
 }
 
@@ -70,9 +71,23 @@ renderer.render(stage);
 
 //Game States
 function play(){
+//enemy & item AI
+//rewards & penalties
+//change states to pause or end
+
+//Run stageEnd('stage#'), if yes, or if 'firstTime' then reset the stage and all counters. Change to the new stage passed in. Create appropriate stage background.
+//Check if enemies need to be created or removed from current stage.
+//check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
+//increment distance counter
+//move stage according to distance counter.
+//check for maxDistance.
 
 }
 
+//Stage Creator, all functions dealing with stage management go here and are called within the play state.
+
+
+//click movement
 function clicked(event){
   console.log(event.data.global);
   moveShip(event)
