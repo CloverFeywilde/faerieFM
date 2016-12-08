@@ -1,0 +1,33 @@
+{
+	"meta": {
+		"image": "spritesheet.png",
+		"size": {"w":896,"h":1464},
+		"scale": "1"
+	},
+	"frames": {
+		"background.png":
+		{
+			"frame": {"x":0,"y":0,"w":796,"h":1464},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":796,"h":1464},
+			"sourceSize": {"w":796,"h":1464}
+		},
+		"tester.png":
+		{
+			"frame": {"x":796,"y":0,"w":100,"h":100},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+			"sourceSize": {"w":100,"h":100}
+		},
+		"dust.png":
+		{
+			"frame": {"x":796,"y":100,"w":24,"h":24},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
+			"sourceSize": {"w":24,"h":24}
+		}
+	}
+}
