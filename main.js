@@ -17,7 +17,7 @@ stage.addChild(container);
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, stage, test, frame, distance, id;
+var state, newPosition, stage, test, frame, distance, id, dust;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -89,9 +89,18 @@ function newStage(){
 }
 }
 
-function createSprite(name){
-  
+function createSprite(stageNum){
+  //on new stage loadup creates enemies and adds them to arrays
+  for(i=0; i <= Object.keys(stageNum).length; i++){
+    stageNum.i.array = [];
+    for(j=0; j <= stageNum.i.quantity; j++){
+      stageNum.i.array.push(new Sprite(id[stageNum.i.name+".png"]));
+    }       
+  }
+}
 
+function placeSprite(){
+  //takes a sprite out of the createSprite arrays, puts it in the stage with coordinate values from stage object.
 }
 
 function enemyCheck(currentDistance){

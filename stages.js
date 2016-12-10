@@ -3,7 +3,8 @@
 
 var stage1 = {
   1: {
-    name: 'starDust',
+    name: 'dust',
+    quantity: 5,
     x: [50,100,200],
     y: [10,15,20]
   },
