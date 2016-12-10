@@ -91,12 +91,12 @@ function newStage(){
 
 function createSprite(stageNum){
   //on new stage loadup creates enemies and adds them to arrays
-  for(i=0; i <= Object.keys(stageNum).length; i++){
-    stageNum.i.array = [];
-    for(j=0; j <= stageNum.i.quantity; j++){
-      stageNum.i.array.push(new Sprite(id[stageNum.i.name+".png"]));
+  Object.keys(stageNum).forEach(function(key,index){
+    stageNum.key.array = [];
+    for(j=0; j <= stageNum.key.quantity; j++){
+      stageNum.key.array.push(new Sprite(id[stageNum.key.name+".png"]));
     }       
-  }
+  })
 }
 
 function placeSprite(){
