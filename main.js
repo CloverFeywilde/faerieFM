@@ -54,6 +54,7 @@ test.position.y = 500;
 container.addChild(testBG);
 container.addChild(test);
 state = play;
+createSprite(stage1);
 //stage = "stage1";
 gameLoop();
 }
@@ -92,9 +93,9 @@ function newStage(){
 function createSprite(stageNum){
   //on new stage loadup creates enemies and adds them to arrays
   Object.keys(stageNum).forEach(function(key,index){
-    stageNum.key.array = [];
-    for(j=0; j <= stageNum.key.quantity; j++){
-      stageNum.key.array.push(new Sprite(id[stageNum.key.name+".png"]));
+   stageNum[key]['array'] = [];
+    for(j=0; j <= stageNum[key]['quantity']; j++){
+      stageNum[key]['array'].push(new Sprite(id[stageNum[key]['name']+".png"]));
     }       
   })
 }

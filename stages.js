@@ -8,7 +8,13 @@ var stage1 = {
     x: [50,100,200],
     y: [10,15,20]
   },
- e2: {},
- e3: {}
+ e2: {
+    name: 'blank',
+    quantity: 0
+  },
+ e3: {
+    name: 'blank',
+    quantity: 0
+  }
 
 };
