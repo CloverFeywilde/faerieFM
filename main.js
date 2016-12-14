@@ -67,7 +67,7 @@ function play(){
 
 //Run stageEnd('stage#'), if yes, or if 'firstTime' then reset the stage and all counters. Change to the new stage passed in. Create appropriate stage background.
 newStageCheck();
-//Check if enemies need to be created or removed from current stage.
+//Check if enemies need to be placed or removed from current stage.
 //*enemyCheck(distance);
 //check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
 //increment distance counter
@@ -102,8 +102,19 @@ function createSprite(stageNum){
       stageNum[key]['array'].push(new Sprite(id[stageNum[key]['name']+".png"]));
     }       
   })
-  for(var i=1; i<=5; i++){
-  placeSprite(stage1,'dust');
+ // for(var i=1; i<=5; i++){
+ // placeSprite(stage1,'dust');
+}
+}
+
+function checkDistance(currentDist, stageNum){
+  Object.keys(stageNum).forEach(function(key,index){
+    var yDist = stageNum[key]['y'][0];
+    if(yDist != null){
+      if(yDist == currentDist){
+        placeSprite(stageNum, key);   
+      }
+    } 
 }
 }
 
