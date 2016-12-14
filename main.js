@@ -17,7 +17,8 @@ stage.addChild(container);
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, stage, test, frame, distance, id, dust, firstTime;
+var state, newPosition, level, test, distance, id, dust, firstTime;
+var frame = 0;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -28,6 +29,7 @@ PIXI.loader
 function setup(){
 //code needs to be refactored here so the background is called at the appropriate time within the play state.
 id = PIXI.loader.resources["images/spritesheet.json"].textures;
+
 test = new Sprite(id["tester.png"]);
 test.interactive = true;
 test.buttonMode = true;
@@ -44,10 +46,12 @@ test
 
 test.position.x = 200;
 test.position.y = 500;
-container.addChild(test);
+//container.addChild(test);
+
 state = play;
-createSprite(stage1);
+//createSprite(stage1);
 firstTime = true;
+distance = 0;
 gameLoop();
 }
 
@@ -61,6 +65,7 @@ renderer.render(stage);
 
 //Game States
 function play(){
+
 //enemy & item AI
 //rewards & penalties
 //change states to pause or end
@@ -68,11 +73,12 @@ function play(){
 //Run stageEnd('stage#'), if yes, or if 'firstTime' then reset the stage and all counters. Change to the new stage passed in. Create appropriate stage background.
 newStageCheck();
 //Check if enemies need to be placed or removed from current stage.
+checkDistance(distance,level);
 //*enemyCheck(distance);
 //check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
 //increment distance counter
 //move stage according to distance counter.
-//*incrementDistance();
+addDistance();
 //check for maxDistance.
 //*endChecker();
 }
@@ -82,7 +88,7 @@ function newStageCheck(){
   if(firstTime){
     //reset all counters
     firstTime = false;
-    stage = stage1 
+    level = stage1 
     testBG = new Sprite(id["background.png"]);
     testBG.interactive = true;
     testBG.buttonMode = true;
@@ -90,11 +96,13 @@ function newStageCheck(){
     testBG.position.x=0;
     testBG.position.y=0; 
     container.addChild(testBG);
-    createSprite(stage);
+    container.addChild(test);
+    createSprite(level);
 }
 }
 
 function createSprite(stageNum){
+ // alert('creating sprites...');
   //on new stage loadup creates enemies and adds them to arrays
   Object.keys(stageNum).forEach(function(key,index){
    stageNum[key]['array'] = [];
@@ -102,20 +110,17 @@ function createSprite(stageNum){
       stageNum[key]['array'].push(new Sprite(id[stageNum[key]['name']+".png"]));
     }       
   })
- // for(var i=1; i<=5; i++){
- // placeSprite(stage1,'dust');
-}
 }
 
-function checkDistance(currentDist, stageNum){
-  Object.keys(stageNum).forEach(function(key,index){
-    var yDist = stageNum[key]['y'][0];
+function checkDistance(currentDist, stageNumm){
+  Object.keys(stageNumm).forEach(function(key,index){
+    var yDist = stageNumm[key]['y'][0];
     if(yDist != null){
       if(yDist == currentDist){
-        placeSprite(stageNum, key);   
+        placeSprite(stageNumm, key);   
       }
     } 
-}
+})
 }
 
 function placeSprite(stageNum, enemy){
@@ -129,13 +134,11 @@ function placeSprite(stageNum, enemy){
   borrowed.position.x = sx;
   borrowed.position.y = sy; 
   container.addChild(borrowed);
+  alert("incoming enemy")
 }
 
-function enemyCheck(currentDistance){
 
-}
-
-function incrementDistance(){
+function addDistance(){
   frame++;
   if(frame >= 60){
     frame = 0;

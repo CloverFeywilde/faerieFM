@@ -10,11 +10,13 @@ var stage1 = {
   },
  e2: {
     name: 'blank',
-    quantity: 0
+    quantity: 0,
+    y: [undefined]
   },
  e3: {
     name: 'blank',
-    quantity: 0
+    quantity: 0,
+    y: [undefined]
   }
 
 };
