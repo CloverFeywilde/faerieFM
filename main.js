@@ -96,18 +96,26 @@ function createSprite(stageNum){
    stageNum[key]['array'] = [];
     for(j=0; j <= stageNum[key]['quantity']; j++){
       stageNum[key]['array'].push(new Sprite(id[stageNum[key]['name']+".png"]));
-      placeSprite();
     }       
   })
+  for(var i=1; i<=5; i++){
+  placeSprite(stage1,'dust');
+}
 }
 
-function placeSprite(){
+function placeSprite(stageNum, enemy){
   //takes a sprite out of the createSprite arrays, puts it in the stage with coordinate values from stage object.
-  var item = stage1.dust.array[0];
-  item.position.x = 100;
-  item.position.y = 100;
-  container.addChild(item);
-  alert('added item')
+  var borrowed = stageNum[enemy]['array'].shift();
+ 
+  //use .shift to take coordinates out from the array
+  var sx, sy;
+  sx = stageNum[enemy]['x'].shift();
+  sy = stageNum[enemy]['y'].shift();
+
+  borrowed.position.x = sx;
+  borrowed.position.y = sy; 
+  container.addChild(borrowed);
+
 }
 
 function enemyCheck(currentDistance){
