@@ -17,7 +17,7 @@ stage.addChild(container);
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, stage, test, frame, distance, id, dust;
+var state, newPosition, stage, test, frame, distance, id, dust, firstTime;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -28,14 +28,7 @@ PIXI.loader
 function setup(){
 //code needs to be refactored here so the background is called at the appropriate time within the play state.
 id = PIXI.loader.resources["images/spritesheet.json"].textures;
-testBG = new Sprite(id["background.png"]);
 test = new Sprite(id["tester.png"]);
-testBG.interactive = true;
-testBG.buttonMode = true;
-testBG.on('mousedown', clicked);
-testBG.position.x=0;
-testBG.position.y=0;
-
 test.interactive = true;
 test.buttonMode = true;
 test.anchor.set(0.5);
@@ -51,11 +44,10 @@ test
 
 test.position.x = 200;
 test.position.y = 500;
-container.addChild(testBG);
 container.addChild(test);
 state = play;
 createSprite(stage1);
-//stage = "stage1";
+firstTime = true;
 gameLoop();
 }
 
@@ -74,6 +66,7 @@ function play(){
 //change states to pause or end
 
 //Run stageEnd('stage#'), if yes, or if 'firstTime' then reset the stage and all counters. Change to the new stage passed in. Create appropriate stage background.
+newStageCheck();
 //Check if enemies need to be created or removed from current stage.
 //*enemyCheck(distance);
 //check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
@@ -83,10 +76,21 @@ function play(){
 //check for maxDistance.
 //*endChecker();
 }
+
 //Stage Creator, all functions dealing with stage management go here and are called within the play state.
-function newStage(){
+function newStageCheck(){
   if(firstTime){
-    
+    //reset all counters
+    firstTime = false;
+    stage = stage1 
+    testBG = new Sprite(id["background.png"]);
+    testBG.interactive = true;
+    testBG.buttonMode = true;
+    testBG.on('mousedown', clicked);
+    testBG.position.x=0;
+    testBG.position.y=0; 
+    container.addChild(testBG);
+    createSprite(stage);
 }
 }
 
@@ -107,7 +111,6 @@ function placeSprite(stageNum, enemy){
   //takes a sprite out of the createSprite arrays, puts it in the stage with coordinate values from stage object.
   var borrowed = stageNum[enemy]['array'].shift();
  
-  //use .shift to take coordinates out from the array
   var sx, sy;
   sx = stageNum[enemy]['x'].shift();
   sy = stageNum[enemy]['y'].shift();
@@ -115,7 +118,6 @@ function placeSprite(stageNum, enemy){
   borrowed.position.x = sx;
   borrowed.position.y = sy; 
   container.addChild(borrowed);
-
 }
 
 function enemyCheck(currentDistance){
