@@ -46,10 +46,8 @@ test
 
 test.position.x = 200;
 test.position.y = 500;
-//container.addChild(test);
 
 state = play;
-//createSprite(stage1);
 firstTime = true;
 distance = 0;
 gameLoop();
@@ -65,30 +63,26 @@ renderer.render(stage);
 
 //Game States
 function play(){
-
 //enemy & item AI
-//rewards & penalties
-//change states to pause or end
+//change states to pause 
 
-//Run stageEnd('stage#'), if yes, or if 'firstTime' then reset the stage and all counters. Change to the new stage passed in. Create appropriate stage background.
+//Checks if this is a new game, or if the player has advanced to a new level. Clears current level and loads in assets for new level.
 newStageCheck();
-//Check if enemies need to be placed or removed from current stage.
+//Check if enemies need to be placed or removed from current level.
 checkDistance(distance,level);
-//*enemyCheck(distance);
-//check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
-//increment distance counter
-//move stage according to distance counter.
+//Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
+//Increment the distance counter
 addDistance();
+//move background according to distance counter
 //check for maxDistance.
-//*endChecker();
 }
 
-//Stage Creator, all functions dealing with stage management go here and are called within the play state.
+//Level Creator- all functions dealing with level management go here and are called within the play state.
 function newStageCheck(){
   if(firstTime){
     //reset all counters
     firstTime = false;
-    level = stage1 
+    level = level1 
     testBG = new Sprite(id["background.png"]);
     testBG.interactive = true;
     testBG.buttonMode = true;
@@ -101,40 +95,38 @@ function newStageCheck(){
 }
 }
 
-function createSprite(stageNum){
- // alert('creating sprites...');
-  //on new stage loadup creates enemies and adds them to arrays
-  Object.keys(stageNum).forEach(function(key,index){
-   stageNum[key]['array'] = [];
-    for(j=0; j <= stageNum[key]['quantity']; j++){
-      stageNum[key]['array'].push(new Sprite(id[stageNum[key]['name']+".png"]));
+function createSprite(levelNum){
+  //on new level loadup creates enemies and adds them to arrays
+  Object.keys(levelNum).forEach(function(key,index){
+   levelNum[key]['array'] = [];
+    for(j=0; j <= levelNum[key]['quantity']; j++){
+      levelNum[key]['array'].push(new Sprite(id[levelNum[key]['name']+".png"]));
     }       
   })
 }
 
-function checkDistance(currentDist, stageNumm){
-  Object.keys(stageNumm).forEach(function(key,index){
-    var yDist = stageNumm[key]['y'][0];
+function checkDistance(currentDist, levelNum){
+  Object.keys(levelNum).forEach(function(key,index){
+    var yDist = levelNum[key]['y'][0];
     if(yDist != null){
       if(yDist == currentDist){
-        placeSprite(stageNumm, key);   
+        placeSprite(levelNum, key);   
       }
     } 
 })
 }
 
-function placeSprite(stageNum, enemy){
-  //takes a sprite out of the createSprite arrays, puts it in the stage with coordinate values from stage object.
-  var borrowed = stageNum[enemy]['array'].shift();
+function placeSprite(levelNum, enemy){
+  //takes a sprite out of the createSprite arrays, puts it in the stage with coordinate values from level object.
+  var borrowed = levelNum[enemy]['array'].shift();
  
   var sx, sy;
-  sx = stageNum[enemy]['x'].shift();
-  sy = stageNum[enemy]['y'].shift();
+  sx = levelNum[enemy]['x'].shift();
+  sy = levelNum[enemy]['y'].shift();
 
   borrowed.position.x = sx;
   borrowed.position.y = sy; 
   container.addChild(borrowed);
-  alert("incoming enemy")
 }
 
 
@@ -147,7 +139,7 @@ function addDistance(){
 }
 
 
-//click movement
+//Click Movement Controls
 function clicked(event){
   console.log(event.data.global);
   moveShip(event)
