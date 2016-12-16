@@ -64,6 +64,7 @@ renderer.render(stage);
 //Game States
 function play(){
 //enemy & item AI
+moveEnemies();
 //change states to pause 
 
 //Checks if this is a new game, or if the player has advanced to a new level. Clears current level and loads in assets for new level.
@@ -100,7 +101,9 @@ function createSprite(levelNum){
   Object.keys(levelNum).forEach(function(key,index){
    levelNum[key]['array'] = [];
     for(j=0; j <= levelNum[key]['quantity']; j++){
-      levelNum[key]['array'].push(new Sprite(id[levelNum[key]['name']+".png"]));
+      var tempHolder = new Sprite(id[levelNum[key]['name']+".png"])
+     // tempHolder.movement = movement.enemy;
+      levelNum[key]['array'].push(tempHolder);
     }       
   })
 }
@@ -119,7 +122,6 @@ function checkDistance(currentDist, levelNum){
 function placeSprite(levelNum, enemy){
   //takes a sprite out of the createSprite arrays, puts it in the stage with coordinate values from level object.
   var borrowed = levelNum[enemy]['array'].shift();
-  borrowed.movement = movement.enemy;
   var sx, sy;
   sx = levelNum[enemy]['x'].shift();
   sy = levelNum[enemy]['y'].shift();
@@ -127,6 +129,8 @@ function placeSprite(levelNum, enemy){
   borrowed.position.x = sx;
   borrowed.position.y = sy; 
   container.addChild(borrowed);
+  var newSprite = container.children.length-1
+  container.children[newSprite].movement = movement[enemy];
 }
 
 
@@ -147,6 +151,9 @@ var movement ={
 function moveEnemies(){
   if(container.children.length>2){  
   //loop through the array starting from position 2 and run container.children.[number].movement() on each.
+  for(var i=2; i<container.children.length; i++){
+    container.children[i].movement();
+}
 }
 } 
 
