@@ -19,6 +19,7 @@ stage.addChild(container);
 var Sprite = PIXI.Sprite;
 var state, newPosition, level, test, distance, id, dust, firstTime;
 var frame = 0;
+var score = 0;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -29,7 +30,7 @@ PIXI.loader
 function setup(){
 //code needs to be refactored here so the background is called at the appropriate time within the play state.
 id = PIXI.loader.resources["images/spritesheet.json"].textures;
-
+b = new Bump(PIXI);
 test = new Sprite(id["tester.png"]);
 test.interactive = true;
 test.buttonMode = true;
@@ -72,6 +73,7 @@ newStageCheck();
 //Check if enemies need to be placed or removed from current level.
 checkDistance(distance,level);
 //Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
+bumpCheck();
 //Increment the distance counter
 addDistance();
 //move background according to distance counter
@@ -131,6 +133,7 @@ function placeSprite(levelNum, enemy){
   container.addChild(borrowed);
   var newSprite = container.children.length-1
   container.children[newSprite].movement = movement[enemy];
+  container.children[newSprite].name = levelNum[enemy]['name']
 }
 
 
@@ -156,4 +159,23 @@ function moveEnemies(){
 }
 }
 } 
+
+//Collision Detection
+function bumpCheck(){
+  for(var i=2; i<container.children.length; i++){
+    var case1 = container.children[i];
+    var colTest = b.hit(test, case1, true);
+    if(colTest){
+      if(container.children[i].name == "dust"){
+        score += 100;
+      }
+      var currentEnemy = container.children[i]['name'];
+      level[currentEnemy].array.push(container.children[i]);
+      container.removeChild(container.children[i]);
+      
+
+
+}
+}
+}
 
