@@ -17,7 +17,7 @@ stage.addChild(container);
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, distance, id, dust, firstTime;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime;
 var frame = 0;
 var score = 0;
 
@@ -78,6 +78,7 @@ bumpCheck();
 addDistance();
 //move background according to distance counter
 //check for maxDistance.
+moveBG();
 }
 
 //Level Creator- all functions dealing with level management go here and are called within the play state.
@@ -97,7 +98,6 @@ function newStageCheck(){
     createSprite(level);
 }
 }
-
 function createSprite(levelNum){
   //on new level loadup creates enemies and adds them to arrays
   Object.keys(levelNum).forEach(function(key,index){
@@ -179,3 +179,7 @@ function bumpCheck(){
 }
 }
 
+//Move Background
+function moveBG(){
+  testBG.position.y = distance;
+};
