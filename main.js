@@ -17,7 +17,7 @@ stage.addChild(container);
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText;
 var frame = 0;
 var score = 0;
 
@@ -48,6 +48,8 @@ test
 test.position.x = 200;
 test.position.y = 500;
 
+scoreText = new PIXI.Text("Score:"+score , {fontFamily:"Arial", fontSize:32, fill:"white"});
+scoreText.position.set(10, 10);
 state = play;
 firstTime = true;
 distance = 0;
@@ -95,6 +97,7 @@ function newStageCheck(){
     testBG.position.y=0; 
     container.addChild(testBG);
     container.addChild(test);
+    container.addChild(scoreText);
     createSprite(level);
 }
 }
@@ -152,9 +155,9 @@ var movement ={
 
 
 function moveEnemies(){
-  if(container.children.length>2){  
+  if(container.children.length>3){  
   //loop through the array starting from position 2 and run container.children.[number].movement() on each.
-  for(var i=2; i<container.children.length; i++){
+  for(var i=3; i<container.children.length; i++){
     container.children[i].movement();
 }
 }
@@ -162,12 +165,13 @@ function moveEnemies(){
 
 //Collision Detection
 function bumpCheck(){
-  for(var i=2; i<container.children.length; i++){
+  for(var i=3; i<container.children.length; i++){
     var case1 = container.children[i];
     var colTest = b.hit(test, case1, true);
     if(colTest){
       if(container.children[i].name == "dust"){
         score += 100;
+        scoreText.text ="Score:"+score;
       }
       var currentEnemy = container.children[i]['name'];
       level[currentEnemy].array.push(container.children[i]);
