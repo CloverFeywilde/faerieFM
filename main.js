@@ -180,6 +180,12 @@ function bumpCheck(){
 
 
 }
+//end of screen removal test should go here.
+  if(container.children[i].position.y >=renderer.view.height){
+      var currentEnemy = container.children[i]['name'];
+      level[currentEnemy].array.push(container.children[i]);
+      container.removeChild(container.children[i]);
+  }
 }
 }
 
