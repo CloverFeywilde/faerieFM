@@ -2,7 +2,10 @@
 //Click Movement Controls
 function clicked(event){
   console.log(event.data.global);
-  moveShip(event)
+  if(coolDown==0){
+    coolDown = 3;
+    moveShip(event)
+}
 }
 
 function moveShip(location){

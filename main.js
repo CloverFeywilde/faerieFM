@@ -20,6 +20,8 @@ var Sprite = PIXI.Sprite;
 var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText;
 var frame = 0;
 var score = 0;
+var coolDown = 0;
+var cdFrame = 0;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -81,6 +83,8 @@ addDistance();
 //move background according to distance counter
 //check for maxDistance.
 moveBG();
+//increment cooldown for moves if not full
+cdInc();
 }
 
 //Level Creator- all functions dealing with level management go here and are called within the play state.
@@ -193,3 +197,14 @@ function bumpCheck(){
 function moveBG(){
   testBG.position.y = distance;
 };
+
+//Increment Cooldowns
+function cdInc(){
+  if(coolDown>0){
+    cdFrame ++
+    if(cdFrame >= 60){
+      coolDown --;
+      cdFrame = 0;
+    }
+  }
+}
