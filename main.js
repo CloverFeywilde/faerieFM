@@ -223,8 +223,9 @@ function bomb(){
       score += 100;
       scoreText.text ="Score:"+score;
     }
-    var currentEnemy = container.children[i]['name'];
-    level[currentEnemy].array.push(container.children[i]);
-    container.removeChild(container.children[i]); 
+   // var currentEnemy = container.children[i]['name'];
+   // level[currentEnemy].array.push(container.children[i]);
+   // container.removeChild(container.children[i]); 
  }
+  container.removeChildren(3, container.children.length)
 }
