@@ -8,10 +8,11 @@ var level1 = {
     x: [50,100,200,300,20,500,150,20,100,200,20,400],
     y: [10,11,15,16,17,20,30,35,36,37,38,40]
   },
- e2: {
-    name: 'blank',
-    quantity: 0,
-    y: [undefined]
+ wall: {
+    name: 'wall',
+    quantity: 1,
+    x: [300],
+    y: [5]
   },
  e3: {
     name: 'blank',

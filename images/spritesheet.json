@@ -1,7 +1,7 @@
 {
 	"meta": {
 		"image": "spritesheet.png",
-		"size": {"w":896,"h":1464},
+		"size": {"w":924,"h":1464},
 		"scale": "1"
 	},
 	"frames": {
@@ -13,9 +13,17 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":796,"h":1464},
 			"sourceSize": {"w":796,"h":1464}
 		},
+		"wall.png":
+		{
+			"frame": {"x":796,"y":0,"w":128,"h":128},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+			"sourceSize": {"w":128,"h":128}
+		},
 		"tester.png":
 		{
-			"frame": {"x":796,"y":0,"w":100,"h":100},
+			"frame": {"x":796,"y":128,"w":100,"h":100},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -23,7 +31,7 @@
 		},
 		"dust.png":
 		{
-			"frame": {"x":796,"y":100,"w":24,"h":24},
+			"frame": {"x":896,"y":128,"w":24,"h":24},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},

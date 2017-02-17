@@ -17,7 +17,7 @@ stage.addChild(container);
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX;
 var frame = 0;
 var score = 0;
 var coolDown = 0;
@@ -161,7 +161,8 @@ function addDistance(){
 
 //Enemy Behavior
 var movement ={
-  dust: function(){this.position.y += 1}
+  dust: function(){this.position.y += 1},
+  wall: function(){this.position.y += 1}
 }
 
 
@@ -183,11 +184,16 @@ function bumpCheck(){
       if(container.children[i].name == "dust"){
         score += 100;
         scoreText.text ="Score:"+score;
+        var currentEnemy = container.children[i]['name'];
+        level[currentEnemy].array.push(container.children[i]);
+        container.removeChild(container.children[i]);
       }
-      var currentEnemy = container.children[i]['name'];
-      level[currentEnemy].array.push(container.children[i]);
-      container.removeChild(container.children[i]);
-      
+      else if(container.children[i].name == "wall"){
+        bumpedWallY = container.children[i].position.y;
+        bumpedWallX = container.children[i].position.x; 
+      }
+      bumpedWallY = undefined;
+      bumpedWallX = undefined;
 
 
 }

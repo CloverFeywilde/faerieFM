@@ -40,7 +40,13 @@ function onDragMove()
     if (test.dragging)
     {
         newPosition = test.data.getLocalPosition(test.parent);
-        if (newPosition.x >= 50 && newPosition.x <= renderer.width-50 && newPosition.y >=50 && newPosition.y <= renderer.height-50){
+        if(newPosition.x == bumpedWallX){
+          test.position.y = newPosition.y;
+        }
+        else if(newPosition.y == bumpedWallY){
+          test.position.x = newPosition.x;
+        }
+        else if (newPosition.x >= 50 && newPosition.x <= renderer.width-50 && newPosition.y >=50 && newPosition.y <= renderer.height-50){
           test.position.x = newPosition.x;
           test.position.y = newPosition.y;
           return;
