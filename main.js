@@ -191,6 +191,7 @@ function bumpCheck(){
       else if(container.children[i].name == "wall"){
         bumpedWallY = container.children[i].position.y;
         bumpedWallX = container.children[i].position.x; 
+        onDragEnd();
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
