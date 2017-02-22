@@ -15,13 +15,19 @@ var container = new PIXI.DisplayObjectContainer();
 container.scale.x = container.scale.y = 1;
 stage.addChild(container);
 
+var goContainer = new PIXI.Container();
+goContainer.scale.x = goContainer.scale.y = 1;
+stage.addChild(goContainer);
+goContainer.visible = false;
+
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText;
 var frame = 0;
 var score = 0;
 var coolDown = 0;
 var cdFrame = 0;
+var damage = 0;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -34,6 +40,7 @@ function setup(){
 id = PIXI.loader.resources["images/spritesheet.json"].textures;
 b = new Bump(PIXI);
 test = new Sprite(id["tester.png"]);
+test.name = "player";
 test.interactive = true;
 test.buttonMode = true;
 test.anchor.set(0.5);
@@ -53,12 +60,16 @@ test.position.y = 500;
 var x = keyboard(88);
 
 x.press = function(){
-  bomb()
-
+  bomb();
 }
 
 scoreText = new PIXI.Text("Score:"+score , {fontFamily:"Arial", fontSize:32, fill:"white"});
 scoreText.position.set(10, 10);
+
+goText = new PIXI.Text("Signal Lost!", {fontFamily:"Arial", fontSize:32, fill:"white"});
+goText.position.set(200,400);
+goContainer.addChild(goText);
+
 state = play;
 firstTime = true;
 distance = 0;
@@ -74,6 +85,14 @@ renderer.render(stage);
 }
 
 //Game States
+function title(){
+}
+
+function gameOver(){
+goContainer.visible = true;
+removePlayer();
+}
+
 function play(){
 //enemy & item AI
 moveEnemies();
@@ -85,6 +104,8 @@ newStageCheck();
 checkDistance(distance,level);
 //Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
 bumpCheck();
+//Check damage to see if the player has lost
+damageCheck();
 //Increment the distance counter
 addDistance();
 //move background according to distance counter
@@ -192,6 +213,7 @@ function bumpCheck(){
         bumpedWallY = container.children[i].position.y;
         bumpedWallX = container.children[i].position.x; 
         onDragEnd();
+        damage += 1;
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
@@ -235,4 +257,20 @@ function bomb(){
    // container.removeChild(container.children[i]); 
  }
   container.removeChildren(3, container.children.length)
+}
+
+//Check Damage for GameOver
+function damageCheck(){
+  if(damage == 1){
+    state=gameOver;
+}
+}
+
+//GameOver State Functions
+function removePlayer(){
+  for(i=0; i<container.children.length; i++){
+    if(container.children[i]['name'] == "player"){
+      container.removeChild(container.children[i]);
+    }   
+  }  
 }
