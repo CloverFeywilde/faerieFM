@@ -23,6 +23,7 @@ goContainer.visible = false;
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
 var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText;
+var justDied = false;
 var frame = 0;
 var score = 0;
 var coolDown = 0;
@@ -91,15 +92,16 @@ function title(){
 function gameOver(){
 goContainer.visible = true;
 removePlayer();
+goControls();
+
 }
 
 function play(){
-//enemy & item AI
-moveEnemies();
-//change states to pause 
 
 //Checks if this is a new game, or if the player has advanced to a new level. Clears current level and loads in assets for new level.
 newStageCheck();
+//enemy & item AI
+moveEnemies();
 //Check if enemies need to be placed or removed from current level.
 checkDistance(distance,level);
 //Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
@@ -130,9 +132,26 @@ function newStageCheck(){
     container.addChild(testBG);
     container.addChild(test);
     container.addChild(scoreText);
+    enemyInit(level);
     createSprite(level);
 }
 }
+function enemyInit(levelNum){
+  Object.keys(level).forEach(function(key,index){
+   if(levelNum[key]['iy'][0] != undefined){
+     levelNum[key]['x'] = [];
+     levelNum[key]['y'] = [];
+
+     var newArrayX = levelNum[key]['x']; 
+     var memArrayX =levelNum[key]['ix'];
+     newArrayX.push.apply(newArrayX, memArrayX);
+
+     var newArrayY = levelNum[key]['y'];
+     var memArrayY =  levelNum[key]['iy'];
+     newArrayY.push.apply(newArrayY, memArrayY);
+    }
+  })
+};
 function createSprite(levelNum){
   //on new level loadup creates enemies and adds them to arrays
   Object.keys(levelNum).forEach(function(key,index){
@@ -263,6 +282,7 @@ function bomb(){
 function damageCheck(){
   if(damage == 1){
     state=gameOver;
+    justDied=true;
 }
 }
 
@@ -273,4 +293,29 @@ function removePlayer(){
       container.removeChild(container.children[i]);
     }   
   }  
+}
+
+//Reassign the click controls
+function goControls(){
+  if(justDied==true){
+    justDied = false;
+    testBG.on('mousedown', restartGame)
+  }
+}
+
+function restartGame(){
+  goContainer.visible = false;
+  //clear all arrays
+  //empty game container
+  container.removeChildren(0, container.children.length) 
+  //reset all counters
+  frame = 0;
+  score = 0;
+  coolDown = 0;
+  cdFrame = 0;
+  damage = 0;
+  distance = 0;
+  //run setup function
+  setup();
+  
 }
