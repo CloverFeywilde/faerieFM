@@ -299,7 +299,7 @@ function removePlayer(){
 function goControls(){
   if(justDied==true){
     justDied = false;
-    testBG.on('mousedown', restartGame)
+    // testBG.on('mousedown', restartGame)
   }
 }
 

@@ -1,11 +1,18 @@
 
 //Click Movement Controls
 function clicked(event){
-  console.log(event.data.global);
-  if(coolDown==0){
-    coolDown = 3;
-    moveShip(event)
-}
+  switch(state){
+    case play:
+      console.log(event.data.global);
+      if(coolDown==0){
+        coolDown = 3;
+        moveShip(event)
+      };
+      break;
+    case gameOver:
+      restartGame();
+      break;
+}   
 }
 
 function moveShip(location){
