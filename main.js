@@ -26,6 +26,11 @@ goContainer.scale.x = goContainer.scale.y = 1;
 stage.addChild(goContainer);
 goContainer.visible = false;
 
+var uiContainer = new PIXI.Container();
+uiContainer.scale.x = uiContainer.scale.y = 1;
+stage.addChild(uiContainer);
+uiContainer.visible = false;
+
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
 var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText;
@@ -44,6 +49,7 @@ PIXI.loader
 function titleSetup(){
   container.visible = false;
   goContainer.visible = false;
+  uiContainer.visible = false;
   titleContainer.visible = true; 
 
   startButton = new PIXI.Text("Start", {fontFamily:"Arial", fontSize:32, fill:"white"});
@@ -97,6 +103,10 @@ goText = new PIXI.Text("Signal Lost!", {fontFamily:"Arial", fontSize:32, fill:"w
 goText.position.set(200,400);
 goContainer.addChild(goText);
 
+hpText = new PIXI.Text("HP<------>", {fontFamily:"Arial", fontSize:32, fill:"white"});
+hpText.position.set(250, 10);
+uiContainer.addChild(hpText);
+
 state = play;
 firstTime = true;
 distance = 0;
@@ -145,6 +155,7 @@ cdInc();
 //title State Functions
 function newGame(){
   titleContainer.visible=false;
+  uiContainer.visible=true;
   container.visible=true;  
   //titleContainer.removeChildren(0, titleContainer.children.length); 
   setup();
@@ -324,13 +335,17 @@ function damageCheck(){
   }
   switch(hp){
     case 0:
+      hpText.text = "HP[      ]";
       state=gameOver;
       break;
     case 1:
+      hpText.text = "HP[--    ]";
       break;
     case 2:
+      hpText.text = "HP[----  ]";
       break;
     case 3:
+      hpText.text = "HP[------]";
       break;
   }
 }
