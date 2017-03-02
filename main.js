@@ -29,12 +29,12 @@ goContainer.visible = false;
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
 var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText;
-var justDied = false;
 var frame = 0;
 var score = 0;
 var coolDown = 0;
 var cdFrame = 0;
-var damage = 0;
+var crashDamage = 0;
+var hp = 3; 
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -131,7 +131,7 @@ moveEnemies();
 checkDistance(distance,level);
 //Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
 bumpCheck();
-//Check damage to see if the player has lost
+//Check crash damage to see if the player has lost
 damageCheck();
 //Increment the distance counter
 addDistance();
@@ -267,7 +267,7 @@ function bumpCheck(){
         bumpedWallY = container.children[i].position.y;
         bumpedWallX = container.children[i].position.x; 
         onDragEnd();
-        damage += 1;
+        crashDamage += 1;
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
@@ -279,6 +279,9 @@ function bumpCheck(){
       var currentEnemy = container.children[i]['name'];
       level[currentEnemy].array.push(container.children[i]);
       container.removeChild(container.children[i]);
+      if(currentEnemy == 'dust'){
+        hp--
+      }
   }
 }
 }
@@ -315,10 +318,21 @@ function bomb(){
 
 //Check Damage for GameOver
 function damageCheck(){
-  if(damage == 1){
+  if(crashDamage == 1){
     state=gameOver;
-    justDied=true;
-}
+    
+  }
+  switch(hp){
+    case 0:
+      state=gameOver;
+      break;
+    case 1:
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+  }
 }
 
 //GameOver State Functions
@@ -341,8 +355,9 @@ function restartGame(){
   score = 0;
   coolDown = 0;
   cdFrame = 0;
-  damage = 0;
+  crashDamage = 0;
   distance = 0;
+  hp = 3;
   //run setup function
   setup();  
 }
