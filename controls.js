@@ -12,6 +12,8 @@ function clicked(event){
     case gameOver:
       restartGame();
       break;
+    case title:
+      break;
 }   
 }
 

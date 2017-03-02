@@ -15,6 +15,12 @@ var container = new PIXI.DisplayObjectContainer();
 container.scale.x = container.scale.y = 1;
 stage.addChild(container);
 
+
+var titleContainer = new PIXI.Container();
+titleContainer.scale.x = titleContainer.scale.y = 1;
+stage.addChild(titleContainer);
+titleContainer.visible = false;
+
 var goContainer = new PIXI.Container();
 goContainer.scale.x = goContainer.scale.y = 1;
 stage.addChild(goContainer);
@@ -33,8 +39,28 @@ var damage = 0;
 //Sprite creation & Setup function
 PIXI.loader
   .add("images/spritesheet.json")
-  .load(setup);
+  .load(titleSetup);
 
+function titleSetup(){
+  container.visible = false;
+  goContainer.visible = false;
+  titleContainer.visible = true; 
+
+  startButton = new PIXI.Text("Start", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  startButton.interactive = true;
+  startButton.buttonMode = true;
+  startButton.on('mousedown', newGame)
+  startButton.position.set(400,400);
+  titleContainer.addChild(startButton);
+  
+  scoreButton = new PIXI.Text("High Scores", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  scoreButton.position.set(400,600);
+  titleContainer.addChild(scoreButton);
+
+  state=title;
+  gameLoop();
+  
+}
 
 function setup(){
 //code needs to be refactored here so the background is called at the appropriate time within the play state.
@@ -87,17 +113,16 @@ renderer.render(stage);
 
 //Game States
 function title(){
+  //Event listeners from the titleSetup are handling menu clicks
 }
 
 function gameOver(){
 goContainer.visible = true;
 removePlayer();
-goControls();
 
 }
 
 function play(){
-
 //Checks if this is a new game, or if the player has advanced to a new level. Clears current level and loads in assets for new level.
 newStageCheck();
 //enemy & item AI
@@ -117,6 +142,16 @@ moveBG();
 cdInc();
 }
 
+//title State Functions
+function newGame(){
+  titleContainer.visible=false;
+  container.visible=true;  
+  //titleContainer.removeChildren(0, titleContainer.children.length); 
+  setup();
+}
+
+
+//Play State Functions
 //Level Creator- all functions dealing with level management go here and are called within the play state.
 function newStageCheck(){
   if(firstTime){
@@ -256,13 +291,13 @@ function moveBG(){
 //Increment Cooldowns
 function cdInc(){
   if(coolDown>0){
-    cdFrame ++
+    cdFrame ++;
     if(cdFrame >= 60){
       coolDown --;
       cdFrame = 0;
     }
   }
-}
+};
 
 //Bomb Mechanic
 function bomb(){
@@ -295,13 +330,6 @@ function removePlayer(){
   }  
 }
 
-//Reassign the click controls
-function goControls(){
-  if(justDied==true){
-    justDied = false;
-    // testBG.on('mousedown', restartGame)
-  }
-}
 
 function restartGame(){
   goContainer.visible = false;
@@ -316,6 +344,5 @@ function restartGame(){
   damage = 0;
   distance = 0;
   //run setup function
-  setup();
-  
+  setup();  
 }
