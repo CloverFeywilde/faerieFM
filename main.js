@@ -96,7 +96,10 @@ test.position.y = 500;
 var x = keyboard(88);
 
 x.press = function(){
-  bomb();
+  if(tp>=5){
+    bomb();
+    tp = 0;
+  }
 }
 
 var z = keyboard(90);
