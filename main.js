@@ -40,6 +40,9 @@ var coolDown = 0;
 var cdFrame = 0;
 var crashDamage = 0;
 var hp = 3; 
+var tp = 0;
+var timeStop = false;
+var stopCounter = 0;
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -94,6 +97,15 @@ var x = keyboard(88);
 
 x.press = function(){
   bomb();
+}
+
+var z = keyboard(90);
+
+z.press = function(){
+  if(tp>=5){
+    timeStop = true;
+    tp = 0;
+  }
 }
 
 scoreText = new PIXI.Text("Score:"+score , {fontFamily:"Arial", fontSize:32, fill:"white"});
@@ -238,13 +250,24 @@ function placeSprite(levelNum, enemy){
 
 
 function addDistance(){
-  frame++;
-  if(frame >= 60){
-    frame = 0;
-    distance++;
+  switch(timeStop){
+    case true:
+      stopCounter ++;
+      //This game is capped at 60 fps. So 300 = 5 seconds.
+      if(stopCounter==300){
+        stopCounter = 0;
+        timeStop = false;
+      };
+      break;
+    case false:
+      frame++;
+      if(frame >= 60){
+        frame = 0;
+        distance++;
+      }
+      break;
+  }
 }
-}
-
 //Enemy Behavior
 var movement ={
   dust: function(){this.position.y += 1},
@@ -253,12 +276,18 @@ var movement ={
 
 
 function moveEnemies(){
-  if(container.children.length>3){  
-  //loop through the array starting from position 2 and run container.children.[number].movement() on each.
-  for(var i=3; i<container.children.length; i++){
-    container.children[i].movement();
-}
-}
+  switch(timeStop){
+    case true:
+      break;
+    case false:
+      if(container.children.length>3){  
+        //loop through the array starting from position 2 and run container.children.[number].movement() on each.
+        for(var i=3; i<container.children.length; i++){
+          container.children[i].movement();
+        }
+      }
+      break;
+  }
 } 
 
 //Collision Detection
@@ -268,6 +297,7 @@ function bumpCheck(){
     var colTest = b.hit(test, case1, true);
     if(colTest){
       if(container.children[i].name == "dust"){
+        tp++;
         score += 100;
         scoreText.text ="Score:"+score;
         var currentEnemy = container.children[i]['name'];
@@ -292,6 +322,7 @@ function bumpCheck(){
       container.removeChild(container.children[i]);
       if(currentEnemy == 'dust'){
         hp--
+        tp = 0;
       }
   }
 }
@@ -373,6 +404,7 @@ function restartGame(){
   crashDamage = 0;
   distance = 0;
   hp = 3;
+  tp = 0;
   //run setup function
   setup();  
 }
