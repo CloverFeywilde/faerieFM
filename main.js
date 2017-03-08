@@ -274,6 +274,8 @@ function addDistance(){
 //Enemy Behavior
 var movement ={
   dust: function(){this.position.y += 1},
+  dust2: function(){this.position.y += 3},
+  dust3: function(){this.position.y += 6},
   wall: function(){this.position.y += 1}
 }
 
@@ -297,17 +299,33 @@ function moveEnemies(){
 function bumpCheck(){
   for(var i=3; i<container.children.length; i++){
     var case1 = container.children[i];
+    var caseName = container.children[i]['name'];
     var colTest = b.hit(test, case1, true);
     if(colTest){
-      if(container.children[i].name == "dust"){
-        tp++;
-        score += 100;
-        scoreText.text ="Score:"+score;
+      if(caseName == "dust" || 
+         caseName == "dust2" || 
+         caseName == "dust3"){ 
         var currentEnemy = container.children[i]['name'];
+        switch(currentEnemy){
+          case "dust": 
+            tp++;
+            score += 100;
+            break;
+          case "dust2":
+            tp += 2;
+            score += 200;
+            break;
+          case "dust3":
+            tp += 3;
+            score += 300;
+            break;
+            
+        }
+        scoreText.text ="Score:"+score;
         level[currentEnemy].array.push(container.children[i]);
         container.removeChild(container.children[i]);
       }
-      else if(container.children[i].name == "wall"){
+      else if(caseName == "wall"){
         bumpedWallY = container.children[i].position.y;
         bumpedWallX = container.children[i].position.x; 
         onDragEnd();
@@ -315,9 +333,8 @@ function bumpCheck(){
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
-
-
 }
+
 //end of screen removal test should go here.
   if(container.children[i].position.y >=renderer.view.height){
       var currentEnemy = container.children[i]['name'];
