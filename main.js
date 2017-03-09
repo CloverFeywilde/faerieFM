@@ -41,6 +41,9 @@ var cdFrame = 0;
 var crashDamage = 0;
 var hp = 3; 
 var tp = 0;
+var greenTP = 0;
+var redTP = 0;
+var blueTP = 0;
 var timeStop = false;
 var stopCounter = 0;
 
@@ -96,18 +99,18 @@ test.position.y = 500;
 var x = keyboard(88);
 
 x.press = function(){
-  if(tp>=5){
+  if(redTP>=3){
     bomb();
-    tp = 0;
+    redTP = 0;
   }
 }
 
 var z = keyboard(90);
 
 z.press = function(){
-  if(tp>=5){
+  if(blueTP>=5){
     timeStop = true;
-    tp = 0;
+    blueTP = 0;
   }
 }
 
@@ -308,15 +311,15 @@ function bumpCheck(){
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
           case "dust": 
-            tp++;
+            greenTP++;
             score += 100;
             break;
           case "dust2":
-            tp += 2;
+            blueTP++;
             score += 200;
             break;
           case "dust3":
-            tp += 3;
+            redTP++;
             score += 300;
             break;
             
@@ -340,9 +343,10 @@ function bumpCheck(){
       var currentEnemy = container.children[i]['name'];
       level[currentEnemy].array.push(container.children[i]);
       container.removeChild(container.children[i]);
-      if(currentEnemy == 'dust'){
+      if(currentEnemy == 'dust' ||
+         currentEnemy == 'dust2' ||
+         currentEnemy == 'dust3'){
         hp--
-        tp = 0;
       }
   }
 }

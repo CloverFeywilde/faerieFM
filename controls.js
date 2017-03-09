@@ -4,8 +4,8 @@ function clicked(event){
   switch(state){
     case play:
       console.log(event.data.global);
-      if(coolDown==0){
-        coolDown = 3;
+      if(greenTP >= 5){
+        greenTP = 0;
         moveShip(event)
       };
       break;
