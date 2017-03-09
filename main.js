@@ -36,11 +36,9 @@ var Sprite = PIXI.Sprite;
 var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText;
 var frame = 0;
 var score = 0;
-var coolDown = 0;
 var cdFrame = 0;
 var crashDamage = 0;
 var hp = 3; 
-var tp = 0;
 var greenTP = 0;
 var redTP = 0;
 var blueTP = 0;
@@ -166,8 +164,6 @@ addDistance();
 //move background according to distance counter
 //check for maxDistance.
 moveBG();
-//increment cooldown for moves if not full
-cdInc();
 }
 
 //title State Functions
@@ -357,16 +353,6 @@ function moveBG(){
   testBG.position.y = distance;
 };
 
-//Increment Cooldowns
-function cdInc(){
-  if(coolDown>0){
-    cdFrame ++;
-    if(cdFrame >= 60){
-      coolDown --;
-      cdFrame = 0;
-    }
-  }
-};
 
 //Bomb Mechanic
 function bomb(){
@@ -418,17 +404,19 @@ function removePlayer(){
 function restartGame(){
   goContainer.visible = false;
   //clear all arrays
-  //empty game container
-  container.removeChildren(0, container.children.length) 
+  //empty game containers
+  container.removeChildren(0, container.children.length); 
+  uiContainer.removeChildren(0, uiContainer.children.length); 
   //reset all counters
   frame = 0;
   score = 0;
-  coolDown = 0;
   cdFrame = 0;
   crashDamage = 0;
   distance = 0;
   hp = 3;
-  tp = 0;
+  greenTP = 0;
+  blueTP = 0;
+  redTP = 0;
   //run setup function
   setup();  
 }
