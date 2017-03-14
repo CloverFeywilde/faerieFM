@@ -33,7 +33,7 @@ uiContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong;
 var frame = 0;
 var score = 0;
 var cdFrame = 0;
@@ -44,6 +44,19 @@ var redTP = 0;
 var blueTP = 0;
 var timeStop = false;
 var stopCounter = 0;
+
+//Load the Sounds
+sounds.load([
+  "sounds/testSong.mp3"
+]);
+
+sounds.whenLoaded = soundSetup;
+
+//Initialize the sounds here
+function soundSetup(){
+  testSong = sounds["sounds/testSong.mp3"]
+  
+}
 
 //Sprite creation & Setup function
 PIXI.loader
@@ -123,6 +136,8 @@ hpText = new PIXI.Text("HP<------>", {fontFamily:"Arial", fontSize:32, fill:"whi
 hpText.position.set(250, 10);
 uiContainer.addChild(hpText);
 
+testSong.playFrom(0);
+
 state = play;
 firstTime = true;
 distance = 0;
@@ -144,6 +159,7 @@ function title(){
 
 function gameOver(){
 goContainer.visible = true;
+testSong.pause();
 removePlayer();
 
 }
