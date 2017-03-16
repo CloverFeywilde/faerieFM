@@ -39,7 +39,7 @@ loadingContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTimesongStartTime;
 var frame = 0;
 var score = 0;
 var cdFrame = 0;
@@ -127,7 +127,7 @@ test.position.y = 500;
 var x = keyboard(88);
 
 x.press = function(){
-  if(redTP>=3){
+  if(redTP>=5){
     bomb();
     redTP = 0;
   }
@@ -136,7 +136,7 @@ x.press = function(){
 var z = keyboard(90);
 
 z.press = function(){
-  if(blueTP>=5){
+  if(blueTP>=3){
     timeStop = true;
     blueTP = 0;
   }
@@ -153,7 +153,8 @@ hpText = new PIXI.Text("HP<------>", {fontFamily:"Arial", fontSize:32, fill:"whi
 hpText.position.set(250, 10);
 uiContainer.addChild(hpText);
 
-testSong.playFrom(0);
+currentSong = testSong;
+currentSong.playFrom(0);
 
 state = play;
 firstTime = true;
@@ -181,7 +182,7 @@ loadingContainer.visible = true;
 
 function gameOver(){
 goContainer.visible = true;
-testSong.pause();
+currentSong.pause();
 removePlayer();
 
 }
@@ -266,7 +267,7 @@ function checkDistance(currentDist, levelNum){
   Object.keys(levelNum).forEach(function(key,index){
     var yDist = levelNum[key]['y'][0];
     if(yDist != null){
-      if(yDist == currentDist){
+      if(yDist <= currentDist){
         placeSprite(levelNum, key);   
       }
     } 
@@ -299,12 +300,11 @@ function addDistance(){
         timeStop = false;
       };
       break;
-    case false:
-      frame++;
-      if(frame >= 60){
-        frame = 0;
-        distance++;
-      }
+    case false: 
+      songCreationTime = currentSong.soundNode.context.currentTime;
+      songStartTime = currentSong.startTime
+      //set the distance counter equal to the current song time.
+      distance =  songCreationTime - songStartTime 
       break;
   }
 }
