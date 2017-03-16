@@ -31,6 +31,12 @@ uiContainer.scale.x = uiContainer.scale.y = 1;
 stage.addChild(uiContainer);
 uiContainer.visible = false;
 
+
+var loadingContainer = new PIXI.Container();
+loadingContainer.scale.x = loadingContainer.scale.y = 1;
+stage.addChild(loadingContainer);
+loadingContainer.visible = false;
+
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
 var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong;
@@ -45,25 +51,36 @@ var blueTP = 0;
 var timeStop = false;
 var stopCounter = 0;
 
+loadSounds();
 //Load the Sounds
+function loadSounds(){
+loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Arial", fontSize:32, fill:"white"});
+loadingText.position.set(400,400);
+loadingContainer.addChild(loadingText);
 sounds.load([
   "sounds/testSong.mp3"
 ]);
 
 sounds.whenLoaded = soundSetup;
+state = loading;
+gameLoop();
+};
+
 
 //Initialize the sounds here
 function soundSetup(){
-  testSong = sounds["sounds/testSong.mp3"]
-  
-}
+  testSong = sounds["sounds/testSong.mp3"];
 
-//Sprite creation & Setup function
+//Sprite creation & Setup function (done within the initial soundSetup)
 PIXI.loader
   .add("images/spritesheet.json")
   .load(titleSetup);
 
-function titleSetup(){
+};
+
+
+function titleSetup(){ 
+  loadingContainer.visible = false;
   container.visible = false;
   goContainer.visible = false;
   uiContainer.visible = false;
@@ -155,6 +172,11 @@ renderer.render(stage);
 //Game States
 function title(){
   //Event listeners from the titleSetup are handling menu clicks
+}
+
+function loading(){
+titleContainer.visible = false;
+loadingContainer.visible = true;  
 }
 
 function gameOver(){
@@ -351,7 +373,7 @@ function bumpCheck(){
 }
 
 //end of screen removal test should go here.
-  if(container.children[i].position.y >=renderer.view.height){
+ else if(container.children[i].position.y >=renderer.view.height){
       var currentEnemy = container.children[i]['name'];
       level[currentEnemy].array.push(container.children[i]);
       container.removeChild(container.children[i]);
