@@ -51,8 +51,9 @@ var blueTP = 0;
 var timeStop = false;
 var stopCounter = 0;
 
-loadSounds();
+
 //Load the Sounds
+loadSounds();
 function loadSounds(){
 loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Arial", fontSize:32, fill:"white"});
 loadingText.position.set(400,400);
@@ -66,16 +67,13 @@ state = loading;
 gameLoop();
 };
 
-
 //Initialize the sounds here
 function soundSetup(){
   testSong = sounds["sounds/testSong.mp3"];
-
 //Sprite creation & Setup function (done within the initial soundSetup)
 PIXI.loader
   .add("images/spritesheet.json")
   .load(titleSetup);
-
 };
 
 
@@ -205,7 +203,7 @@ addDistance();
 moveBG();
 }
 
-//title State Functions
+//Title & Menu State Functions
 function newGame(){
   titleContainer.visible=false;
   uiContainer.visible=true;
@@ -214,6 +212,25 @@ function newGame(){
   setup();
 }
 
+function selectStage(){ 
+  titleContainer.removeChildren(0, titleContainer.children.length); 
+  //hard code the list and add it to the title container. Each list item needs to run the setup function, and the setup function needs to be changed to initialize the sage at a particular variable that the list item determines when clicked.
+   
+  var songOne = new PIXI.Text("Song 1", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  var songTwo = new PIXI.Text("Song 2", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  var songThree = new PIXI.Text("Song 3", {fontFamily:"Arial", fontSize:32, fill:"white"});
+    
+songOne.position.set(200,400);
+songTwo.position.set(200,600);
+songThree.position.set(200,800);
+
+titleContainer.addChild(songOne);
+titleContainer.addChild(songTwo);
+titleContainer.addChild(songThree);
+
+//set the interactions for all of the buttons.
+
+}
 
 //Play State Functions
 //Level Creator- all functions dealing with level management go here and are called within the play state.
@@ -458,3 +475,5 @@ function restartGame(){
   //run setup function
   setup();  
 }
+
+
