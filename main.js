@@ -87,7 +87,7 @@ function titleSetup(){
   startButton = new PIXI.Text("Start", {fontFamily:"Arial", fontSize:32, fill:"white"});
   startButton.interactive = true;
   startButton.buttonMode = true;
-  startButton.on('mousedown', newGame)
+  startButton.on('mousedown', selectStage);
   startButton.position.set(400,400);
   titleContainer.addChild(startButton);
   
@@ -205,6 +205,7 @@ moveBG();
 
 //Title & Menu State Functions
 function newGame(){
+//For the future, this should probably clear the data from the titleContainer
   titleContainer.visible=false;
   uiContainer.visible=true;
   container.visible=true;  
@@ -224,13 +225,28 @@ songOne.position.set(200,400);
 songTwo.position.set(200,600);
 songThree.position.set(200,800);
 
+//Set the interactions to change level and run newGame()  
+songOne.interactive = true;
+songOne.buttonMode = true;
+songOne.on('mousedown', function(){level=level1; newGame();})
+
+
+songTwo.interactive = true;
+songTwo.buttonMode = true;
+songTwo.on('mousedown', function(){level=level2; newGame();})
+
+
+songThree.interactive = true;
+songThree.buttonMode = true;
+songThree.on('mousedown', function(){level=level3; newGame();})
+
+//Add each song to the titleContainer
 titleContainer.addChild(songOne);
 titleContainer.addChild(songTwo);
 titleContainer.addChild(songThree);
 
-//set the interactions for all of the buttons.
 
-}
+};
 
 //Play State Functions
 //Level Creator- all functions dealing with level management go here and are called within the play state.
@@ -238,7 +254,7 @@ function newStageCheck(){
   if(firstTime){
     //reset all counters
     firstTime = false;
-    level = level1 
+    //level = level1 
     testBG = new Sprite(id["background.png"]);
     testBG.interactive = true;
     testBG.buttonMode = true;
