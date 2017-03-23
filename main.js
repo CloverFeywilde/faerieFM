@@ -39,7 +39,7 @@ loadingContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTimesongStartTime;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle;
 var frame = 0;
 var score = 0;
 var cdFrame = 0;
@@ -101,7 +101,10 @@ function titleSetup(){
 }
 
 function setup(){
-//code needs to be refactored here so the background is called at the appropriate time within the play state.
+//clear the titlescreen before the game runs
+titleContainer.removeChildren(0, titleContainer.children.length); 
+
+//(This was a terrible idea. Code needs to be cleaned to make better use of the play state. Code needs to be refactored here so the background is called at the appropriate time within the play state.
 id = PIXI.loader.resources["images/spritesheet.json"].textures;
 b = new Bump(PIXI);
 test = new Sprite(id["tester.png"]);
@@ -143,9 +146,7 @@ z.press = function(){
 scoreText = new PIXI.Text("Score:"+score , {fontFamily:"Arial", fontSize:32, fill:"white"});
 scoreText.position.set(10, 10);
 
-goText = new PIXI.Text("Signal Lost!", {fontFamily:"Arial", fontSize:32, fill:"white"});
-goText.position.set(200,400);
-goContainer.addChild(goText);
+
 
 hpText = new PIXI.Text("HP<------>", {fontFamily:"Arial", fontSize:32, fill:"white"});
 hpText.position.set(250, 10);
@@ -463,10 +464,16 @@ function damageCheck(){
 }
 
 //GameOver State Functions
-function removePlayer(){
+function removePlayer(){ 
+  //remove the player sprite
   for(i=0; i<container.children.length; i++){
     if(container.children[i]['name'] == "player"){
       container.removeChild(container.children[i]);
+
+      //Game Over Text creation
+      goText1 = new PIXI.Text("Signal Lost!", {fontFamily:"Arial", fontSize:32, fill:"white"});
+      goText1.position.set(200,400);
+      goContainer.addChild(goText1);
     }   
   }  
 }
@@ -488,8 +495,15 @@ function restartGame(){
   greenTP = 0;
   blueTP = 0;
   redTP = 0;
-  //run setup function
-  setup();  
+  //run setup function or title setup function
+  switch(returnToTitle){
+    case false:
+      setup();
+      break;
+    case true:
+      titleSetup();
+      break;  
+}
 }
 
 
