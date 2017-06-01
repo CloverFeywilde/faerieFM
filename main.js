@@ -59,7 +59,7 @@ loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Arial", fontSize:32
 loadingText.position.set(400,400);
 loadingContainer.addChild(loadingText);
 sounds.load([
-  "sounds/testSong.mp3"
+  "sounds/faerieFM.mp3"
 ]);
 
 sounds.whenLoaded = soundSetup;
@@ -69,7 +69,7 @@ gameLoop();
 
 //Initialize the sounds here
 function soundSetup(){
-  testSong = sounds["sounds/testSong.mp3"];
+  testSong = sounds["sounds/faerieFM.mp3"];
 //Sprite creation & Setup function (done within the initial soundSetup)
 PIXI.loader
   .add("images/spritesheet.json")
@@ -344,7 +344,7 @@ function addDistance(){
 }
 //Enemy Behavior
 var movement ={
-  dust: function(){this.position.y += 1},
+  dust: function(){this.position.y += 6},
   dust2: function(){this.position.y += 3},
   dust3: function(){this.position.y += 6},
   wall: function(){this.position.y += 1}

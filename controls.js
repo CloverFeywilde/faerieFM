@@ -4,7 +4,7 @@ function clicked(event){
   switch(state){
     case play:
       console.log(event.data.global);
-      if(greenTP >= 5){
+      if(greenTP >= 1){
         greenTP = 0;
         moveShip(event)
       };

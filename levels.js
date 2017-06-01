@@ -5,29 +5,30 @@
 var level1 = {
  dust: {
     name: 'dust',
-    quantity: 6,
+    quantity: 10,
+//50,150,250,350,450,550,650
     x: [],
     y: [], 
-    ix: [50,100,200,300,20,500,150,20,100,200,20,400],
-    iy: [10,11,15,16,17,20,30,35,36,37,38,40]
+    ix: [50,650,450,250,50,650,450,250,50],
+    iy: [.483,.968,1.451,1.934,2.417,2.9,3.383,3.866,4.394 ]
   },
 
  dust2: {
     name: 'dust2',
-    quantity: 1,
+    quantity: 0,
     x: [],
     y: [], 
-    ix: [400],
-    iy: [2]
+    ix: [undefined],
+    iy: [undefined]
   },
 
  dust3: {
     name: 'dust3',
-    quantity: 1,
+    quantity: 0,
     x: [],
     y: [], 
-    ix: [50],
-    iy: [4]
+    ix: [undefined],
+    iy: [undefined]
   },
  wall: {
     name: 'wall',
