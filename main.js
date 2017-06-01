@@ -87,7 +87,7 @@ function titleSetup(){
   startButton = new PIXI.Text("Start", {fontFamily:"Arial", fontSize:32, fill:"white"});
   startButton.interactive = true;
   startButton.buttonMode = true;
-  startButton.on('mousedown', selectStage);
+  startButton.on('pointerdown', selectStage);
   startButton.position.set(400,400);
   titleContainer.addChild(startButton);
   
@@ -229,17 +229,17 @@ songThree.position.set(200,800);
 //Set the interactions to change level and run newGame()  
 songOne.interactive = true;
 songOne.buttonMode = true;
-songOne.on('mousedown', function(){level=level1; newGame();})
+songOne.on('pointerdown', function(){level=level1; newGame();})
 
 
 songTwo.interactive = true;
 songTwo.buttonMode = true;
-songTwo.on('mousedown', function(){level=level2; newGame();})
+songTwo.on('pointerdown', function(){level=level2; newGame();})
 
 
 songThree.interactive = true;
 songThree.buttonMode = true;
-songThree.on('mousedown', function(){level=level3; newGame();})
+songThree.on('pointerdown', function(){level=level3; newGame();})
 
 //Add each song to the titleContainer
 titleContainer.addChild(songOne);
@@ -259,7 +259,7 @@ function newStageCheck(){
     testBG = new Sprite(id["background.png"]);
     testBG.interactive = true;
     testBG.buttonMode = true;
-    testBG.on('mousedown', clicked);
+    testBG.on('pointerdown', clicked);
     testBG.position.x=0;
     testBG.position.y=0; 
     container.addChild(testBG);
