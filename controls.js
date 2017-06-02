@@ -22,11 +22,11 @@ function clicked(event){
         //Game Over Text Interactions
         goText2.interactive = true;
         goText2.buttonMode = true;
-        goText2.on('mousedown', function(){returnToTitle=false; goContainer.removeChildren(0, goContainer.children.length); restartGame();})
+        goText2.on('pointerdown', function(){returnToTitle=false; goContainer.removeChildren(0, goContainer.children.length); restartGame();})
 
         goText3.interactive = true;
         goText3.buttonMode = true;
-        goText3.on('mousedown', function(){returnToTitle=true; goContainer.removeChildren(0, goContainer.children.length); restartGame();})
+        goText3.on('pointerdown', function(){returnToTitle=true; goContainer.removeChildren(0, goContainer.children.length); restartGame();})
         goContainer.addChild(goText2);
         goContainer.addChild(goText3);
       };
