@@ -75,16 +75,16 @@ function onDragMove()
         else if(newPosition.y == bumpedWallY){
           test.position.x = newPosition.x;
         }
-        else if (newPosition.x >= 50 && newPosition.x <= renderer.width-50 && newPosition.y >=50 && newPosition.y <= renderer.height-50){
+        else if (newPosition.x >= 50 && newPosition.x <= renderer.renderer.width-50 && newPosition.y >=50 && newPosition.y <= renderer.renderer.height-50){
           test.position.x = newPosition.x;
           test.position.y = newPosition.y;
           return;
          }
-        else if(newPosition.y >=50 && newPosition.y <= renderer.height-50){
+        else if(newPosition.y >=50 && newPosition.y <= renderer.renderer.height-50){
           test.position.y = newPosition.y;
           return;
         }
-        else if(newPosition.x >= 50 && newPosition.x <= renderer.width-50){
+        else if(newPosition.x >= 50 && newPosition.x <= renderer.renderer.width-50){
           test.position.x = newPosition.x;
           return;
         }

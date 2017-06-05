@@ -1,6 +1,6 @@
 //Renderer Setup
-var stage = new PIXI.Container()
-var renderer = PIXI.autoDetectRenderer(720, 1280);
+//var stage = new PIXI.Container()
+var renderer = new PIXI.Application(720, 1280);
 document.body.appendChild(renderer.view);
 window.onresize = function (event) {
   var w = window.innerWidth;
@@ -13,28 +13,28 @@ window.onresize();
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 var container = new PIXI.DisplayObjectContainer();
 container.scale.x = container.scale.y = 1;
-stage.addChild(container);
+renderer.stage.addChild(container);
 
 
 var titleContainer = new PIXI.Container();
 titleContainer.scale.x = titleContainer.scale.y = 1;
-stage.addChild(titleContainer);
+renderer.stage.addChild(titleContainer);
 titleContainer.visible = false;
 
 var goContainer = new PIXI.Container();
 goContainer.scale.x = goContainer.scale.y = 1;
-stage.addChild(goContainer);
+renderer.stage.addChild(goContainer);
 goContainer.visible = false;
 
 var uiContainer = new PIXI.Container();
 uiContainer.scale.x = uiContainer.scale.y = 1;
-stage.addChild(uiContainer);
+renderer.stage.addChild(uiContainer);
 uiContainer.visible = false;
 
 
 var loadingContainer = new PIXI.Container();
 loadingContainer.scale.x = loadingContainer.scale.y = 1;
-stage.addChild(loadingContainer);
+renderer.stage.addChild(loadingContainer);
 loadingContainer.visible = false;
 
 //Aliases and Globals
@@ -50,6 +50,7 @@ var redTP = 0;
 var blueTP = 0;
 var timeStop = false;
 var stopCounter = 0;
+var deltaGlobal = 1;
 
 
 //Load the Sounds
@@ -64,7 +65,7 @@ sounds.load([
 
 sounds.whenLoaded = soundSetup;
 state = loading;
-gameLoop();
+renderer.ticker.start();
 };
 
 //Initialize the sounds here
@@ -96,7 +97,8 @@ function titleSetup(){
   titleContainer.addChild(scoreButton);
 
   state=title;
-  gameLoop();
+  renderer.ticker.start();
+ // gameLoop();
   
 }
 
@@ -158,16 +160,25 @@ currentSong.playFrom(0);
 state = play;
 firstTime = true;
 distance = 0;
-gameLoop();
+renderer.ticker.start();
 }
 
 
 //Game Loop
-function gameLoop(){
-requestAnimationFrame(gameLoop);
+//function gameLoop(){
+//requestAnimationFrame(gameLoop);
+//state();
+//renderer.render(stage);
+//}
+
+//editing loop to utilize Pixi's built in deltas
+
+renderer.ticker.add(function(delta){
+deltaGlobal = delta;
 state();
-renderer.render(stage);
-}
+//renderer.render(stage);
+});
+
 
 //Game States
 function title(){
@@ -344,10 +355,10 @@ function addDistance(){
 }
 //Enemy Behavior
 var movement ={
-  dust: function(){this.position.y += 6},
-  dust2: function(){this.position.y += 3},
-  dust3: function(){this.position.y += 6},
-  wall: function(){this.position.y += 1}
+  dust: function(){this.position.y += deltaGlobal * 6},
+  dust2: function(){this.position.y += deltaGlobal * 3},
+  dust3: function(){this.position.y += deltaGlobal * 6},
+  wall: function(){this.position.y += deltaGlobal * 1}
 }
 
 
