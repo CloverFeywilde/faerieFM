@@ -3,9 +3,11 @@
 
 
 var level1 = {
- dust: {
-    name: 'dust',
+ greenDust: {
+    name: 'greenDust',
     quantity: 10,
+    animated: false,
+    frames: undefined,
 //50,150,250,350,450,550,650
     x: [],
     y: [], 
@@ -13,18 +15,22 @@ var level1 = {
     iy: [.483,.968,1.451,1.934,2.417,2.9,3.383,3.866,4.394 ]
   },
 
- dust2: {
-    name: 'dust2',
+ blueDust: {
+    name: 'blueDust',
     quantity: 0,
+    animated: false,
+    frames: undefined,
     x: [],
     y: [], 
     ix: [undefined],
     iy: [undefined]
   },
 
- dust3: {
-    name: 'dust3',
+ redDust: {
+    name: 'redDust',
     quantity: 0,
+    animated: false,
+    frames: undefined,
     x: [],
     y: [], 
     ix: [undefined],
@@ -33,6 +39,8 @@ var level1 = {
  wall: {
     name: 'wall',
     quantity: 1,
+    animated: false,
+    frames: undefined,
     x: [],
     y: [],
     ix: [300],
@@ -41,6 +49,7 @@ var level1 = {
  e3: {
     name: 'blank',
     quantity: 0,
+    animated: false,
     y: [undefined],
     iy: [undefined]
   }

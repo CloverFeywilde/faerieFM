@@ -29,7 +29,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 			"sourceSize": {"w":100,"h":100}
 		},
-		"dust.png":
+		"greenDust.png":
 		{
 			"frame": {"x":896,"y":128,"w":24,"h":24},
 			"rotated": false,
@@ -37,7 +37,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
 			"sourceSize": {"w":24,"h":24}
 		},
-		"dust2.png":
+		"blueDust.png":
 		{
 			"frame": {"x":896,"y":152,"w":24,"h":24},
 			"rotated": false,
@@ -45,7 +45,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
 			"sourceSize": {"w":24,"h":24}
 		},
-		"dust3.png":
+		"redDust.png":
 		{
 			"frame": {"x":896,"y":176,"w":24,"h":24},
 			"rotated": false,

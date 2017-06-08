@@ -165,18 +165,10 @@ renderer.ticker.start();
 
 
 //Game Loop
-//function gameLoop(){
-//requestAnimationFrame(gameLoop);
-//state();
-//renderer.render(stage);
-//}
-
-//editing loop to utilize Pixi's built in deltas
 
 renderer.ticker.add(function(delta){
 deltaGlobal = delta;
 state();
-//renderer.render(stage);
 });
 
 
@@ -301,9 +293,15 @@ function createSprite(levelNum){
   Object.keys(levelNum).forEach(function(key,index){
    levelNum[key]['array'] = [];
     for(j=0; j <= levelNum[key]['quantity']; j++){
-      var tempHolder = new Sprite(id[levelNum[key]['name']+".png"])
-     // tempHolder.movement = movement.enemy;
-      levelNum[key]['array'].push(tempHolder);
+      //check if animated 
+      if(levelNum[key]['animated']){
+        //prepare frames here
+            
+      }
+      else{
+        var tempHolder = new Sprite(id[levelNum[key]['name']+".png"])
+        levelNum[key]['array'].push(tempHolder);
+      }
     }       
   })
 }
@@ -355,9 +353,9 @@ function addDistance(){
 }
 //Enemy Behavior
 var movement ={
-  dust: function(){this.position.y += deltaGlobal * 6},
-  dust2: function(){this.position.y += deltaGlobal * 3},
-  dust3: function(){this.position.y += deltaGlobal * 6},
+  greenDust: function(){this.position.y += deltaGlobal * 6},
+  blueDust: function(){this.position.y += deltaGlobal * 3},
+  redDust: function(){this.position.y += deltaGlobal * 6},
   wall: function(){this.position.y += deltaGlobal * 1}
 }
 
@@ -384,20 +382,20 @@ function bumpCheck(){
     var caseName = container.children[i]['name'];
     var colTest = b.hit(test, case1, true);
     if(colTest){
-      if(caseName == "dust" || 
-         caseName == "dust2" || 
-         caseName == "dust3"){ 
+      if(caseName == "greenDust" || 
+         caseName == "blueDust" || 
+         caseName == "redDust"){ 
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
-          case "dust": 
+          case "greenDust": 
             greenTP++;
             score += 100;
             break;
-          case "dust2":
+          case "blueDust":
             blueTP++;
             score += 200;
             break;
-          case "dust3":
+          case "redDust":
             redTP++;
             score += 300;
             break;
@@ -422,9 +420,9 @@ function bumpCheck(){
       var currentEnemy = container.children[i]['name'];
       level[currentEnemy].array.push(container.children[i]);
       container.removeChild(container.children[i]);
-      if(currentEnemy == 'dust' ||
-         currentEnemy == 'dust2' ||
-         currentEnemy == 'dust3'){
+      if(currentEnemy == 'greenDust' ||
+         currentEnemy == 'blueDust' ||
+         currentEnemy == 'redDust'){
         hp--
       }
   }
@@ -440,13 +438,10 @@ function moveBG(){
 //Bomb Mechanic
 function bomb(){
   for(i=3; i<container.children.length; i++){
-    if(container.children[i]['name'] == "dust"){ 
+    if(container.children[i]['name'] == "greenDust"){ 
       score += 100;
       scoreText.text ="Score:"+score;
     }
-   // var currentEnemy = container.children[i]['name'];
-   // level[currentEnemy].array.push(container.children[i]);
-   // container.removeChild(container.children[i]); 
  }
   container.removeChildren(3, container.children.length)
 }
