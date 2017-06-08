@@ -296,7 +296,13 @@ function createSprite(levelNum){
       //check if animated 
       if(levelNum[key]['animated']){
         //prepare frames here
-            
+        var frames = [];
+        for(var i=1; i<=levelNum[key]['frames']; i++){
+          frames.push(PIXI.Texture.fromFrame(levelNum[key]['name']+i+'.png'));
+        }
+
+        var tempAniHolder = new PIXI.extras.AnimatedSprite(frames);
+        levelNum[key]['array'].push(tempAniHolder);
       }
       else{
         var tempHolder = new Sprite(id[levelNum[key]['name']+".png"])
@@ -325,7 +331,11 @@ function placeSprite(levelNum, enemy){
   sy = levelNum[enemy]['y'].shift();
 
   borrowed.position.x = sx;
-  borrowed.position.y = sy; 
+  borrowed.position.y = sy;  
+  if (levelNum[enemy]['animated']){
+    borrowed.animationSpeed = .25;
+    borrowed.play();
+  };
   container.addChild(borrowed);
   var newSprite = container.children.length-1
   container.children[newSprite].movement = movement[enemy];

@@ -6,8 +6,8 @@ var level1 = {
  greenDust: {
     name: 'greenDust',
     quantity: 10,
-    animated: false,
-    frames: undefined,
+    animated: true,
+    frames: 3,
 //50,150,250,350,450,550,650
     x: [],
     y: [], 

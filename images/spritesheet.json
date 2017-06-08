@@ -5,14 +5,6 @@
 		"scale": "1"
 	},
 	"frames": {
-		"background.png":
-		{
-			"frame": {"x":0,"y":0,"w":796,"h":1464},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {"x":0,"y":0,"w":796,"h":1464},
-			"sourceSize": {"w":796,"h":1464}
-		},
 		"wall.png":
 		{
 			"frame": {"x":796,"y":0,"w":128,"h":128},
@@ -20,6 +12,14 @@
 			"trimmed": false,
 			"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
 			"sourceSize": {"w":128,"h":128}
+		},
+		"background.png":
+		{
+			"frame": {"x":0,"y":0,"w":796,"h":1464},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":796,"h":1464},
+			"sourceSize": {"w":796,"h":1464}
 		},
 		"tester.png":
 		{
@@ -29,7 +29,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 			"sourceSize": {"w":100,"h":100}
 		},
-		"greenDust.png":
+		"greenDust1.png":
 		{
 			"frame": {"x":896,"y":128,"w":24,"h":24},
 			"rotated": false,
@@ -37,7 +37,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
 			"sourceSize": {"w":24,"h":24}
 		},
-		"blueDust.png":
+		"greenDust2.png":
 		{
 			"frame": {"x":896,"y":152,"w":24,"h":24},
 			"rotated": false,
@@ -45,17 +45,49 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
 			"sourceSize": {"w":24,"h":24}
 		},
-		"redDust.png":
+		"greenDust (copy).png":
 		{
-			"frame": {"x":896,"y":176,"w":24,"h":24},
+			"frame": {"x":868,"y":228,"w":24,"h":24},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
 			"sourceSize": {"w":24,"h":24}
 		},
-		"Unuseddust.png":
+		"blueDust.png":
 		{
 			"frame": {"x":896,"y":200,"w":24,"h":24},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
+			"sourceSize": {"w":24,"h":24}
+		},
+		"greenDust.png":
+		{
+			"frame": {"x":796,"y":228,"w":24,"h":24},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
+			"sourceSize": {"w":24,"h":24}
+		},
+		"redDust.png":
+		{
+			"frame": {"x":820,"y":228,"w":24,"h":24},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
+			"sourceSize": {"w":24,"h":24}
+		},
+		"unusedDust.png":
+		{
+			"frame": {"x":844,"y":228,"w":24,"h":24},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
+			"sourceSize": {"w":24,"h":24}
+		},
+		"greenDust3.png":
+		{
+			"frame": {"x":896,"y":176,"w":24,"h":24},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
