@@ -12,7 +12,7 @@ function flash(){
       //set animation speed, play animation
       var sprite = container.children[i];
       sprite.loop = false;
-      sprite.animationSpeed = .05;
+      sprite.animationSpeed = .25;
       sprite.gotoAndPlay(0);
       canDie = true;
       sprite.onComplete = function(){
