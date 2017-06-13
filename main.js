@@ -332,7 +332,8 @@ function placeSprite(levelNum, enemy){
 
   borrowed.position.x = sx;
   borrowed.position.y = sy;  
-  if (levelNum[enemy]['animated']){
+  //Play the Animation
+  if (levelNum[enemy]['animated'] && enemy!='greenDust'){
     borrowed.animationSpeed = .25;
     borrowed.play();
   };
@@ -398,6 +399,7 @@ function bumpCheck(){
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
           case "greenDust": 
+            flash();
             greenTP++;
             score += 100;
             break;
