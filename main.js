@@ -196,6 +196,8 @@ newStageCheck();
 moveEnemies();
 //Check if enemies need to be placed or removed from current level.
 checkDistance(distance,level);
+//Check beat
+beatKeeper();
 //Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
 bumpCheck();
 //Check crash damage to see if the player has lost
@@ -393,13 +395,12 @@ function bumpCheck(){
     var caseName = container.children[i]['name'];
     var colTest = b.hit(test, case1, true);
     if(colTest){
-      if(caseName == "greenDust" || 
+      if(canDie && (caseName == "greenDust" || 
          caseName == "blueDust" || 
-         caseName == "redDust"){ 
+         caseName == "redDust")){ 
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
           case "greenDust": 
-            flash();
             greenTP++;
             score += 100;
             break;
@@ -513,6 +514,7 @@ function restartGame(){
   greenTP = 0;
   blueTP = 0;
   redTP = 0;
+  lastBeat = 0;
   //run setup function or title setup function
   switch(returnToTitle){
     case false:
