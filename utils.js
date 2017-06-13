@@ -4,9 +4,13 @@ function flash(){
   for(var i=3; i<container.children.length; i++){
     if(container.children[i].name == "greenDust"){
       //set animation speed, play animation
-      container.children[i].loop = true;
-      container.children[i].animationSpeed = .25;
-      container.children[i].play();
+      var sprite = container.children[i];
+      sprite.loop = false;
+      sprite.animationSpeed = .1;
+      sprite.gotoAndPlay(0);
+      sprite.onComplete = function(){
+        this.gotoAndStop(0);  
+        }
     }
   }  
 }
