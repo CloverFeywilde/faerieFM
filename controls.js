@@ -1,13 +1,12 @@
+//Controls Globals
+var feyX, feyY
 
 //Click Movement Controls
 function clicked(event){
   switch(state){
     case play:
       console.log(event.data.global);
-      if(greenTP >= 1){
-        greenTP = 0;
-        moveShip(event)
-      };
+      moveShip(event);
       break;
     case gameOver:
      var goOptionsCreate = function(){
@@ -38,12 +37,39 @@ function clicked(event){
 }
 
 function moveShip(location){
-  var location2 = location.data.global
-  console.log("move ship to: ", location2);
-  test.position.x = location2.x;
-  test.position.y = location2.y;
-  onDragStart(location);
-  onDragMove();
+ // var location2 = location.data.global
+  feyX = test.position.x
+  feyY = test.position.y
+  var posX = location.data.global.x
+ // console.log("move ship to: ", location2);
+  if((feyX - 100)>0 && (feyX + 100)<720){
+    if(posX < feyX){
+      feyX -= 100;
+      test.position.x = feyX;
+    }
+    else if(posX > feyX){
+      feyX += 100;
+      test.position.x = feyX;
+    } 
+    else{
+     return;
+    }
+  }
+  else if(feyX==50 && posX>feyX){
+    feyX += 100;
+    test.position.x = feyX;
+  }
+  else if (feyX==650 && posX<feyX){
+    feyX -= 100;
+    test.position.x = feyX;
+  }
+  else{
+    return;
+  }
+ // test.position.x = location2.x;
+ // test.position.y = location2.y;
+ // onDragStart(location);
+ // onDragMove();
 }
 
 //Mouse Drag Functions

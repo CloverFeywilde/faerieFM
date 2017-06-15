@@ -124,8 +124,8 @@ test
   .on('mousemove', onDragMove)
   .on('touchmove', onDragMove);
 
-test.position.x = 200;
-test.position.y = 500;
+test.position.x = 350;
+test.position.y = 1130;
 
 var x = keyboard(88);
 
@@ -393,11 +393,12 @@ function bumpCheck(){
   for(var i=3; i<container.children.length; i++){
     var case1 = container.children[i];
     var caseName = container.children[i]['name'];
-    var colTest = b.hit(test, case1, true);
+    var colTest = b.hit(test, case1);
     if(colTest){
-      if(canDie && (caseName == "greenDust" || 
+      //canDie is a removed property controlled by flash()
+      if(caseName == "greenDust" || 
          caseName == "blueDust" || 
-         caseName == "redDust")){ 
+         caseName == "redDust"){ 
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
           case "greenDust": 
