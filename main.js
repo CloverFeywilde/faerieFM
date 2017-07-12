@@ -39,7 +39,9 @@ loadingContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right;
+var appWidth = renderer.renderer.width;
+var appHeight = renderer.renderer.height;
 var frame = 0;
 var score = 0;
 var cdFrame = 0;
@@ -51,7 +53,7 @@ var blueTP = 0;
 var timeStop = false;
 var stopCounter = 0;
 var deltaGlobal = 1;
-
+var reload = false;
 
 //Load the Sounds
 loadSounds();
@@ -127,9 +129,24 @@ test
 test.position.x = 350;
 test.position.y = 1130;
 
-var x = keyboard(88);
+if(reload==false){
+left = keyboard(37);
+left.press = function(){
+ console.log("Left!");
+ leftArrowMove(); 
+};
 
+
+right = keyboard(39);
+right.press = function(){
+  console.log("right!")
+  rightArrowMove();
+};
+};
+
+var x = keyboard(88);
 x.press = function(){
+console.log("yay!");
   if(redTP>=5){
     bomb();
     redTP = 0;
@@ -161,6 +178,8 @@ state = play;
 firstTime = true;
 distance = 0;
 renderer.ticker.start();
+
+reload = true;
 }
 
 
@@ -516,6 +535,9 @@ function restartGame(){
   blueTP = 0;
   redTP = 0;
   lastBeat = 0;
+  //clear Event Handlers
+  window.removeEventListener("keydown", left.downHandler.bind(37), false);
+  window.removeEventListener("keydown", right.downHandler.bind(39), false);
   //run setup function or title setup function
   switch(returnToTitle){
     case false:

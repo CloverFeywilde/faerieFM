@@ -1,6 +1,5 @@
 //Controls Globals
-var feyX, feyY
-
+var feyX, feyY, posX, keyfeyX, keyFeyY;
 //Click Movement Controls
 function clicked(event){
   switch(state){
@@ -36,40 +35,56 @@ function clicked(event){
 }   
 }
 
+function leftArrowMove(){
+ // keyFeyX = test.position.x;
+
+  if((test.position.x-100)>0){
+   // keyFeyX -= 100;
+    test.position.x -= 100;
+  };   
+
+}
+
+function rightArrowMove(){
+ // keyFeyX = test.position.x;
+
+  if((test.position.x+100)<appWidth){
+   // keyFeyX += 100;
+    test.position.x += 100;
+  
+  };
+}
+
 function moveShip(location){
  // var location2 = location.data.global
-  feyX = test.position.x
-  feyY = test.position.y
-  var posX = location.data.global.x
- // console.log("move ship to: ", location2);
-  if((feyX - 100)>0 && (feyX + 100)<720){
-    if(posX < feyX){
+  feyX = test.position.x;
+  feyY = test.position.y;
+  posX = location.data.global.x;
+
+  if((feyX - 100)>0 && (feyX + 100)<appWidth){
+    if(posX<(appWidth/2)){
       feyX -= 100;
-      test.position.x = feyX;
+      test.position.x =feyX;
     }
-    else if(posX > feyX){
+    else if(posX>(appWidth/2)){
       feyX += 100;
       test.position.x = feyX;
-    } 
+    }
     else{
      return;
     }
   }
-  else if(feyX==50 && posX>feyX){
+  else if(feyX==50 && posX>(appWidth/2)){
     feyX += 100;
     test.position.x = feyX;
   }
-  else if (feyX==650 && posX<feyX){
+  else if (feyX==650 && posX<(appWidth/2)){
     feyX -= 100;
     test.position.x = feyX;
   }
   else{
     return;
   }
- // test.position.x = location2.x;
- // test.position.y = location2.y;
- // onDragStart(location);
- // onDragMove();
 }
 
 //Mouse Drag Functions
