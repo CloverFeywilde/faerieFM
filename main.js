@@ -116,6 +116,7 @@ test.name = "player";
 test.interactive = true;
 test.buttonMode = true;
 test.anchor.set(0.5);
+/*
 test
   .on('mousedown', onDragStart)
   .on('touchstart', onDragStart)
@@ -125,7 +126,7 @@ test
   .on('touchendoutside', onDragEnd)
   .on('mousemove', onDragMove)
   .on('touchmove', onDragMove);
-
+*/
 test.position.x = 350;
 test.position.y = 1130;
 
