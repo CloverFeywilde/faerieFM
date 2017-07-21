@@ -53,8 +53,9 @@ var blueTP = 0;
 var timeStop = false;
 var stopCounter = 0;
 var deltaGlobal = 1;
-var reload = false;
-
+var reload = false; 
+var bpm = 124;   //BPM of current song, to be controlled with code
+var feyPosY = 1330; //the Faerie's Y position
 //Load the Sounds
 loadSounds();
 function loadSounds(){
@@ -337,8 +338,11 @@ function createSprite(levelNum){
 function checkDistance(currentDist, levelNum){
   Object.keys(levelNum).forEach(function(key,index){
     var yDist = levelNum[key]['y'][0];
+    //offset and BPM need globals and a way to read them from .SM file
+    var offset = (yDist - distance)*bpm*3;
+    var enemyPosY = feyPosY - offset; 
     if(yDist != null){
-      if(yDist <= currentDist){
+      if(enemyPosY >= 0){
         placeSprite(levelNum, key);   
       }
     } 
@@ -350,7 +354,8 @@ function placeSprite(levelNum, enemy){
   var borrowed = levelNum[enemy]['array'].shift();
   var sx, sy;
   sx = levelNum[enemy]['x'].shift();
-  sy = levelNum[enemy]['y'].shift();
+  sy = 0;
+  var spawnTime = levelNum[enemy]['y'].shift();
 
   borrowed.position.x = sx;
   borrowed.position.y = sy;  
@@ -361,6 +366,7 @@ function placeSprite(levelNum, enemy){
   };
   container.addChild(borrowed);
   var newSprite = container.children.length-1
+  container.children[newSprite].spawnTime = spawnTime;
   container.children[newSprite].movement = movement[enemy];
   container.children[newSprite].name = levelNum[enemy]['name']
 }
@@ -386,10 +392,10 @@ function addDistance(){
 }
 //Enemy Behavior
 var movement ={
-  greenDust: function(){this.position.y += deltaGlobal * 6},
+  greenDust: function(){this.position.y = feyPosY - ((this.spawnTime - distance)*bpm*3)},
   blueDust: function(){this.position.y += deltaGlobal * 3},
   redDust: function(){this.position.y += deltaGlobal * 6},
-  wall: function(){this.position.y += deltaGlobal * 1}
+  wall: function(){this.position.y = feyPosY - ((this.spawnTime - distance)*bpm*3)} 
 }
 
 
