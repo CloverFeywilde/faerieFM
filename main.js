@@ -231,6 +231,11 @@ moveBG();
 }
 
 //Title & Menu State Functions
+function loadLevel(thisLevel){
+  var currentLevel = JSON.parse(thisLevel);
+  level = currentLevel;
+};
+
 function newGame(){
 //For the future, this should probably clear the data from the titleContainer
   titleContainer.visible=false;
@@ -255,7 +260,7 @@ songThree.position.set(200,800);
 //Set the interactions to change level and run newGame()  
 songOne.interactive = true;
 songOne.buttonMode = true;
-songOne.on('pointerdown', function(){level=level1; newGame();})
+songOne.on('pointerdown', function(){loadLevel(blank); newGame();})
 
 
 songTwo.interactive = true;
