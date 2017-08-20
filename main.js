@@ -265,7 +265,7 @@ songOne.on('pointerdown', function(){loadLevel(blank); newGame();})
 
 songTwo.interactive = true;
 songTwo.buttonMode = true;
-songTwo.on('pointerdown', function(){level=level2; newGame();})
+songTwo.on('pointerdown', function(){loadLevel(pipePanorama); newGame();})
 
 
 songThree.interactive = true;
