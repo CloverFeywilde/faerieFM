@@ -39,7 +39,7 @@ loadingContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, songEndTime;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
@@ -55,7 +55,7 @@ var stopCounter = 0;
 var deltaGlobal = 1;
 var reload = false; 
 var bpm = 124;   //BPM of current song, to be controlled with code
-var feyPosY = 1330; //the Faerie's Y position
+var feyPosY = 1130; //the Faerie's Y position
 //Load the Sounds
 loadSounds();
 function loadSounds(){
@@ -226,8 +226,9 @@ damageCheck();
 //Increment the distance counter
 addDistance();
 //move background according to distance counter
-//check for maxDistance.
 moveBG();
+//check for max distance
+stageEnd();
 }
 
 //Title & Menu State Functions
@@ -298,9 +299,11 @@ function newStageCheck(){
     container.addChild(scoreText);
     enemyInit(level);
     createSprite(level);
+    songEndTime = level['greenDust']['y'][level['greenDust']['y'].length-1];
 }
 }
 function enemyInit(levelNum){
+//Enemy positions are copied from a starting array to a writeable array where they can be manipulated freely.
   Object.keys(level).forEach(function(key,index){
    if(levelNum[key]['iy'][0] != undefined){
      levelNum[key]['x'] = [];
@@ -317,7 +320,7 @@ function enemyInit(levelNum){
   })
 };
 function createSprite(levelNum){
-  //on new level loadup creates enemies and adds them to arrays
+  //When a new stage is selected, this creates a new array for each type of enemy, and fills the empty array with a specified number new sprite copies
   Object.keys(levelNum).forEach(function(key,index){
    levelNum[key]['array'] = [];
     for(j=0; j <= levelNum[key]['quantity']; j++){
@@ -341,6 +344,7 @@ function createSprite(levelNum){
 }
 
 function checkDistance(currentDist, levelNum){
+//checks the massive array of enemy positions every frame to see if an enemy is ready to be spawned at the top of the screen. 
   Object.keys(levelNum).forEach(function(key,index){
     var yDist = levelNum[key]['y'][0];
     //offset and BPM need globals and a way to read them from .SM file
@@ -394,6 +398,14 @@ function addDistance(){
       distance =  songCreationTime - songStartTime 
       break;
   }
+}
+
+function stageEnd(){
+  if(distance >= (songEndTime + 3)){
+    returnToTitle=true; 
+    container.removeChildren(0, container.children.length); 
+    restartGame(); 
+  }  
 }
 //Enemy Behavior
 var movement ={
@@ -522,9 +534,11 @@ function removePlayer(){
       container.removeChild(container.children[i]);
 
       //Game Over Text creation
-      goText1 = new PIXI.Text("Signal Lost!", {fontFamily:"Arial", fontSize:32, fill:"white"});
-      goText1.position.set(200,400);
-      goContainer.addChild(goText1);
+      if(state=gameOver){
+        goText1 = new PIXI.Text("Signal Lost!", {fontFamily:"Arial", fontSize:32, fill:"white"});
+        goText1.position.set(200,400);
+        goContainer.addChild(goText1);
+      }
     }   
   }  
 }
