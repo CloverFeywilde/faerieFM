@@ -54,7 +54,7 @@ var timeStop = false;
 var stopCounter = 0;
 var deltaGlobal = 1;
 var reload = false; 
-var bpm = 124;   //BPM of current song, to be controlled with code
+var bpm = 0;   //BPM of current song, to be controlled with code
 var feyPosY = 1130; //the Faerie's Y position
 //Load the Sounds
 loadSounds();
@@ -235,6 +235,7 @@ stageEnd();
 function loadLevel(thisLevel){
   var currentLevel = JSON.parse(thisLevel);
   level = currentLevel;
+  bpm = level['greenDust']['bpm'];
 };
 
 function newGame(){
