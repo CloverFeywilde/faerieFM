@@ -55,6 +55,25 @@ function rightArrowMove(){
   };
 }
 
+function upArrowAtk(){
+  //wave beam attack
+  //disable the up key, then create a new sprite in front of the character sprite, run a function that counts to 2 then removes said sprite and renables the up key.
+  //beam1 needs a global might need to create this sprite elsewhere...
+  //beam1 needs movement rules
+  //beam1 needs collision rules
+  //beam1 needs cleanup rules
+ if(upCoolDown==false){
+ upCoolDown = true;
+ beam1.name = "beam1";
+ beam1.movement = function(){return};
+ beam1.position.x = test.position.x-37;
+ beam1.position.y = test.position.y-40;
+ container.addChild(beam1);
+ 
+ };
+}
+
+
 function moveShip(location){
  // var location2 = location.data.global
   feyX = test.position.x;

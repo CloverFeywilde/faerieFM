@@ -39,7 +39,7 @@ loadingContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, songEndTime;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, songEndTime, beam1;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
@@ -56,6 +56,8 @@ var deltaGlobal = 1;
 var reload = false; 
 var bpm = 0;   //BPM of current song, to be controlled with code
 var feyPosY = 1130; //the Faerie's Y position
+var upCoolDown = false;
+var upClock = 0;
 //Load the Sounds
 loadSounds();
 function loadSounds(){
@@ -131,18 +133,26 @@ test
 test.position.x = 350;
 test.position.y = 1130;
 
+beam1 = new Sprite(id["beam1.png"]);
+
+
 if(reload==false){
 left = keyboard(37);
 left.press = function(){
- console.log("Left!");
+//console.log("Left!");
  leftArrowMove(); 
 };
 
 
 right = keyboard(39);
 right.press = function(){
-  console.log("right!")
+ //console.log("right!")
   rightArrowMove();
+};
+
+up = keyboard(38);
+up.press = function(){
+  upArrowAtk();
 };
 };
 
@@ -213,6 +223,8 @@ removePlayer();
 function play(){
 //Checks if this is a new game, or if the player has advanced to a new level. Clears current level and loads in assets for new level.
 newStageCheck();
+//CoolDowns
+upTimer();
 //enemy & item AI
 moveEnemies();
 //Check if enemies need to be placed or removed from current level.
@@ -438,6 +450,7 @@ function bumpCheck(){
     var case1 = container.children[i];
     var caseName = container.children[i]['name'];
     var colTest = b.hit(test, case1);
+    var colTest2 = b.hit(beam1, case1);
     if(colTest){
       //canDie is a removed property controlled by flash()
       if(caseName == "greenDust" || 
@@ -471,8 +484,18 @@ function bumpCheck(){
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
-}
-
+    }
+    
+    //Beam Wall Destruction
+    
+    else if(colTest2){
+      if(caseName == "wall"){
+        container.removeChild(container.children[i]);
+        score +=100;
+        scoreText.text="Score:"+score;  
+      }
+    }
+    
 //end of screen removal test should go here.
  else if(container.children[i].position.y >=renderer.view.height){
       var currentEnemy = container.children[i]['name'];
@@ -503,6 +526,22 @@ function bomb(){
  }
   container.removeChildren(3, container.children.length)
 }
+
+//up Timer
+function upTimer(){
+if(upCoolDown==true){
+  upClock++;
+  if(upClock >= 20){
+    upClock = 0;
+    upCoolDown = false;
+    for(i=3; i<container.children.length; i++){
+      if(container.children[i]['name'] == "beam1"){
+        container.removeChild(container.children[i]);
+      }; 
+    };
+  };
+};
+};
 
 //Check Damage for GameOver
 function damageCheck(){
@@ -552,6 +591,7 @@ function restartGame(){
   container.removeChildren(0, container.children.length); 
   uiContainer.removeChildren(0, uiContainer.children.length); 
   //reset all counters
+  upClock = 0;
   frame = 0;
   score = 0;
   cdFrame = 0;
@@ -562,9 +602,11 @@ function restartGame(){
   blueTP = 0;
   redTP = 0;
   lastBeat = 0;
+  upCoolDown = false;
   //clear Event Handlers
   window.removeEventListener("keydown", left.downHandler.bind(37), false);
-  window.removeEventListener("keydown", right.downHandler.bind(39), false);
+  window.removeEventListener("keydown", right.downHandler.bind(39), false); 
+  window.removeEventListener("keydown", up.downHandler.bind(38), false);
   //run setup function or title setup function
   switch(returnToTitle){
     case false:
