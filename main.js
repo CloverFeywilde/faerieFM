@@ -140,7 +140,8 @@ if(reload==false){
 left = keyboard(37);
 left.press = function(){
 //console.log("Left!");
- leftArrowMove(); 
+ leftArrowMove();
+ removeBeam(); 
 };
 
 
@@ -148,6 +149,7 @@ right = keyboard(39);
 right.press = function(){
  //console.log("right!")
   rightArrowMove();
+  removeBeam();
 };
 
 up = keyboard(38);
@@ -451,7 +453,16 @@ function bumpCheck(){
     var caseName = container.children[i]['name'];
     var colTest = b.hit(test, case1);
     var colTest2 = b.hit(beam1, case1);
-    if(colTest){
+
+    //Beam Wall Destruction
+    if(colTest2){
+      if(caseName == "wall"){
+        container.removeChild(container.children[i]);
+        score +=100;
+        scoreText.text="Score:"+score;  
+      }
+    }
+    else if(colTest){
       //canDie is a removed property controlled by flash()
       if(caseName == "greenDust" || 
          caseName == "blueDust" || 
@@ -486,15 +497,7 @@ function bumpCheck(){
       bumpedWallX = undefined;
     }
     
-    //Beam Wall Destruction
     
-    else if(colTest2){
-      if(caseName == "wall"){
-        container.removeChild(container.children[i]);
-        score +=100;
-        scoreText.text="Score:"+score;  
-      }
-    }
     
 //end of screen removal test should go here.
  else if(container.children[i].position.y >=renderer.view.height){
@@ -515,6 +518,16 @@ function moveBG(){
   testBG.position.y = distance;
 };
 
+//remove beam
+function removeBeam(){
+for(i=3; i<container.children.length; i++){
+  if(container.children[i]['name'] == "beam1"){
+    container.removeChild(container.children[i]);
+    beam1.position.x = null;
+    beam1.position.y = null;
+  }; 
+};
+};
 
 //Bomb Mechanic
 function bomb(){
@@ -531,12 +544,14 @@ function bomb(){
 function upTimer(){
 if(upCoolDown==true){
   upClock++;
-  if(upClock >= 20){
+  if(upClock >= 10){
     upClock = 0;
     upCoolDown = false;
     for(i=3; i<container.children.length; i++){
       if(container.children[i]['name'] == "beam1"){
         container.removeChild(container.children[i]);
+        beam1.position.x = null;
+        beam1.position.y = null;
       }; 
     };
   };
