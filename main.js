@@ -173,27 +173,7 @@ up.press = function(){
 
 spacebar = keyboard(32);
 spacebar.press = function(){
-  switch(state){
-    case play:
-      //The time when you enter pause menu
-      pauseStartTime = currentSong.soundNode.context.currentTime;
-      state=pause;
-      break;
-    case pause:
-      gamePaused++; //How many times you've paused     
-      //The time when you leave the pause menu
-      pauseEndTime = currentSong.soundNode.context.currentTime;
-      //variable used to store length of this pause
-      pauseTemp = pauseEndTime-pauseStartTime;
-      //Variable used to adjust distance formula after first pause.
-      pauseTime = (pauseEndTime-pauseStartTime)+songStartTime+pauseTotal;
-      pauseContainer.visible=false;
-      currentSong.play();
-      state=play;
-      break;
-    default:
-      break;
-  };
+  pauseStart();
 };
 };
 
@@ -222,6 +202,15 @@ scoreText.position.set(10, 10);
 hpText = new PIXI.Text("HP<------>", {fontFamily:"Arial", fontSize:32, fill:"white"});
 hpText.position.set(250, 10);
 uiContainer.addChild(hpText);
+
+window.onblur = function(){
+  pauseStart();
+};
+
+window.onFocus = function(){
+  pauseStart();
+};
+
 
 currentSong = testSong;
 currentSong.playFrom(0);
@@ -339,6 +328,8 @@ titleContainer.addChild(songThree);
 };
 
 //Play State Functions
+
+
 //Level Creator- all functions dealing with level management go here and are called within the play state.
 function newStageCheck(){
   if(firstTime){
@@ -437,7 +428,6 @@ function placeSprite(levelNum, enemy){
   container.children[newSprite].name = levelNum[enemy]['name']
 }
 
-
 function addDistance(){
   switch(timeStop){
    //Depreciated timeStop function that needs updating or likely trashing
@@ -475,6 +465,30 @@ function updatePauseTotal(){
   //Time spent from previous pause. It resets after adding to total.
   pauseTemp = 0;
 }
+
+function pauseStart(){
+  switch(state){
+    case play:
+      //The time when you enter pause menu
+      pauseStartTime = currentSong.soundNode.context.currentTime;
+      state=pause;
+      break;
+    case pause:
+      gamePaused++; //How many times you've paused     
+      //The time when you leave the pause menu
+      pauseEndTime = currentSong.soundNode.context.currentTime;
+      //variable used to store length of this pause
+      pauseTemp = pauseEndTime-pauseStartTime;
+      //Variable used to adjust distance formula after first pause.
+      pauseTime = (pauseEndTime-pauseStartTime)+songStartTime+pauseTotal;
+      pauseContainer.visible=false;
+      currentSong.play();
+      state=play;
+      break;
+    default:
+      break;
+  };
+};
 
 function stageEnd(){
   if(distance >= (songEndTime + 2)){
@@ -686,6 +700,12 @@ function restartGame(){
   window.removeEventListener("keydown", left.downHandler.bind(37), false);
   window.removeEventListener("keydown", right.downHandler.bind(39), false); 
   window.removeEventListener("keydown", up.downHandler.bind(38), false);
+  window.removeEventListener("keydown", spacebar.downHandler.bind(32), false);
+
+  //Reset onblur/onfocus
+  window.onblur = function(){};
+  window.onFocus = function(){};
+
   //run setup function or title setup function
   switch(returnToTitle){
     case false:
