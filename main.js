@@ -1,5 +1,4 @@
 //Renderer Setup
-//var stage = new PIXI.Container()
 var renderer = new PIXI.Application(720, 1280);
 document.body.appendChild(renderer.view);
 window.onresize = function (event) {
@@ -16,6 +15,7 @@ container.scale.x = container.scale.y = 1;
 renderer.stage.addChild(container);
 
 
+//Different asset containers go here
 var titleContainer = new PIXI.Container();
 titleContainer.scale.x = titleContainer.scale.y = 1;
 renderer.stage.addChild(titleContainer);
@@ -31,15 +31,19 @@ uiContainer.scale.x = uiContainer.scale.y = 1;
 renderer.stage.addChild(uiContainer);
 uiContainer.visible = false;
 
-
 var loadingContainer = new PIXI.Container();
 loadingContainer.scale.x = loadingContainer.scale.y = 1;
 renderer.stage.addChild(loadingContainer);
 loadingContainer.visible = false;
 
+var pauseContainer = new PIXI.Container();
+pauseContainer.scale.x = pauseContainer.scale.y = 1;
+renderer.stage.addChild(pauseContainer);
+pauseContainer.visible = false;
+
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, songEndTime, beam1;
+var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
@@ -58,6 +62,10 @@ var bpm = 0;   //BPM of current song, to be controlled with code
 var feyPosY = 1130; //the Faerie's Y position
 var upCoolDown = false;
 var upClock = 0;
+var gamePaused = 0;
+var pauseTotal = 0;
+
+
 //Load the Sounds
 loadSounds();
 function loadSounds(){
@@ -76,6 +84,7 @@ renderer.ticker.start();
 //Initialize the sounds here
 function soundSetup(){
   testSong = sounds["sounds/faerieFM.mp3"];
+  pauseSetup(); //sets up pause menu
 //Sprite creation & Setup function (done within the initial soundSetup)
 PIXI.loader
   .add("images/spritesheet.json")
@@ -83,6 +92,7 @@ PIXI.loader
 };
 
 
+//Setup functions for states and containers
 function titleSetup(){ 
   loadingContainer.visible = false;
   container.visible = false;
@@ -103,15 +113,22 @@ function titleSetup(){
 
   state=title;
   renderer.ticker.start();
- // gameLoop();
   
 }
 
-function setup(){
-//clear the titlescreen before the game runs
-titleContainer.removeChildren(0, titleContainer.children.length); 
+function pauseSetup(){
+  console.log("pauseSetup running");
+  pauseText = new PIXI.Text("Paused!", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  pauseText2 = new PIXI.Text("press spacebar to continue...", {fontFamily:"Arial", fontSize:25, fill:"white"});
+  //pause screen touch interactions go here
+  pauseText.position.set(400,600);
+  pauseText2.position.set(400,750);
+  pauseContainer.addChild(pauseText, pauseText2);
+};
 
-//(This was a terrible idea. Code needs to be cleaned to make better use of the play state. Code needs to be refactored here so the background is called at the appropriate time within the play state.
+//Core setup function
+function setup(){
+titleContainer.removeChildren(0, titleContainer.children.length); //clears the titlescreen before the game runs
 id = PIXI.loader.resources["images/spritesheet.json"].textures;
 b = new Bump(PIXI);
 test = new Sprite(id["tester.png"]);
@@ -139,15 +156,12 @@ beam1 = new Sprite(id["beam1.png"]);
 if(reload==false){
 left = keyboard(37);
 left.press = function(){
-//console.log("Left!");
  leftArrowMove();
  removeBeam(); 
 };
 
-
 right = keyboard(39);
 right.press = function(){
- //console.log("right!")
   rightArrowMove();
   removeBeam();
 };
@@ -156,11 +170,36 @@ up = keyboard(38);
 up.press = function(){
   upArrowAtk();
 };
+
+spacebar = keyboard(32);
+spacebar.press = function(){
+  switch(state){
+    case play:
+      //The time when you enter pause menu
+      pauseStartTime = currentSong.soundNode.context.currentTime;
+      state=pause;
+      break;
+    case pause:
+      gamePaused++; //How many times you've paused     
+      //The time when you leave the pause menu
+      pauseEndTime = currentSong.soundNode.context.currentTime;
+      //variable used to store length of this pause
+      pauseTemp = pauseEndTime-pauseStartTime;
+      //Variable used to adjust distance formula after first pause.
+      pauseTime = (pauseEndTime-pauseStartTime)+songStartTime+pauseTotal;
+      pauseContainer.visible=false;
+      currentSong.play();
+      state=play;
+      break;
+    default:
+      break;
+  };
 };
+};
+
 
 var x = keyboard(88);
 x.press = function(){
-console.log("yay!");
   if(redTP>=5){
     bomb();
     redTP = 0;
@@ -168,7 +207,6 @@ console.log("yay!");
 }
 
 var z = keyboard(90);
-
 z.press = function(){
   if(blueTP>=3){
     timeStop = true;
@@ -219,7 +257,11 @@ function gameOver(){
 goContainer.visible = true;
 currentSong.pause();
 removePlayer();
+}
 
+function pause(){
+pauseContainer.visible = true;
+currentSong.pause();
 }
 
 function play(){
@@ -398,6 +440,7 @@ function placeSprite(levelNum, enemy){
 
 function addDistance(){
   switch(timeStop){
+   //Depreciated timeStop function that needs updating or likely trashing
     case true:
       stopCounter ++;
       //This game is capped at 60 fps. So 300 = 5 seconds.
@@ -407,16 +450,34 @@ function addDistance(){
       };
       break;
     case false: 
-      songCreationTime = currentSong.soundNode.context.currentTime;
-      songStartTime = currentSong.startTime
-      //set the distance counter equal to the current song time.
-      distance =  songCreationTime - songStartTime 
+       //Due to the way the current song time is calculated, a different distance formula is nessesary to move all assets before and after the first pause.
+      if(gamePaused==0){
+        //Total time from the moment the song was first loaded, up till now.
+        songCreationTime = currentSong.soundNode.context.currentTime;
+        //The point where the song first played
+        songStartTime = currentSong.startTime;
+        //distance formula
+        distance = songCreationTime - songStartTime; 
+      }
+      else if(gamePaused>=1){
+       //Second Pause. pauseTime is calculated in a function triggered by the spacebar key, located in the setup function.
+        distance = currentSong.soundNode.context.currentTime - pauseTime;
+        //a record of the total time spent paused needs to be subtracted from the calulated distance. This value is calculated below.
+        updatePauseTotal();
+      }
       break;
   }
 }
 
+function updatePauseTotal(){ 
+  //Total time spent paused
+  pauseTotal += pauseTemp;
+  //Time spent from previous pause. It resets after adding to total.
+  pauseTemp = 0;
+}
+
 function stageEnd(){
-  if(distance >= (songEndTime + 3)){
+  if(distance >= (songEndTime + 2)){
     returnToTitle=true; 
     container.removeChildren(0, container.children.length); 
     restartGame(); 
@@ -618,6 +679,9 @@ function restartGame(){
   redTP = 0;
   lastBeat = 0;
   upCoolDown = false;
+  gamePaused = 0;
+  pauseTotal = 0;
+  pauseTemp = 0;
   //clear Event Handlers
   window.removeEventListener("keydown", left.downHandler.bind(37), false);
   window.removeEventListener("keydown", right.downHandler.bind(39), false); 
