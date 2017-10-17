@@ -537,11 +537,18 @@ function bumpCheck(){
         scoreText.text="Score:"+score;  
       }
     }
+
     else if(colTest){
+      if(caseName == "wall"){
+        bumpedWallY = container.children[i].position.y;
+        bumpedWallX = container.children[i].position.x; 
+        onDragEnd();
+        crashDamage += 1;
+      }
       //canDie is a removed property controlled by flash()
-      if(caseName == "greenDust" || 
-         caseName == "blueDust" || 
-         caseName == "redDust"){ 
+      else if(caseName == "greenDust" || 
+        caseName == "blueDust" || 
+        caseName == "redDust"){ 
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
           case "greenDust": 
@@ -561,12 +568,6 @@ function bumpCheck(){
         scoreText.text ="Score:"+score;
         level[currentEnemy].array.push(container.children[i]);
         container.removeChild(container.children[i]);
-      }
-      else if(caseName == "wall"){
-        bumpedWallY = container.children[i].position.y;
-        bumpedWallX = container.children[i].position.x; 
-        onDragEnd();
-        crashDamage += 1;
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
