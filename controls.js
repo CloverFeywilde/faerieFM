@@ -1,6 +1,5 @@
 //Controls Globals
 var feyX, feyY, posX, keyfeyX, keyFeyY;
-var realWindow = window.parent || window;
 //Click Movement Controls
 function clicked(event){
   switch(state){
@@ -37,22 +36,32 @@ function clicked(event){
 }
 
 function leftArrowMove(){
- // keyFeyX = test.position.x;
-
-  if((test.position.x-100)>0){
-   // keyFeyX -= 100;
-    test.position.x -= 100;
-  };   
-
+  switch(state){
+    case play: 
+      removeBeam();
+      // keyFeyX = test.position.x;
+      if((test.position.x-100)>0){
+        // keyFeyX -= 100;
+        test.position.x -= 100;
+      };
+      break;
+    default:
+      break;   
+  }
 }
 
 function rightArrowMove(){
- // keyFeyX = test.position.x;
-
-  if((test.position.x+100)<appWidth){
-   // keyFeyX += 100;
-    test.position.x += 100;
-  
+  switch(state){
+    case play:
+      removeBeam();
+      // keyFeyX = test.position.x;
+      if((test.position.x+100)<appWidth){
+        // keyFeyX += 100;
+        test.position.x += 100;
+      }
+      break;
+    default:
+      break;
   };
 }
 
@@ -63,17 +72,45 @@ function upArrowAtk(){
   //beam1 needs movement rules
   //beam1 needs collision rules
   //beam1 needs cleanup rules
- if(upCoolDown==false){
- upCoolDown = true;
- beam1.name = "beam1";
- beam1.movement = function(){return};
- beam1.position.x = test.position.x-37;
- beam1.position.y = test.position.y-40;
- container.addChild(beam1);
- 
- };
+  switch(state){
+    case play:
+      if(upCoolDown==false){
+        upCoolDown = true;
+        beam1.name = "beam1";
+        beam1.movement = function(){return};
+        beam1.position.x = test.position.x-37;
+        beam1.position.y = test.position.y-40;
+        container.addChild(beam1);
+      };
+      break;
+    default:
+      break;
+}
 }
 
+function pauseStart(){
+  switch(state){
+    case play:
+      //The time when you enter pause menu
+      pauseStartTime = currentSong.soundNode.context.currentTime;
+      state=pause;
+      break;
+    case pause:
+      gamePaused++; //How many times you've paused     
+      //The time when you leave the pause menu
+      pauseEndTime = currentSong.soundNode.context.currentTime;
+      //variable used to store length of this pause
+      pauseTemp = pauseEndTime-pauseStartTime;
+      //Variable used to adjust distance formula after first pause.
+      pauseTime = (pauseEndTime-pauseStartTime)+songStartTime+pauseTotal;
+      pauseContainer.visible=false;
+      currentSong.play();
+      state=play;
+      break;
+    default:
+      break;
+  };
+};
 
 function moveShip(location){
  // var location2 = location.data.global
@@ -181,10 +218,10 @@ function keyboard(keyCode) {
   };
 
   //Attach event listeners
-  realWindow.addEventListener(
+  window.addEventListener(
     "keydown", key.downHandler.bind(key), false
   );
-  realWindow.addEventListener(
+  window.addEventListener(
     "keyup", key.upHandler.bind(key), false
   );
   return key;

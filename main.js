@@ -66,7 +66,7 @@ var gamePaused = 0;
 var pauseTotal = 0;
 
 
-//Load the Sounds
+//Load the Sounds & load the setup functions
 loadSounds();
 function loadSounds(){
 loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Arial", fontSize:32, fill:"white"});
@@ -81,10 +81,12 @@ state = loading;
 renderer.ticker.start();
 };
 
-//Initialize the sounds here
+//Initialize the sounds and setupfunctions here
 function soundSetup(){
   testSong = sounds["sounds/faerieFM.mp3"];
   pauseSetup(); //sets up pause menu
+  controlsSetup();
+  document.body.focus();
 //Sprite creation & Setup function (done within the initial soundSetup)
 PIXI.loader
   .add("images/spritesheet.json")
@@ -93,6 +95,66 @@ PIXI.loader
 
 
 //Setup functions for states and containers
+function controlsSetup(){
+left = keyboard(37);
+left.press = function(){
+ leftArrowMove();
+};
+
+right = keyboard(39);
+right.press = function(){
+  rightArrowMove();
+};
+
+up = keyboard(38);
+up.press = function(){
+  upArrowAtk();
+};
+
+spacebar = keyboard(32);
+spacebar.press = function(){
+  pauseStart();
+};
+
+
+
+var x = keyboard(88);
+x.press = function(){
+  if(redTP>=5){
+    bomb();
+    redTP = 0;
+  }
+}
+
+var z = keyboard(90);
+z.press = function(){
+  if(blueTP>=3){
+    timeStop = true;
+    blueTP = 0;
+  }
+}
+
+window.onblur = function(){
+  switch(state){
+    case play: 
+      pauseStart();
+      break;
+    default:
+      break;
+  }
+};
+
+window.onFocus = function(){
+  switch(state){
+    case play: 
+      //pauseStart();
+      break;
+    default:
+      break;
+  }
+};
+}
+
 function titleSetup(){ 
   loadingContainer.visible = false;
   container.visible = false;
@@ -153,46 +215,7 @@ test.position.y = 1130;
 beam1 = new Sprite(id["beam1.png"]);
 
 
-if(reload==false){
-left = keyboard(37);
-left.press = function(){
- leftArrowMove();
- removeBeam(); 
-};
 
-right = keyboard(39);
-right.press = function(){
-  rightArrowMove();
-  removeBeam();
-};
-
-up = keyboard(38);
-up.press = function(){
-  upArrowAtk();
-};
-
-spacebar = keyboard(32);
-spacebar.press = function(){
-  pauseStart();
-};
-};
-
-
-var x = keyboard(88);
-x.press = function(){
-  if(redTP>=5){
-    bomb();
-    redTP = 0;
-  }
-}
-
-var z = keyboard(90);
-z.press = function(){
-  if(blueTP>=3){
-    timeStop = true;
-    blueTP = 0;
-  }
-}
 
 scoreText = new PIXI.Text("Score:"+score , {fontFamily:"Arial", fontSize:32, fill:"white"});
 scoreText.position.set(10, 10);
@@ -203,13 +226,6 @@ hpText = new PIXI.Text("HP<------>", {fontFamily:"Arial", fontSize:32, fill:"whi
 hpText.position.set(250, 10);
 uiContainer.addChild(hpText);
 
-window.onblur = function(){
-  pauseStart();
-};
-
-window.onFocus = function(){
-  pauseStart();
-};
 
 
 currentSong = testSong;
@@ -466,29 +482,6 @@ function updatePauseTotal(){
   pauseTemp = 0;
 }
 
-function pauseStart(){
-  switch(state){
-    case play:
-      //The time when you enter pause menu
-      pauseStartTime = currentSong.soundNode.context.currentTime;
-      state=pause;
-      break;
-    case pause:
-      gamePaused++; //How many times you've paused     
-      //The time when you leave the pause menu
-      pauseEndTime = currentSong.soundNode.context.currentTime;
-      //variable used to store length of this pause
-      pauseTemp = pauseEndTime-pauseStartTime;
-      //Variable used to adjust distance formula after first pause.
-      pauseTime = (pauseEndTime-pauseStartTime)+songStartTime+pauseTotal;
-      pauseContainer.visible=false;
-      currentSong.play();
-      state=play;
-      break;
-    default:
-      break;
-  };
-};
 
 function stageEnd(){
   if(distance >= (songEndTime + 2)){
@@ -697,17 +690,7 @@ function restartGame(){
   gamePaused = 0;
   pauseTotal = 0;
   pauseTemp = 0;
-  //clear Event Handlers
-  window.removeEventListener("keydown", left.downHandler.bind(37), false);
-  window.removeEventListener("keydown", right.downHandler.bind(39), false); 
-  window.removeEventListener("keydown", up.downHandler.bind(38), false);
-  window.removeEventListener("keydown", spacebar.downHandler.bind(32), false);
-
-  //Reset onblur/onfocus
-  window.onblur = function(){};
-  window.onFocus = function(){};
-
-  //run setup function or title setup function
+    //run setup function or title setup function
   switch(returnToTitle){
     case false:
       setup();
