@@ -1,5 +1,6 @@
 //Controls Globals
 var feyX, feyY, posX, keyfeyX, keyFeyY;
+var realWindow = window.parent || window;
 //Click Movement Controls
 function clicked(event){
   switch(state){
@@ -180,10 +181,10 @@ function keyboard(keyCode) {
   };
 
   //Attach event listeners
-  window.addEventListener(
+  realWindow.addEventListener(
     "keydown", key.downHandler.bind(key), false
   );
-  window.addEventListener(
+  realWindow.addEventListener(
     "keyup", key.upHandler.bind(key), false
   );
   return key;
