@@ -198,6 +198,7 @@ test = new Sprite(id["tester.png"]);
 test.name = "player";
 test.interactive = true;
 test.buttonMode = true;
+test.circular = true;
 test.anchor.set(0.5);
 /*
 test
@@ -522,7 +523,7 @@ function bumpCheck(){
     var caseName = container.children[i]['name'];
     var colTest = b.hit(test, case1);
     var colTest2 = b.hit(beam1, case1);
-
+    var collision = b.hitTestCircleRectangle(test, case1);
     //Beam Wall Destruction
     if(colTest2){
       if(caseName == "wall"){
@@ -546,6 +547,7 @@ function bumpCheck(){
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
           case "greenDust": 
+            console.log(collision);
             greenTP++;
             score += 100;
             break;
