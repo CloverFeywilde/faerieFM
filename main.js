@@ -85,8 +85,9 @@ renderer.ticker.start();
 function soundSetup(){
   testSong = sounds["sounds/faerieFM.mp3"];
   pauseSetup(); //sets up pause menu
+  //Lets the browser process interactions normally
+  renderer.renderer.plugins.interaction.autoPreventDefault = false;
   controlsSetup();
-  document.body.focus();
 //Sprite creation & Setup function (done within the initial soundSetup)
 PIXI.loader
   .add("images/spritesheet.json")

@@ -31,6 +31,7 @@ function clicked(event){
       goOptionsCreate();
       break;
     case title:
+      document.body.focus();
       break;
 }   
 }
