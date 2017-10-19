@@ -13,9 +13,19 @@ PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 
 
 //Different asset containers go here
+var backContainer = new PIXI.Container();
+backContainer.scale.x = backContainer.scale.y = 1;
+renderer.stage.addChild(backContainer);
+backContainer.visible = false;
+
 var container = new PIXI.particles.ParticleContainer(); //main container
 container.scale.x = container.scale.y = 1;
 renderer.stage.addChild(container);
+
+var frontContainer = new PIXI.Container();
+frontContainer.scale.x = frontContainer.scale.y =1;
+renderer.stage.addChild(frontContainer);
+frontContainer.visible = false;
 
 var titleContainer = new PIXI.Container();
 titleContainer.scale.x = titleContainer.scale.y = 1;
@@ -34,11 +44,6 @@ var uiContainer = new PIXI.Container();
 uiContainer.scale.x = uiContainer.scale.y = 1;
 renderer.stage.addChild(uiContainer);
 uiContainer.visible = false;
-
-var effectsContainer = new PIXI.Container();
-effectsContainer.scale.x = effectsContainer.scale.y =1;
-renderer.stage.addChild(effectsContainer);
-effectsContainer.visible = false;
 
 var loadingContainer = new PIXI.Container();
 loadingContainer.scale.x = loadingContainer.scale.y = 1;
@@ -73,6 +78,7 @@ var upCoolDown = false;
 var upClock = 0;
 var gamePaused = 0;
 var pauseTotal = 0;
+var defNum = 1; //# of items the main container starts with by default
 
 
 //Load the Sounds & load the setup functions
@@ -170,7 +176,9 @@ window.onFocus = function(){
 
 function titleSetup(){ 
   loadingContainer.visible = false;
+  backContainer.visible = false;
   container.visible = false;
+  frontContainer.visible = false;
   goContainer.visible = false;
   uiContainer.visible = false;
   titleContainer.visible = true; 
@@ -317,7 +325,9 @@ function newGame(){
 //For the future, this should probably clear the data from the titleContainer
   titleContainer.visible=false;
   uiContainer.visible=true;
+  backContainer.visible =true;
   container.visible=true;  
+  frontContainer.visible =true;
   //titleContainer.removeChildren(0, titleContainer.children.length); 
   setup();
 }
@@ -326,9 +336,9 @@ function selectStage(){
   titleContainer.removeChildren(0, titleContainer.children.length); 
   //hard code the list and add it to the title container. Each list item needs to run the setup function, and the setup function needs to be changed to initialize the sage at a particular variable that the list item determines when clicked.
    
-  var songOne = new PIXI.Text("Song 1", {fontFamily:"Arial", fontSize:32, fill:"white"});
-  var songTwo = new PIXI.Text("Song 2", {fontFamily:"Arial", fontSize:32, fill:"white"});
-  var songThree = new PIXI.Text("Song 3", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  var songOne = new PIXI.Text("blank", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  var songTwo = new PIXI.Text("Pipe Panorama", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  var songThree = new PIXI.Text("blank", {fontFamily:"Arial", fontSize:32, fill:"white"});
     
 songOne.position.set(200,400);
 songTwo.position.set(200,600);
@@ -372,9 +382,9 @@ function newStageCheck(){
     testBG.on('pointerdown', clicked);
     testBG.position.x=0;
     testBG.position.y=0; 
-    container.addChild(testBG);
+    backContainer.addChild(testBG);
     container.addChild(test);
-    container.addChild(scoreText);
+    uiContainer.addChild(scoreText);
     enemyInit(level);
     createSprite(level);
     songEndTime = level['greenDust']['y'][level['greenDust']['y'].length-1];
@@ -518,9 +528,9 @@ function moveEnemies(){
     case true:
       break;
     case false:
-      if(container.children.length>3){  
+      if(container.children.length>defNum){  
         //loop through the array starting from position 2 and run container.children.[number].movement() on each.
-        for(var i=3; i<container.children.length; i++){
+        for(var i=defNum; i<container.children.length; i++){
           container.children[i].movement();
         }
       }
@@ -530,7 +540,7 @@ function moveEnemies(){
 
 //Collision Detection
 function bumpCheck(){
-  for(var i=3; i<container.children.length; i++){
+  for(var i=defNum; i<container.children.length; i++){
     var case1 = container.children[i];
     var caseName = container.children[i]['name'];
     var colTest = b.hit(test, case1);
@@ -604,7 +614,7 @@ function moveBG(){
 
 //remove beam
 function removeBeam(){
-for(i=3; i<container.children.length; i++){
+for(i=defNum; i<container.children.length; i++){
   if(container.children[i]['name'] == "beam1"){
     container.removeChild(container.children[i]);
     beam1.position.x = null;
@@ -615,13 +625,13 @@ for(i=3; i<container.children.length; i++){
 
 //Bomb Mechanic
 function bomb(){
-  for(i=3; i<container.children.length; i++){
+  for(i=defNum; i<container.children.length; i++){
     if(container.children[i]['name'] == "greenDust"){ 
       score += 100;
       scoreText.text ="Score:"+score;
     }
  }
-  container.removeChildren(3, container.children.length)
+  container.removeChildren(defNum, container.children.length)
 }
 
 //up Timer
@@ -631,7 +641,7 @@ if(upCoolDown==true){
   if(upClock >= 10){
     upClock = 0;
     upCoolDown = false;
-    for(i=3; i<container.children.length; i++){
+    for(i=defNum; i<container.children.length; i++){
       if(container.children[i]['name'] == "beam1"){
         container.removeChild(container.children[i]);
         beam1.position.x = null;
