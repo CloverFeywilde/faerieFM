@@ -10,12 +10,13 @@ window.onresize = function (event) {
 }
 window.onresize();
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
-var container = new PIXI.DisplayObjectContainer();
-container.scale.x = container.scale.y = 1;
-renderer.stage.addChild(container);
 
 
 //Different asset containers go here
+var container = new PIXI.particles.ParticleContainer(); //main container
+container.scale.x = container.scale.y = 1;
+renderer.stage.addChild(container);
+
 var titleContainer = new PIXI.Container();
 titleContainer.scale.x = titleContainer.scale.y = 1;
 renderer.stage.addChild(titleContainer);
@@ -25,11 +26,19 @@ var goContainer = new PIXI.Container();
 goContainer.scale.x = goContainer.scale.y = 1;
 renderer.stage.addChild(goContainer);
 goContainer.visible = false;
+goContainer.interactive = true;
+goContainer.buttonMode = true;
+goContainer.on('pointerdown', clicked);
 
 var uiContainer = new PIXI.Container();
 uiContainer.scale.x = uiContainer.scale.y = 1;
 renderer.stage.addChild(uiContainer);
 uiContainer.visible = false;
+
+var effectsContainer = new PIXI.Container();
+effectsContainer.scale.x = effectsContainer.scale.y =1;
+renderer.stage.addChild(effectsContainer);
+effectsContainer.visible = false;
 
 var loadingContainer = new PIXI.Container();
 loadingContainer.scale.x = loadingContainer.scale.y = 1;
@@ -117,7 +126,10 @@ spacebar.press = function(){
   pauseStart();
 };
 
-
+enterKey = keyboard(13);
+enterKey.press = function(){
+  enterPressed();
+};
 
 var x = keyboard(88);
 x.press = function(){

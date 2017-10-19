@@ -113,6 +113,36 @@ function pauseStart(){
   };
 };
 
+function enterPressed(){
+  switch(state){
+    case gameOver:
+      var goOptionsCreate = function(){
+        //Removes "signal lost" text, and adds retry or back to menu options
+        goContainer.removeChildren(0, container.children.length);
+        goText2 = new PIXI.Text("Retry?", {fontFamily:"Arial", fontSize:32, fill:"white"});
+        goText2.position.set(200,400);
+
+        goText3 = new PIXI.Text("Sound Menu", {fontFamily:"Arial", fontSize:32, fill:"white"});
+        goText3.position.set(200,600);
+
+        //Game Over Text Interactions
+        goText2.interactive = true;
+        goText2.buttonMode = true;
+        goText2.on('pointerdown', function(){returnToTitle=false; goContainer.removeChildren(0, goContainer.children.length); restartGame();})
+
+        goText3.interactive = true;
+        goText3.buttonMode = true;
+        goText3.on('pointerdown', function(){returnToTitle=true; goContainer.removeChildren(0, goContainer.children.length); restartGame();})
+        goContainer.addChild(goText2);
+        goContainer.addChild(goText3);
+      };
+      goOptionsCreate();
+      break;
+    default:
+      break;
+  }
+}
+
 function moveShip(location){
  // var location2 = location.data.global
   feyX = test.position.x;
