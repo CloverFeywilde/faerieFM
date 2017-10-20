@@ -79,7 +79,9 @@ var upClock = 0;
 var gamePaused = 0;
 var pauseTotal = 0;
 var defNum = 1; //# of items the main container starts with by default
-
+var hitArray = [];
+var missArray = [];
+var mehArray = [];
 
 //Load the Sounds & load the setup functions
 loadSounds();
@@ -103,14 +105,19 @@ function soundSetup(){
   //Lets the browser process interactions normally
   renderer.renderer.plugins.interaction.autoPreventDefault = false;
   controlsSetup();
+  b = new Bump(PIXI);
 //Sprite creation & Setup function (done within the initial soundSetup)
 PIXI.loader
   .add("images/spritesheet.json")
+  .load(spriteSetup)
   .load(titleSetup);
 };
 
-
 //Setup functions for states and containers
+function spriteSetup(){
+  id = PIXI.loader.resources["images/spritesheet.json"].textures;
+};
+
 function controlsSetup(){
 left = keyboard(37);
 left.press = function(){
@@ -209,11 +216,25 @@ function pauseSetup(){
   pauseContainer.addChild(pauseText, pauseText2);
 };
 
+function fcSetup(){
+  for(i=0; i<11; i++){ 
+    let hitText = new PIXI.Text("Good!", {fontFamily:"Arial", fontSize:25, fill:"green"});
+    let missText = new PIXI.Text("Bad!", {fontFamily:"Arial", fontSize:25, fill:"red"});
+    let mehText = new PIXI.Text("meh..", {fontFamily:"Arial", fontSize:25, fill:"yellow"});
+    hitArray.push(hitText);
+    hitArray[i]['movement'] = function(){this.position.y -2;};
+
+    missArray.push(missText);
+    missArray[i]['movement'] = function(){this.position.y -2;};
+
+    mehArray.push(mehText);
+    mehArray[i]['movement'] = function(){this.position.y -2;};
+  };
+};
+
 //Core setup function
 function setup(){
 titleContainer.removeChildren(0, titleContainer.children.length); //clears the titlescreen before the game runs
-id = PIXI.loader.resources["images/spritesheet.json"].textures;
-b = new Bump(PIXI);
 test = new Sprite(id["tester.png"]);
 test.name = "player";
 test.interactive = true;
@@ -236,23 +257,24 @@ test.position.y = 1130;
 
 beam1 = new Sprite(id["beam1.png"]);
 
+//frontContainer setup
+fcSetup();
 
 
-
+//UI Items
 scoreText = new PIXI.Text("Score:"+score , {fontFamily:"Arial", fontSize:32, fill:"white"});
 scoreText.position.set(10, 10);
-
-
 
 hpText = new PIXI.Text("HP<------>", {fontFamily:"Arial", fontSize:32, fill:"white"});
 hpText.position.set(250, 10);
 uiContainer.addChild(hpText);
 
 
-
+//Start the Song
 currentSong = testSong;
 currentSong.playFrom(0);
 
+//Change to play state loop
 state = play;
 firstTime = true;
 distance = 0;
@@ -522,6 +544,11 @@ var movement ={
   wall: function(){this.position.y = feyPosY - ((this.spawnTime - distance)*bpm*3)} 
 }
 
+//FrontContainer Behavior
+var frontMovement ={  
+  hit: function(){this.position.y -= deltaGlobal *2;}
+}
+
 
 function moveEnemies(){
   switch(timeStop){
@@ -536,6 +563,7 @@ function moveEnemies(){
       }
       break;
   }
+  noteScoreAni(); //note score animations
 } 
 
 //Collision Detection
@@ -569,7 +597,8 @@ function bumpCheck(){
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
           case "greenDust": 
-            console.log(collision);
+            //console.log(collision);
+            noteScore(collision);
             greenTP++;
             score += 100;
             break;
@@ -697,7 +726,9 @@ function restartGame(){
   goContainer.visible = false;
   //clear all arrays
   //empty game containers
+  backContainer.removeChildren(0, backContainer.children.length);
   container.removeChildren(0, container.children.length); 
+  frontContainer.removeChildren(0, frontContainer.children.length);
   uiContainer.removeChildren(0, uiContainer.children.length); 
   //reset all counters
   upClock = 0;
@@ -715,6 +746,9 @@ function restartGame(){
   gamePaused = 0;
   pauseTotal = 0;
   pauseTemp = 0;
+  hitArray = [];
+  missArray = [];
+  mehArray = [];
     //run setup function or title setup function
   switch(returnToTitle){
     case false:

@@ -4,6 +4,82 @@ var lastBeat = 0;
 var crotchet = 60/bpm;
 var canDie = false;
 
+//Checks how well you hit the note
+function noteScore(colScore){
+  switch(colScore){
+    case "bottomLeft":
+    case "bottomMiddle":
+    case "bottomRight":
+      //Good Hit
+      let goodTxt = hitArray.shift();
+      let goodPosX = test.position.x + 60;
+      let goodPosY = test.position.y;
+      goodTxt.name = "hitTxt";
+      goodTxt.position.set(goodPosX, goodPosY);
+      frontContainer.addChild(goodTxt);      
+      let justAdded = frontContainer.children.length -1;
+      frontContainer.children[justAdded]['movement'] = frontMovement['hit'];
+      break;
+    case "topMiddle":
+    case "topRight":
+    case "topLeft":
+      //Bad Hit
+      let badTxt = missArray.shift();
+      let badPosX = test.position.x + 60;
+      let badPosY = test.position.y;
+      badTxt.name = "missTxt";
+      badTxt.position.set(badPosX, badPosY);
+      frontContainer.addChild(badTxt);      
+      let justAdded2 = frontContainer.children.length -1;
+      frontContainer.children[justAdded2]['movement'] = frontMovement['hit'];
+      break;
+    case "rightMiddle":
+    case "leftMiddle":
+      //Meh Hit 
+      let mehTxt = mehArray.shift();
+      let mehPosX = test.position.x + 60;
+      let mehPosY = test.position.y;
+      mehTxt.name = "mehTxt";
+      mehTxt.position.set(mehPosX, mehPosY);
+      frontContainer.addChild(mehTxt); 
+      let justAdded3 = frontContainer.children.length -1;
+      frontContainer.children[justAdded3]['movement'] = frontMovement['hit'];
+      break;
+    default: 
+      break;
+  };    
+};
+
+function noteScoreAni(){
+  for(i=0; i<frontContainer.children.length; i++){
+    let currentChild = frontContainer.children[i];
+    if(currentChild['name'] == "hitTxt"||"missTxt"||"mehTxt"){
+      if(currentChild['position']['y'] <= (test.position.y-60)){
+        switch(currentChild['name']){
+          case "hitTxt":
+            //put it back in the containing array
+            hitArray.push(currentChild);
+            frontContainer.removeChild(currentChild);
+            break;
+          case "missTxt":
+            missArray.push(currentChild);
+            frontContainer.removeChild(currentChild);
+            break;
+          case "mehTxt":
+            mehArray.push(currentChild);
+            frontContainer.removeChild(currentChild);
+            break;
+          default:
+            break;
+          
+        };  
+      }
+      else{
+        currentChild.movement();
+      }
+    };
+  };
+};
 
 //Flash Function
 function flash(){
