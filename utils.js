@@ -3,6 +3,7 @@ var bpm = 124;
 var lastBeat = 0;
 var crotchet = 60/bpm;
 var canDie = false;
+var comboCount = 0;
 
 //Checks how well you hit the note
 function noteScore(colScore){
@@ -19,6 +20,11 @@ function noteScore(colScore){
       frontContainer.addChild(goodTxt);      
       let justAdded = frontContainer.children.length -1;
       frontContainer.children[justAdded]['movement'] = frontMovement['hit'];
+      comboCount++
+      if(comboCount>=10){
+        comboCount = 0;
+        hp++;
+      }
       break;
     case "topMiddle":
     case "topRight":
@@ -32,6 +38,8 @@ function noteScore(colScore){
       frontContainer.addChild(badTxt);      
       let justAdded2 = frontContainer.children.length -1;
       frontContainer.children[justAdded2]['movement'] = frontMovement['hit'];
+      comboCount = 0;
+      hp--;
       break;
     case "rightMiddle":
     case "leftMiddle":
@@ -44,6 +52,7 @@ function noteScore(colScore){
       frontContainer.addChild(mehTxt); 
       let justAdded3 = frontContainer.children.length -1;
       frontContainer.children[justAdded3]['movement'] = frontMovement['hit'];
+      comboCount = 0;
       break;
     default: 
       break;
@@ -72,10 +81,10 @@ function noteScoreAni(){
           default:
             break;
           
-        };  
+        } 
       }
       else{
-        currentChild.movement();
+        frontContainer.children[i].movement();
       }
     };
   };

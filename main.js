@@ -64,7 +64,7 @@ var frame = 0;
 var score = 0;
 var cdFrame = 0;
 var crashDamage = 0;
-var hp = 3; 
+var hp = 10; 
 var greenTP = 0;
 var redTP = 0;
 var blueTP = 0;
@@ -630,7 +630,7 @@ function bumpCheck(){
       if(currentEnemy == 'greenDust' ||
          currentEnemy == 'blueDust' ||
          currentEnemy == 'redDust'){
-        hp--
+         hp -= 3;
       }
   }
 }
@@ -689,17 +689,38 @@ function damageCheck(){
   }
   switch(hp){
     case 0:
-      hpText.text = "HP[      ]";
+      hpText.text = "HP[          ]";
       state=gameOver;
       break;
     case 1:
-      hpText.text = "HP[--    ]";
+      hpText.text = "HP[-         ]";
       break;
     case 2:
-      hpText.text = "HP[----  ]";
+      hpText.text = "HP[--        ]";
       break;
     case 3:
-      hpText.text = "HP[------]";
+      hpText.text = "HP[---       ]";
+      break;
+    case 4: 
+      hpText.text = "HP[----      ]";
+      break;
+    case 5: 
+      hpText.text = "HP[-----     ]";
+      break;
+    case 6: 
+      hpText.text = "HP[------    ]";
+      break;
+    case 7: 
+      hpText.text = "HP[-------   ]";
+      break;
+    case 8: 
+      hpText.text = "HP[--------  ]";
+      break;
+    case 9: 
+      hpText.text = "HP[--------- ]";
+      break;
+    case 10: 
+      hpText.text = "HP[----------]";
       break;
   }
 }
@@ -737,7 +758,7 @@ function restartGame(){
   cdFrame = 0;
   crashDamage = 0;
   distance = 0;
-  hp = 3;
+  hp = 10;
   greenTP = 0;
   blueTP = 0;
   redTP = 0;
