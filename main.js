@@ -235,6 +235,7 @@ function fcSetup(){
 //Core setup function
 function setup(){
 titleContainer.removeChildren(0, titleContainer.children.length); //clears the titlescreen before the game runs
+goContainer.removeChildren(0, goContainer.children.length);
 test = new Sprite(id["tester.png"]);
 test.name = "player";
 test.interactive = true;
@@ -688,11 +689,12 @@ function damageCheck(){
     state=gameOver;
     
   }
+if(hp <= 0 ){
+  hpText.text = "HP[          ]";
+  state=gameOver;
+}
+else{
   switch(hp){
-    case 0:
-      hpText.text = "HP[          ]";
-      state=gameOver;
-      break;
     case 1:
       hpText.text = "HP[-         ]";
       break;
@@ -724,6 +726,7 @@ function damageCheck(){
       hpText.text = "HP[----------]";
       break;
   }
+}
 }
 
 //GameOver State Functions
