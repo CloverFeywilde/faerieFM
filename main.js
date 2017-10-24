@@ -666,8 +666,8 @@ function bomb(){
 //up Timer
 function upTimer(){
 if(upCoolDown==true){
-  upClock++;
-  if(upClock >= 10){
+  upClock += deltaGlobal;
+  if(upClock >= (deltaGlobal*10)){
     upClock = 0;
     upCoolDown = false;
     for(i=defNum; i<container.children.length; i++){
