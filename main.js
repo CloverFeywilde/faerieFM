@@ -530,7 +530,8 @@ function updatePauseTotal(){
 
 
 function stageEnd(){
-  if(distance >= (songEndTime + 2)){
+  
+  if(level['greenDust']['y'].length == 0 && container.children.length==1){
     returnToTitle=true; 
     container.removeChildren(0, container.children.length); 
     restartGame(); 
