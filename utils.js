@@ -1,9 +1,10 @@
 //Utility Function Globals
-//var bpm = 124;
+var bpm = 124;
 var lastBeat = 0;
-var crotchet = 60/bpm;
+var crotchet = 60/bpm; //this will no longer work since the BPM isn't calculated until later
 var canDie = false;
 var comboCount = 0;
+var feverTimer = 0;
 
 //Checks how well you hit the note
 function noteScore(colScore){
@@ -97,18 +98,18 @@ function noteScoreAni(){
 };
 
 //Fever Time, down arrow triggered
-function feverTime(){
+function feverTimeStart(){
   if(feverCounter>=3 && feverTime==false){
     feverCounter = 0; 
     //feverTime Activate
     feverTime = true;
     //feverAnimation(); play faerie wing animation
   } 
-}
+};
 
 function feverCheck(){
   if(feverTime==true){
-    feverTimer += deltaGlobal;
+    feverTimer += deltaGlobal
     if(feverTime >= (deltaGlobal*300)){
       feverTime = false;
       feverCounter = 0;  

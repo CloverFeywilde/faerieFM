@@ -138,7 +138,7 @@ up.press = function(){
 
 down = keyboard(40);
 down.press = function(){
-  feverTime();
+  feverTimeStart();
 };
 
 spacebar = keyboard(32);
@@ -550,6 +550,8 @@ function stageEnd(){
     restartGame(); 
   }  
 }
+
+
 //Enemy Behavior
 var movement ={
   greenDust: function(){this.position.y = feyPosY - ((this.spawnTime - distance)*bpm*3)},
@@ -798,6 +800,7 @@ function restartGame(){
   mehArray = [];
   feverTime = false;
   feverCounter = 0;
+  feverTimer = 0;
   comboCount = 0;
     //run setup function or title setup function
   switch(returnToTitle){
