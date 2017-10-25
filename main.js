@@ -82,6 +82,7 @@ var defNum = 1; //# of items the main container starts with by default
 var hitArray = [];
 var missArray = [];
 var mehArray = [];
+var feverTime = false;
 
 //Load the Sounds & load the setup functions
 loadSounds();
@@ -132,6 +133,11 @@ right.press = function(){
 up = keyboard(38);
 up.press = function(){
   upArrowAtk();
+};
+
+down = keyboard(40);
+down.press = function(){
+  feverTime();
 };
 
 spacebar = keyboard(32);
@@ -266,10 +272,13 @@ fcSetup();
 scoreText = new PIXI.Text("Score:"+score , {fontFamily:"Arial", fontSize:32, fill:"white"});
 scoreText.position.set(10, 10);
 
-hpText = new PIXI.Text("HP<------>", {fontFamily:"Arial", fontSize:32, fill:"white"});
+hpText = new PIXI.Text("HP[----------]", {fontFamily:"Arial", fontSize:32, fill:"white"});
 hpText.position.set(250, 10);
 uiContainer.addChild(hpText);
 
+feverText = new PIXI.Text("Fever[   ]", {fontFamily:"Arial", fontSize:32, fill:"white"});
+feverText.position.set(450, 10);
+uiContainer.addChild(feverText);
 
 //Start the Song
 currentSong = testSong;
@@ -323,10 +332,12 @@ upTimer();
 moveEnemies();
 //Check if enemies need to be placed or removed from current level.
 checkDistance(distance,level);
-//Check beat
+//Check beat used for note animations
 beatKeeper();
 //Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
 bumpCheck();
+//Check if fever time is activated and keep track of how long it has left
+feverCheck();
 //Check crash damage to see if the player has lost
 damageCheck();
 //Increment the distance counter
@@ -600,7 +611,17 @@ function bumpCheck(){
         switch(currentEnemy){
           case "greenDust": 
             //console.log(collision);
-            noteScore(collision);
+            switch(feverTime){
+             case false: 
+               noteScore(collision);
+               break;
+             case true:
+               let perfect = "bottomLeft";  
+               noteScore(perfect);
+               break;
+             default:
+               break; 
+            }
             greenTP++;
             score += 100;
             break;
@@ -774,6 +795,7 @@ function restartGame(){
   hitArray = [];
   missArray = [];
   mehArray = [];
+  feverTime = false;
     //run setup function or title setup function
   switch(returnToTitle){
     case false:

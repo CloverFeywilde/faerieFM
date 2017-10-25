@@ -1,9 +1,10 @@
 //Utility Function Globals
-var bpm = 124;
+//var bpm = 124;
 var lastBeat = 0;
 var crotchet = 60/bpm;
 var canDie = false;
 var comboCount = 0;
+var feverCounter = 0;
 
 //Checks how well you hit the note
 function noteScore(colScore){
@@ -21,9 +22,13 @@ function noteScore(colScore){
       let justAdded = frontContainer.children.length -1;
       frontContainer.children[justAdded]['movement'] = frontMovement['hit'];
       comboCount++
-      if(comboCount>=10){
-        comboCount = 0;
-        hp++;
+      if(hp<=10){
+        if(comboCount>=10){
+          comboCount = 0;
+          hp++;
+          feverCounter++;
+          feverBarUpdate();
+        }
       }
       break;
     case "topMiddle":
@@ -89,6 +94,46 @@ function noteScoreAni(){
     };
   };
 };
+
+//Fever Time, down arrow triggered
+function feverTime(){
+  if(feverCounter>=3 && feverTime==false){
+    feverCounter = 0; 
+    //feverTime Activate
+    feverTime = true;
+    //feverAnimation(); play faerie wing animation
+  } 
+}
+
+function feverCheck(){
+  if(feverTime==true){
+    feverTimer += deltaGlobal;
+    if(feverTime >= (deltaGlobal*300)){
+      feverTime = false;
+      feverCounter = 0;  
+      //clear animation
+    }
+  }
+}
+
+function feverBarUpdate(){
+  switch(feverCounter){
+    case 0:
+      feverText.text = "Fever[   ]";
+      break;
+    case 1: 
+      feverText.text = "Fever[-  ]";
+      break;
+    case 2:
+      feverText.text = "Fever[-- ]";
+      break;
+    case 3:
+      feverText.text = "Fever[---]";
+      break;
+    default:
+      break;
+  }
+}
 
 //Flash Function
 function flash(){
