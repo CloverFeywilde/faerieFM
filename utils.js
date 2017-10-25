@@ -4,7 +4,6 @@ var lastBeat = 0;
 var crotchet = 60/bpm;
 var canDie = false;
 var comboCount = 0;
-var feverCounter = 0;
 
 //Checks how well you hit the note
 function noteScore(colScore){
@@ -25,8 +24,10 @@ function noteScore(colScore){
       if(hp<=10){
         if(comboCount>=10){
           comboCount = 0;
-          hp++;
-          feverCounter++;
+          if(hp<10){
+            hp++;
+          }
+          feverCounter++
           feverBarUpdate();
         }
       }

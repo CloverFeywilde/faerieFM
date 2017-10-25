@@ -83,6 +83,7 @@ var hitArray = [];
 var missArray = [];
 var mehArray = [];
 var feverTime = false;
+var feverCounter = 0;
 
 //Load the Sounds & load the setup functions
 loadSounds();
@@ -796,6 +797,8 @@ function restartGame(){
   missArray = [];
   mehArray = [];
   feverTime = false;
+  feverCounter = 0;
+  comboCount = 0;
     //run setup function or title setup function
   switch(returnToTitle){
     case false:
