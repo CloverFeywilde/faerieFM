@@ -22,7 +22,6 @@ function noteScore(colScore){
       let justAdded = frontContainer.children.length -1;
       frontContainer.children[justAdded]['movement'] = frontMovement['hit'];
       comboCount++
-      if(hp<=10){
         if(comboCount>=10){
           comboCount = 0;
           if(hp<10){
@@ -31,7 +30,6 @@ function noteScore(colScore){
           feverCounter++
           feverBarUpdate();
         }
-      }
       break;
     case "topMiddle":
     case "topRight":
@@ -102,16 +100,19 @@ function feverTimeStart(){
   if(feverCounter>=3 && feverTime==false){
     feverCounter = 0; 
     //feverTime Activate
-    feverTime = true;
+    feverTime = true; 
+    feverBarUpdate();
     //feverAnimation(); play faerie wing animation
   } 
 };
 
 function feverCheck(){
   if(feverTime==true){
-    feverTimer += deltaGlobal
-    if(feverTime >= (deltaGlobal*300)){
+    feverTimer += deltaGlobal;
+    comboCount = 0;
+    if(feverTimer >= (deltaGlobal*300)){
       feverTime = false;
+      feverTimer = 0;
       feverCounter = 0;  
       //clear animation
     }
