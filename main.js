@@ -92,7 +92,8 @@ loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Arial", fontSize:32
 loadingText.position.set(400,400);
 loadingContainer.addChild(loadingText);
 sounds.load([
-  "sounds/faerieFM.mp3"
+  "sounds/faerieFM.mp3",
+  "sounds/alleySpectre.mp3"
 ]);
 
 sounds.whenLoaded = soundSetup;
@@ -102,7 +103,6 @@ renderer.ticker.start();
 
 //Initialize the sounds and setupfunctions here
 function soundSetup(){
-  testSong = sounds["sounds/faerieFM.mp3"];
   pauseSetup(); //sets up pause menu
   //Lets the browser process interactions normally
   renderer.renderer.plugins.interaction.autoPreventDefault = false;
@@ -282,7 +282,6 @@ feverText.position.set(450, 10);
 uiContainer.addChild(feverText);
 
 //Start the Song
-currentSong = testSong;
 currentSong.playFrom(0);
 
 //Change to play state loop
@@ -373,7 +372,7 @@ function selectStage(){
    
   var songOne = new PIXI.Text("blank", {fontFamily:"Arial", fontSize:32, fill:"white"});
   var songTwo = new PIXI.Text("Pipe Panorama", {fontFamily:"Arial", fontSize:32, fill:"white"});
-  var songThree = new PIXI.Text("blank", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  var songThree = new PIXI.Text("Alley Spectre", {fontFamily:"Arial", fontSize:32, fill:"white"});
     
 songOne.position.set(200,400);
 songTwo.position.set(200,600);
@@ -387,12 +386,13 @@ songOne.on('pointerdown', function(){loadLevel(blank); newGame();})
 
 songTwo.interactive = true;
 songTwo.buttonMode = true;
-songTwo.on('pointerdown', function(){loadLevel(pipePanorama); newGame();})
+songTwo.on('pointerdown', function(){currentSong=sounds["sounds/faerieFM.mp3"]; loadLevel(pipePanorama); newGame();})
 
 
 songThree.interactive = true;
 songThree.buttonMode = true;
-songThree.on('pointerdown', function(){level=level3; newGame();})
+songThree.on('pointerdown', function(){currentSong=sounds["sounds/alleySpectre.mp3"]; loadLevel(alleySpectre); newGame();})
+
 
 //Add each song to the titleContainer
 titleContainer.addChild(songOne);
