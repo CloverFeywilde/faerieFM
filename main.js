@@ -264,6 +264,8 @@ test.position.x = 350;
 test.position.y = 1130;
 
 beam1 = new Sprite(id["beam1.png"]);
+beam1.position.x = undefined;
+beam1.position.y = undefined;
 
 //frontContainer setup
 fcSetup();
