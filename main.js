@@ -11,6 +11,7 @@ window.onresize = function (event) {
 window.onresize();
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 
+renderer.renderer.backgroundColor = 0x02aaca;
 
 //Different asset containers go here
 var backContainer = new PIXI.Container();
@@ -335,7 +336,7 @@ moveEnemies();
 //Check if enemies need to be placed or removed from current level.
 checkDistance(distance,level);
 //Check beat used for note animations
-beatKeeper();
+//beatKeeper();
 //Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
 bumpCheck();
 //Check if fever time is activated and keep track of how long it has left
