@@ -372,7 +372,10 @@ function newGame(){
 function selectStage(){ 
   titleContainer.removeChildren(0, titleContainer.children.length); 
   //hard code the list and add it to the title container. Each list item needs to run the setup function, and the setup function needs to be changed to initialize the sage at a particular variable that the list item determines when clicked.
-   
+
+ssBuildMenu();
+
+/*   
   var songOne = new PIXI.Text("blank", {fontFamily:"Arial", fontSize:32, fill:"white"});
   var songTwo = new PIXI.Text("Pipe Panorama", {fontFamily:"Arial", fontSize:32, fill:"white"});
   var songThree = new PIXI.Text("Alley Spectre", {fontFamily:"Arial", fontSize:32, fill:"white"});
@@ -401,7 +404,7 @@ songThree.on('pointerdown', function(){currentSong=sounds["sounds/alleySpectre.m
 titleContainer.addChild(songOne);
 titleContainer.addChild(songTwo);
 titleContainer.addChild(songThree);
-
+*/
 
 };
 
