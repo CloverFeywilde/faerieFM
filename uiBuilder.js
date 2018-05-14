@@ -9,29 +9,29 @@ function ssBuildMenu(){
 
   //First Diamond
   graphics.beginFill(0xF52549)
-  .drawPolygon(0, 62.5, 62.5, 0, 125, 62.5, 62.5, 125)
-  .drawPolygon(12.5, 62.5, 62.5, 12.5, 112.5, 62.5, 62.5, 112.5)
+  .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+  .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
   .addHole();
-  graphics.position.set(200,512)
+  graphics.position.set(172.5,437)
 
   //Second Diamond
   graphics2.beginFill(0xF52549)
-  .drawPolygon(0, 62.5, 62.5, 0, 125, 62.5, 62.5, 125)
-  .drawPolygon(12.5, 62.5, 62.5, 12.5, 112.5, 62.5, 62.5, 112.5)
+  .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+  .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
   .addHole();
-  graphics2.position.set(300,612)
+  graphics2.position.set(272.5,537)
 
   //Third Diamond
   graphics3.beginFill(0xF52549)
-  .drawPolygon(0, 62.5, 62.5, 0, 125, 62.5, 62.5, 125)
-  .drawPolygon(12.5, 62.5, 62.5, 12.5, 112.5, 62.5, 62.5, 112.5)
+  .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+  .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
   .addHole();
-  graphics3.position.set(400,512)
+  graphics3.position.set(372.5,437)
 
   //Info Bar
   graphics4.beginFill(0xFFFFFF)
   .drawRect(0,0,720,150)
-  graphics4.position.set(0,850)
+  graphics4.position.set(0,925)
 
 
 
@@ -43,7 +43,7 @@ function ssBuildMenu(){
 
   let idleLine = new PIXI.extras.AnimatedSprite(frames);
   idleLine.position.x = 0;
-  idleLine.position.y = 512;
+  idleLine.position.y = 437;
   idleLine.play();
 
   titleContainer.addChild(graphics, graphics2, graphics3, graphics4,idleLine);
