@@ -352,12 +352,12 @@ stageEnd();
 }
 
 //Title & Menu State Functions
-function loadLevel(thisLevel){
+/*function loadLevel(thisLevel){
   var currentLevel = JSON.parse(thisLevel);
   level = currentLevel;
   bpm = level['greenDust']['bpm'];
 };
-
+*/
 function newGame(){
 //For the future, this should probably clear the data from the titleContainer
   titleContainer.visible=false;

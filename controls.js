@@ -1,5 +1,38 @@
 //Controls Globals
-var feyX, feyY, posX, keyfeyX, keyFeyY;
+var feyX, feyY, posX, keyfeyX, keyFeyY, highlighted;
+var cur = 0;
+
+//menu highlighting function
+function highlight(input){
+  if(input=='right'){
+    cur++;
+   /* if(cur>stageInfo.length){
+      cur=stageInfo.length;
+    }*/
+  }
+  else if(input=='left'){
+    cur--;
+    if(cur<0){
+      cur=0;
+    }
+  }
+  
+  highlighted = stageInfo[cur];
+  colorChange();
+}
+
+function colorChange(){
+  if(cur==1){
+    //titleContainer.removeChild(graphics2);
+    graphics2.clear;
+    graphics2.beginFill(0xFFFFFF)
+    .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+    .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
+    .addHole();
+    graphics2.position.set(272.5,537)
+  };
+}
+
 //Click Movement Controls
 function clicked(event){
   switch(state){
@@ -26,6 +59,8 @@ function leftArrowMove(){
         test.position.x -= 100;
       };
       break;
+    case title:
+      highlight('left');  
     default:
       break;   
   }
@@ -41,6 +76,8 @@ function rightArrowMove(){
         test.position.x += 100;
       }
       break;
+    case title:
+      highlight('right');
     default:
       break;
   };

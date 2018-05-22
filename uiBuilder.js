@@ -1,11 +1,13 @@
+var graphics, graphics2, graphics3, graphics4, graphics5;
+
 function ssBuildMenu(){
 
   var container=new PIXI.Container();
-  var graphics = new PIXI.Graphics();
-  var graphics2 = new PIXI.Graphics();
-  var graphics3 = new PIXI.Graphics();
-  var graphics4 = new PIXI.Graphics();
-  var graphics5 = new PIXI.Graphics();
+  graphics = new PIXI.Graphics();
+  graphics2 = new PIXI.Graphics();
+  graphics3 = new PIXI.Graphics();
+  graphics4 = new PIXI.Graphics();
+  graphics5 = new PIXI.Graphics();
 
   //First Diamond
   graphics.beginFill(0xF52549)
