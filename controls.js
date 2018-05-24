@@ -1,36 +1,97 @@
 //Controls Globals
 var feyX, feyY, posX, keyfeyX, keyFeyY, highlighted;
 var cur = 0;
+var curHl = 0;
 
 //menu highlighting function
 function highlight(input){
+  colorChange(false);
+
   if(input=='right'){
     cur++;
-   /* if(cur>stageInfo.length){
+    curHl++;
+    if(cur>stageInfo.length){
       cur=stageInfo.length;
-    }*/
+    }
   }
   else if(input=='left'){
     cur--;
+    curHl--;
     if(cur<0){
       cur=0;
     }
   }
-  
+  if(curHl>2){
+    curHl--;
+    if(cur<stageInfo.length-1){
+      curHl=0;
+    }
+  }
+  else if(curHl<0){
+    curHl++;
+    if(cur>0){
+      curHl=2;
+    }
+  }
   highlighted = stageInfo[cur];
-  colorChange();
+  colorChange(true);
 }
 
-function colorChange(){
-  if(cur==1){
-    //titleContainer.removeChild(graphics2);
-    graphics2.clear;
-    graphics2.beginFill(0xFFFFFF)
-    .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
-    .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
-    .addHole();
-    graphics2.position.set(272.5,537)
-  };
+function colorChange(status){
+  switch(curHl){
+    case 0:
+      icon1.clear;
+      if(status==true){
+        icon1.beginFill(0xF52549)   
+        .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+        .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
+        .addHole();
+      }
+      else if(status==false){ 
+        icon1.beginFill(0xFFFFFF)   
+        .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+        .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
+        .addHole();
+      }
+      icon1.position.set(172.5,437);
+      break;
+    case 1:
+      icon2.clear;
+      if(status==true){
+        icon2.beginFill(0xF52549)
+        .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+        .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
+        .addHole();
+      }
+
+      else if(status==false){ 
+        icon2.beginFill(0xFFFFFF)   
+        .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+        .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
+        .addHole();
+      }
+      icon2.position.set(272.5,537);
+      break;
+    case 2:
+      icon3.clear
+      if(status==true){
+        icon3.beginFill(0xF52549)
+        .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+        .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
+        .addHole();
+      }
+      else if(status==false){ 
+        icon3.beginFill(0xFFFFFF)   
+        .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
+        .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
+        .addHole();
+      }
+      icon3.position.set(372.5,437);
+      break;
+    default:
+      console.log("Menu Error: Menu Cursor out of bounds");
+      break;      
+  }
 }
 
 //Click Movement Controls
