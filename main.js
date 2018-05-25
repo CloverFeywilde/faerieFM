@@ -249,7 +249,7 @@ test.name = "player";
 test.interactive = true;
 test.buttonMode = true;
 test.circular = true;
-test.anchor.set(0.5);
+test.anchor.set(0.5,0.5);
 /*
 test
   .on('mousedown', onDragStart)
@@ -461,11 +461,13 @@ function createSprite(levelNum){
           frames.push(PIXI.Texture.fromFrame(levelNum[key]['name']+i+'.png'));
         }
 
-        var tempAniHolder = new PIXI.extras.AnimatedSprite(frames);
+        var tempAniHolder = new PIXI.extras.AnimatedSprite(frames); 
+        tempAniHolder.anchor.set(0.5,0.5);
         levelNum[key]['array'].push(tempAniHolder);
       }
       else{
         var tempHolder = new Sprite(id[levelNum[key]['name']+".png"])
+        tempHolder.anchor.set(0.5,0.5);
         levelNum[key]['array'].push(tempHolder);
       }
     }       
