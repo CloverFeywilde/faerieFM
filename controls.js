@@ -193,8 +193,17 @@ function pauseStart(){
 
 function enterPressed(){
   switch(state){
+    case title:
+      if(stageInfo[cur]!=undefined){
+        console.log("Starting up stage...");
+        stageInfo[cur].execute();
+      }
+      else{
+        console.log("This icon is under construction!");
+      }
+      break;
     case gameOver:
-            goOptionsCreate();
+      goOptionsCreate();
       break;
     default:
       break;
