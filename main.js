@@ -89,7 +89,7 @@ var feverCounter = 0;
 //Load the Sounds & load the setup functions
 loadSounds();
 function loadSounds(){
-loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Arial", fontSize:32, fill:"white"});
+loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Conv_monogram", fontSize:32, fill:"white"});
 loadingText.position.set(400,400);
 loadingContainer.addChild(loadingText);
 sounds.load([
