@@ -58,7 +58,7 @@ pauseContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, test, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime;
+var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
@@ -89,7 +89,7 @@ var feverCounter = 0;
 //Load the Sounds & load the setup functions
 loadSounds();
 function loadSounds(){
-loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Conv_monogram", fontSize:32, fill:"white"});
+loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Conv_Minecraftia-Regular", fontSize:32, fill:"white"});
 loadingText.position.set(400,400);
 loadingContainer.addChild(loadingText);
 sounds.load([
@@ -244,26 +244,23 @@ function fcSetup(){
 function setup(){
 titleContainer.removeChildren(0, titleContainer.children.length); //clears the titlescreen before the game runs
 goContainer.removeChildren(0, goContainer.children.length);
-test = new Sprite(id["tester.png"]);
-test.name = "player";
-test.interactive = true;
-test.buttonMode = true;
-test.circular = true;
-test.anchor.set(0.5,0.5);
-/*
-test
-  .on('mousedown', onDragStart)
-  .on('touchstart', onDragStart)
-  .on('mouseup',onDragEnd)
-  .on('mouseupoutside', onDragEnd)
-  .on('touchend', onDragEnd)
-  .on('touchendoutside', onDragEnd)
-  .on('mousemove', onDragMove)
-  .on('touchmove', onDragMove);
-*/
-test.position.x = 350;
-test.position.y = 1130;
 
+//set up Musette's Animation frames
+let frames =[];
+for(let i=1; i<=18; i++){
+  frames.push(PIXI.Texture.fromFrame('player'+i+'.png'));
+}
+player = new PIXI.extras.AnimatedSprite(frames);
+
+player.name = "player";
+//player.interactive = true;
+//player.buttonMode = true;
+player.circular = true;
+player.anchor.set(0.5,0.5);
+player.position.x = 350;
+player.position.y = 1130;
+//player.animationSpeed = .2;
+player.play();
 beam1 = new Sprite(id["beam1.png"]);
 beam1.position.x = undefined;
 beam1.position.y = undefined;
@@ -424,7 +421,7 @@ function newStageCheck(){
     testBG.position.x=0;
     testBG.position.y=0; 
     backContainer.addChild(testBG);
-    container.addChild(test);
+    container.addChild(player);
     uiContainer.addChild(scoreText);
     enemyInit(level);
     createSprite(level);
@@ -501,7 +498,7 @@ function placeSprite(levelNum, enemy){
   borrowed.position.y = sy;  
   //Play the Animation
   if (levelNum[enemy]['animated'] && enemy!='greenDust'){
-    borrowed.animationSpeed = .25;
+   // borrowed.animationSpeed = .25;
     borrowed.play();
   };
   container.addChild(borrowed);
@@ -595,9 +592,9 @@ function bumpCheck(){
   for(var i=defNum; i<container.children.length; i++){
     var case1 = container.children[i];
     var caseName = container.children[i]['name'];
-    var colTest = b.hit(test, case1);
+    var colTest = b.hit(player, case1);
     var colTest2 = b.hit(beam1, case1);
-    var collision = b.hitTestCircleRectangle(test, case1);
+    var collision = b.hitTestCircleRectangle(player, case1);
     //Beam Wall Destruction
     if(colTest2){
       if(caseName == "wall"){

@@ -114,10 +114,8 @@ function leftArrowMove(){
   switch(state){
     case play: 
       removeBeam();
-      // keyFeyX = test.position.x;
-      if((test.position.x-100)>0){
-        // keyFeyX -= 100;
-        test.position.x -= 100;
+      if((player.position.x-100)>0){
+        player.position.x -= 100;
       };
       break;
     case title:
@@ -131,10 +129,8 @@ function rightArrowMove(){
   switch(state){
     case play:
       removeBeam();
-      // keyFeyX = test.position.x;
-      if((test.position.x+100)<appWidth){
-        // keyFeyX += 100;
-        test.position.x += 100;
+      if((player.position.x+100)<appWidth){
+        player.position.x += 100;
       }
       break;
     case title:
@@ -157,8 +153,8 @@ function upArrowAtk(){
         upCoolDown = true;
         beam1.name = "beam1";
         beam1.movement = function(){return};
-        beam1.position.x = test.position.x-37;
-        beam1.position.y = test.position.y-40;
+        beam1.position.x = player.position.x-37;
+        beam1.position.y = player.position.y-40;
         container.addChild(beam1);
       };
       break;
@@ -210,6 +206,8 @@ function enterPressed(){
   }
 }
 
+
+//obsolete function
 function moveShip(location){
  // var location2 = location.data.global
   feyX = test.position.x;
@@ -242,6 +240,8 @@ function moveShip(location){
   }
 }
 
+
+//obsolete function
 //Mouse Drag Functions
 function onDragStart(event)
 {
@@ -255,11 +255,12 @@ function onDragStart(event)
 
 function onDragEnd()
 {
-    test.dragging = false;
+    player.dragging = false;
     // set the interaction data to null
-    test.data = null;
+    player.data = null;
 }
 
+//obsolete function
 function onDragMove()
 {
     if (test.dragging)

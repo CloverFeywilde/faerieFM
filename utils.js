@@ -14,8 +14,8 @@ function noteScore(colScore){
     case "bottomRight":
       //Good Hit
       let goodTxt = hitArray.shift();
-      let goodPosX = test.position.x + 60;
-      let goodPosY = test.position.y;
+      let goodPosX = player.position.x + 60;
+      let goodPosY = player.position.y;
       goodTxt.name = "hitTxt";
       goodTxt.position.set(goodPosX, goodPosY);
       frontContainer.addChild(goodTxt);      
@@ -36,8 +36,8 @@ function noteScore(colScore){
     case "topLeft":
       //Bad Hit
       let badTxt = missArray.shift();
-      let badPosX = test.position.x + 60;
-      let badPosY = test.position.y;
+      let badPosX = player.position.x + 60;
+      let badPosY = player.position.y;
       badTxt.name = "missTxt";
       badTxt.position.set(badPosX, badPosY);
       frontContainer.addChild(badTxt);      
@@ -50,8 +50,8 @@ function noteScore(colScore){
     case "leftMiddle":
       //Meh Hit 
       let mehTxt = mehArray.shift();
-      let mehPosX = test.position.x + 60;
-      let mehPosY = test.position.y;
+      let mehPosX = player.position.x + 60;
+      let mehPosY = player.position.y;
       mehTxt.name = "mehTxt";
       mehTxt.position.set(mehPosX, mehPosY);
       frontContainer.addChild(mehTxt); 
@@ -68,7 +68,7 @@ function noteScoreAni(){
   for(i=0; i<frontContainer.children.length; i++){
     let currentChild = frontContainer.children[i];
     if(currentChild['name'] == "hitTxt"||"missTxt"||"mehTxt"){
-      if(currentChild['position']['y'] <= (test.position.y-60)){
+      if(currentChild['position']['y'] <= (player.position.y-60)){
         switch(currentChild['name']){
           case "hitTxt":
             //put it back in the containing array
