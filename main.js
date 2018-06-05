@@ -85,11 +85,13 @@ var missArray = [];
 var mehArray = [];
 var feverTime = false;
 var feverCounter = 0;
-
+var fontFix = new PIXI.TextStyle({
+  padding:5
+});
 //Load the Sounds & load the setup functions
 loadSounds();
 function loadSounds(){
-loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Conv_Minecraftia-Regular", fontSize:32, fill:"white"});
+loadingText = new PIXI.Text("Loading Songs...", {fontFamily:"Conv_Minecraftia-Regular", fontSize:32, fill:"white", padding:20});
 loadingText.position.set(400,400);
 loadingContainer.addChild(loadingText);
 sounds.load([
@@ -198,15 +200,22 @@ function titleSetup(){
   uiContainer.visible = false;
   titleContainer.visible = true; 
 
-  startButton = new PIXI.Text("Start", {fontFamily:"Arial", fontSize:32, fill:"white"});
+  let titleText = new PIXI.Text("FaerieFM", {fontFamily:"Conv_monogram", fontSize:184, fill:"white"})
+  titleText.anchor.set(0.5,0.5);
+  titleText.position.set(360,200);
+  titleContainer.addChild(titleText);
+
+  startButton = new PIXI.Text("Start", {fontFamily:"Conv_Minecraftia-Regular", fontSize:32, fill:"white", padding:20});
   startButton.interactive = true;
   startButton.buttonMode = true;
   startButton.on('pointerdown', selectStage);
-  startButton.position.set(400,400);
+  startButton.anchor.set(0.5,0.5);
+  startButton.position.set(360,600);
   titleContainer.addChild(startButton);
   
-  scoreButton = new PIXI.Text("High Scores", {fontFamily:"Arial", fontSize:32, fill:"white"});
-  scoreButton.position.set(400,600);
+  scoreButton = new PIXI.Text("High Scores", {fontFamily:"Conv_Minecraftia-Regular", fontSize:32, fill:"white", padding:20});
+  scoreButton.anchor.set(0.46,0.5);
+  scoreButton.position.set(360,800);
   titleContainer.addChild(scoreButton);
 
   state=title;
@@ -250,16 +259,14 @@ let frames =[];
 for(let i=1; i<=18; i++){
   frames.push(PIXI.Texture.fromFrame('player'+i+'.png'));
 }
-player = new PIXI.extras.AnimatedSprite(frames);
+player = new PIXI.extras.AnimatedSprite(frames, false);
 
 player.name = "player";
-//player.interactive = true;
-//player.buttonMode = true;
 player.circular = true;
 player.anchor.set(0.5,0.5);
 player.position.x = 350;
 player.position.y = 1130;
-//player.animationSpeed = .2;
+player.animationSpeed = 12/60;
 player.play();
 beam1 = new Sprite(id["beam1.png"]);
 beam1.position.x = undefined;
@@ -298,6 +305,9 @@ reload = true;
 
 renderer.ticker.add(function(delta){
 deltaGlobal = delta;
+if(state==play){
+player.update(delta);
+}
 state();
 });
 
