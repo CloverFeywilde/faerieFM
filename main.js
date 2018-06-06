@@ -19,7 +19,7 @@ backContainer.scale.x = backContainer.scale.y = 1;
 renderer.stage.addChild(backContainer);
 backContainer.visible = false;
 
-var container = new PIXI.particles.ParticleContainer(); //main container
+var container = new PIXI.Container(); //main container
 container.scale.x = container.scale.y = 1;
 renderer.stage.addChild(container);
 
