@@ -266,7 +266,7 @@ player.circular = true;
 player.anchor.set(0.5,0.5);
 player.position.x = 350;
 player.position.y = 1130;
-player.animationSpeed = 12/60;
+player.animationSpeed = .2;
 player.play();
 beam1 = new Sprite(id["beam1.png"]);
 beam1.position.x = undefined;

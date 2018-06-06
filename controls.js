@@ -35,6 +35,7 @@ function highlight(input){
   }
   highlighted = stageInfo[cur];
   colorChange(true);
+  updateInfoBar();
 }
 
 function colorChange(status){

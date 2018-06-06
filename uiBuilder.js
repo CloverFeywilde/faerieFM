@@ -1,4 +1,16 @@
-var icon1, icon2, icon3, infoBar;
+var icon1, icon2, icon3, infoBar, songTitle;
+
+//fontStyles
+var mono82 = new PIXI.TextStyle({
+  fontFamily:"Conv_monogram",
+  fontSize:82,
+})
+
+var mineCraftia32 = new PIXI.TextStyle({
+  fontFamily:"Conv_Minecraftia-Regular",
+  fontSize:32,
+  padding:20,
+}) 
 
 function ssBuildMenu(){
 
@@ -34,7 +46,12 @@ function ssBuildMenu(){
   .drawRect(0,0,720,150)
   infoBar.position.set(0,925)
 
+  //set the highlighter
+  highlighted = stageInfo[cur]; 
 
+  //fill infoBar
+  songTitle = new PIXI.Text(highlighted.title, mono82);
+  songTitle.position.set(75, 950);
 
   //Prepare Animation
   let frames = [];
@@ -47,5 +64,16 @@ function ssBuildMenu(){
   idleLine.position.y = 437;
   idleLine.play();
 
-  titleContainer.addChild(icon1, icon2, icon3, infoBar, idleLine);
+  titleContainer.addChild(icon1, icon2, icon3, infoBar, idleLine, songTitle);
 };
+
+
+//update infoBar
+function updateInfoBar(){
+  if(highlighted.title == undefined){
+    songTitle.text = "Song Unavailable";
+  }
+  else{
+  songTitle.text = highlighted.title;
+  }
+}
