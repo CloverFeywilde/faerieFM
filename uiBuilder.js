@@ -51,7 +51,7 @@ function ssBuildMenu(){
 
   //fill infoBar
   songTitle = new PIXI.Text(highlighted.title, mono82);
-  songTitle.position.set(75, 950);
+  songTitle.position.set(40, 940);
 
   //Prepare Animation
   let frames = [];
@@ -70,7 +70,7 @@ function ssBuildMenu(){
 
 //update infoBar
 function updateInfoBar(){
-  if(highlighted.title == undefined){
+  if(highlighted == undefined){
     songTitle.text = "Song Unavailable";
   }
   else{
