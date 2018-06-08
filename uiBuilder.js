@@ -1,16 +1,22 @@
-var icon1, icon2, icon3, infoBar, songTitle;
+var icon1, icon2, icon3, infoBar, songTitle, songArtist;
 
 //fontStyles
 var mono82 = new PIXI.TextStyle({
   fontFamily:"Conv_monogram",
-  fontSize:82,
+  fontSize:82
 })
 
-var mineCraftia32 = new PIXI.TextStyle({
+var minecraftia32 = new PIXI.TextStyle({
   fontFamily:"Conv_Minecraftia-Regular",
   fontSize:32,
-  padding:20,
+  padding:20
 }) 
+
+var minecraftia26 = new PIXI.TextStyle({
+  fontFamily:"Conv_Minecraftia-Regular",
+  fontSize:26,
+  padding:20
+})
 
 function ssBuildMenu(){
 
@@ -51,7 +57,10 @@ function ssBuildMenu(){
 
   //fill infoBar
   songTitle = new PIXI.Text(highlighted.title, mono82);
-  songTitle.position.set(40, 940);
+  songTitle.position.set(35, 940);
+
+  songArtist = new PIXI.Text("by "+highlighted.artist, minecraftia26);
+  songArtist.position.set(35,1040);
 
   //Prepare Animation
   let frames = [];
@@ -64,7 +73,7 @@ function ssBuildMenu(){
   idleLine.position.y = 437;
   idleLine.play();
 
-  titleContainer.addChild(icon1, icon2, icon3, infoBar, idleLine, songTitle);
+  titleContainer.addChild(icon1, icon2, icon3, infoBar, idleLine, songTitle, songArtist);
 };
 
 
@@ -72,8 +81,10 @@ function ssBuildMenu(){
 function updateInfoBar(){
   if(highlighted == undefined){
     songTitle.text = "Song Unavailable";
+    songArtist.text = " ";
   }
   else{
   songTitle.text = highlighted.title;
+  songArtist.text = "by "+highlighted.artist;
   }
 }
