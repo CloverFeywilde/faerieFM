@@ -1,4 +1,4 @@
-var icon1, icon2, icon3, infoBar, songTitle, songArtist;
+var icon1, icon2, icon3, dif1, dif2, dif3, infoBar, songTitle, songArtist;
 
 //fontStyles
 var mono82 = new PIXI.TextStyle({
@@ -52,6 +52,31 @@ function ssBuildMenu(){
   .drawRect(0,0,720,150)
   infoBar.position.set(0,925)
 
+  //difficulty chart
+  //First Diamond
+dif1.beginFill(0x000000)
+.drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
+//second diamond
+.drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
+.addHole();
+dif1.position.set(500,902.5)
+//graphics.scale.set(2.5)
+
+dif2.beginFill(0x000000)
+.drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
+//second diamond
+.drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
+.addHole();
+dif2.position.set(550, 852.5)
+
+
+dif3.beginFill(0x000000)
+.drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
+//second diamond
+.drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
+.addHole();
+dif3.position.set(600,902.5)
+  
   //set the highlighter
   highlighted = stageInfo[cur]; 
 
@@ -73,7 +98,7 @@ function ssBuildMenu(){
   idleLine.position.y = 437;
   idleLine.play();
 
-  titleContainer.addChild(icon1, icon2, icon3, infoBar, idleLine, songTitle, songArtist);
+  titleContainer.addChild(icon1, icon2, icon3, infoBar, dif1, dif2, dif3, idleLine, songTitle, songArtist);
 };
 
 
