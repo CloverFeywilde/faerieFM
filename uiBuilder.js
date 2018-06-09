@@ -24,6 +24,9 @@ function ssBuildMenu(){
   icon1 = new PIXI.Graphics();
   icon2 = new PIXI.Graphics();
   icon3 = new PIXI.Graphics();
+  dif1 = new PIXI.Graphics();
+  dif2 = new PIXI.Graphics();
+  dif3 = new PIXI.Graphics();
   infoBar = new PIXI.Graphics();
 
   //First Diamond
@@ -54,28 +57,27 @@ function ssBuildMenu(){
 
   //difficulty chart
   //First Diamond
-dif1.beginFill(0x000000)
-.drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
-//second diamond
-.drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-.addHole();
-dif1.position.set(500,902.5)
-//graphics.scale.set(2.5)
+  dif1.beginFill(0x000000)
+  .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
+  //second diamond
+  .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
+  .addHole();
+  dif1.position.set(500,977.5)
 
-dif2.beginFill(0x000000)
-.drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
-//second diamond
-.drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-.addHole();
-dif2.position.set(550, 852.5)
+  dif2.beginFill(0x000000)
+  .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
+  //second diamond
+  .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
+  .addHole();
+  dif2.position.set(550, 927.5)
 
 
-dif3.beginFill(0x000000)
-.drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
-//second diamond
-.drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-.addHole();
-dif3.position.set(600,902.5)
+  dif3.beginFill(0x000000)
+  .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
+  //second diamond
+  .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
+  .addHole();
+  dif3.position.set(600,977.5)
   
   //set the highlighter
   highlighted = stageInfo[cur]; 
