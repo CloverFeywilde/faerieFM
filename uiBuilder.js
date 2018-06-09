@@ -28,7 +28,16 @@ function ssBuildMenu(){
   dif2 = new PIXI.Graphics();
   dif3 = new PIXI.Graphics();
   infoBar = new PIXI.Graphics();
+  
+  icon1.interactive = true;
+  icon2.interactive = true;
+  
+  icon1.buttonMode = true;
+  icon2.buttonMode = true;
 
+  icon1.on('pointerdown',stageInfo[0].execute);
+  icon2.on('pointerdown',stageInfo[1].execute);  
+  
   //First Diamond
   icon1.beginFill(0xF52549)
   .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
