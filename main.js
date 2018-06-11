@@ -141,7 +141,7 @@ up.press = function(){
 
 down = keyboard(40);
 down.press = function(){
-  feverTimeStart();
+  downArrowBonus();
 };
 
 spacebar = keyboard(32);

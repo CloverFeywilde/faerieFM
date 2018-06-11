@@ -2,8 +2,6 @@
 var feyX, feyY, posX, keyfeyX, keyFeyY, highlighted;
 var cur = 0;
 var curHl = 0;
-var curHlDif = 0;
-var curDif = 0;
 
 //menu highlighting function
 function highlight(input){
@@ -43,7 +41,7 @@ function highlight(input){
 function colorChange(status){
   switch(curHl){
     case 0:
-      icon1.clear();
+      icon1.clear;
       if(status==true){
         icon1.beginFill(0xF52549)   
         .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
@@ -59,7 +57,7 @@ function colorChange(status){
       icon1.position.set(172.5,437);
       break;
     case 1:
-      icon2.clear();
+      icon2.clear;
       if(status==true){
         icon2.beginFill(0xF52549)
         .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
@@ -76,7 +74,7 @@ function colorChange(status){
       icon2.position.set(272.5,537);
       break;
     case 2:
-      icon3.clear();
+      icon3.clear
       if(status==true){
         icon3.beginFill(0xF52549)
         .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
@@ -97,85 +95,28 @@ function colorChange(status){
   }
 }
 
-function highlightDif(input){
-  colorChangeDif(false);
-
-  if(input=='up'){
-    curDif++;
-    if(curDif>2){
-      curDif=2;
-    }
-  }
-  else if(input=='down'){
-    curDif--;
-    if(curDif<0){
-      curDif=0;
-    }
-  }
-  //Different stage difficulties will need to be coded into the menu data objects, and a naming convention will be required for the stage data itself. curDif controls the difficulty via a number between 0-2. 
-  //highlightedDif = stageInfo[cur].difficulty[curDif];
-  colorChangeDif(true);
- //if any text is updated on the Difficulty UI, it will need to be updated here and this function will need to be created.
- //updateInfoBarDif();
-}
-
-
 function colorChangeDif(status){
-  switch(curDif){
+  switch(curHlDif){
     case 0:
-      dif1.clear();
       if(status==true){
-        dif1.beginFill(0x000000)
+        dif1.beginFill(0x6aa1c3)
         .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
         .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
         .addHole();
-        dif1.beginFill(0x6AA1C3)
-        .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
       }
       else if(status==false){
-        dif1.beginFill(0x000000)
-        .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
-        .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-        .addHole(); 
+        dif1.beginFill(0x000000){
+        
         }
-      break;
+      } 
+    break;
     case 1:
-      dif2.clear();
-      if(status==true){
-        dif2.beginFill(0x000000)
-        .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
-        .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-        .addHole();
-        dif2.beginFill(0xF9D87B)
-        .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-      }
-      else if(status==false){
-        dif2.beginFill(0x000000)
-        .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
-        .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-        .addHole();    
-        }
-      break;
+    break;
     case 2:
-      dif3.clear();
-      if(status==true){
-        dif3.beginFill(0x000000)
-        .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
-        .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-        .addHole();
-        dif3.beginFill(0xF52549)
-        .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-      }
-      else if(status==false){
-        dif3.beginFill(0x000000)
-        .drawPolygon(0, 43.75, 43.75, 0, 87.5, 43.75, 43.75, 87.5)
-        .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
-        .addHole(); 
-        }
-      break;
+    break;
     default:
-      console.log("Menu Error: Difficulty cursor out of bounds");
-      break;
+    console.log("Menu Error: Difficulty cursor out of bounds");
+    break;
 
   }  
 }
@@ -227,8 +168,13 @@ function rightArrowMove(){
 }
 
 function upArrowAtk(){
-//This entire thing is being overhauled to a color switching system. The up key will, to some capacity, change Musette's color so she can pick up notes of that color. (red/blue)
- switch(state){
+  //wave beam attack
+  //disable the up key, then create a new sprite in front of the character sprite, run a function that counts to 2 then removes said sprite and renables the up key.
+  //beam1 needs a global might need to create this sprite elsewhere...
+  //beam1 needs movement rules
+  //beam1 needs collision rules
+  //beam1 needs cleanup rules
+  switch(state){
     case play:
       if(upCoolDown==false){
         upCoolDown = true;
@@ -239,24 +185,9 @@ function upArrowAtk(){
         container.addChild(beam1);
       };
       break;
-    case title:
-      highlightDif("up");
     default:
       break;
 }
-}
-
-function downArrowBonus(){
-  switch(state){
-    case play:
-      feverTimeStart();
-      break;
-    case title:
-      highlightDif("down");
-      break;
-    default:
-      break;
-  }
 }
 
 function pauseStart(){

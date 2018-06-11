@@ -71,6 +71,8 @@ function ssBuildMenu(){
   //second diamond
   .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82)
   .addHole();
+  dif1.beginFill(0x6AA1C3)
+  .drawPolygon(5.5, 43.75, 43.75, 5.5, 82, 43.75, 43.75, 82); 
   dif1.position.set(500,977.5)
 
   dif2.beginFill(0x000000)
