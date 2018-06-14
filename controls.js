@@ -4,6 +4,7 @@ var cur = 0;
 var curHl = 0;
 var curHlDif = 0;
 var curDif = 0;
+var debug = false;
 
 //menu highlighting function
 function highlight(input){
@@ -196,6 +197,15 @@ function clicked(event){
 }   
 }
 
+function debugMode(){
+  switch(state){
+    case play:
+       console.log("Debug Mode Activated; Refresh page to end");
+       debug=true;
+      break;
+  }
+}
+
 function leftArrowMove(){
   switch(state){
     case play: 
@@ -230,14 +240,7 @@ function upArrowAtk(){
 //This entire thing is being overhauled to a color switching system. The up key will, to some capacity, change Musette's color so she can pick up notes of that color. (red/blue)
  switch(state){
     case play:
-      if(upCoolDown==false){
-        upCoolDown = true;
-        beam1.name = "beam1";
-        beam1.movement = function(){return};
-        beam1.position.x = player.position.x-37;
-        beam1.position.y = player.position.y-40;
-        container.addChild(beam1);
-      };
+      transform();       
       break;
     case title:
       highlightDif("up");

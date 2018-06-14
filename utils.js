@@ -6,6 +6,21 @@ var canDie = false;
 var comboCount = 0;
 var feverTimer = 0;
 
+//Color Change Mechanic
+function transform(){
+  switch(transformState){
+    case 'red':
+      transformState = 'blue';
+      break;
+    case 'blue':
+      transformState = 'red';
+      break
+    default: 
+      console.log('Error! Transform State out of bounds!')
+      transformState = 'red';
+  }
+}
+
 //Checks how well you hit the note
 function noteScore(colScore){
   switch(colScore){
@@ -14,7 +29,7 @@ function noteScore(colScore){
     case "bottomRight":
       //Good Hit
       let goodTxt = hitArray.shift();
-      let goodPosX = player.position.x + 60;
+      let goodPosX = player.position.x + 90;
       let goodPosY = player.position.y;
       goodTxt.name = "hitTxt";
       goodTxt.position.set(goodPosX, goodPosY);
@@ -44,7 +59,12 @@ function noteScore(colScore){
       let justAdded2 = frontContainer.children.length -1;
       frontContainer.children[justAdded2]['movement'] = frontMovement['hit'];
       comboCount = 0;
-      hp--;
+      if(debug){
+        return;
+      }
+      else{
+        hp--;
+      }
       break;
     case "rightMiddle":
     case "leftMiddle":

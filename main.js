@@ -60,7 +60,7 @@ pauseContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime;
+var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
@@ -90,6 +90,7 @@ var feverCounter = 0;
 var fontFix = new PIXI.TextStyle({
   padding:5
 });
+var transformState = 'red';
 //Load the Sounds & load the setup functions
 loadSounds();
 function loadSounds(){
@@ -126,6 +127,12 @@ function spriteSetup(){
 };
 
 function controlsSetup(){
+
+d = keyboard(68);
+d.press = function(){
+  debugMode();
+};
+
 left = keyboard(37);
 left.press = function(){
  leftArrowMove();
@@ -605,59 +612,29 @@ function bumpCheck(){
     var case1 = container.children[i];
     var caseName = container.children[i]['name'];
     var colTest = b.hit(player, case1);
-    var colTest2 = b.hit(beam1, case1);
     var collision = b.hitTestCircleRectangle(player, case1);
-    //Beam Wall Destruction
-    if(colTest2){
-      if(caseName == "wall"){
-        container.removeChild(container.children[i]);
-        score +=100;
-        scoreText.text="Score:"+score;  
-      }
-    }
-
-    else if(colTest){
-      if(caseName == "wall"){
-        bumpedWallY = container.children[i].position.y;
-        bumpedWallX = container.children[i].position.x; 
-        onDragEnd();
-        crashDamage += 1;
-      }
-      //canDie is a removed property controlled by flash()
-      else if(caseName == "greenDust" || 
-        caseName == "blueDust" || 
-        caseName == "redDust"){ 
+    var remove = false;
+    if(colTest){ 
+      if(caseName == "greenDust" || 
+        caseName == "wall"){ 
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
-          case "greenDust": 
-            //console.log(collision);
-            switch(feverTime){
-             case false: 
-               noteScore(collision);
-               break;
-             case true:
+          case "greenDust":
+          case "wall": 
+            if(feverTime){ 
                let perfect = "bottomLeft";  
                noteScore(perfect);
-               break;
-             default:
-               break; 
-            }
-            greenTP++;
+               }
+            else{
+               console.log(collision);
+               noteScore(collision);
+               }
             score += 100;
             break;
-          case "blueDust":
-            blueTP++;
-            score += 200;
-            break;
-          case "redDust":
-            redTP++;
-            score += 300;
-            break;
-            
+                      
         }
+        remove = true;
         scoreText.text ="Score:"+score;
-        level[currentEnemy].array.push(container.children[i]);
-        container.removeChild(container.children[i]);
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
@@ -666,15 +643,24 @@ function bumpCheck(){
     
     
 //end of screen removal test should go here.
- else if(container.children[i].position.y >=renderer.view.height){
-      var currentEnemy = container.children[i]['name'];
-      level[currentEnemy].array.push(container.children[i]);
-      container.removeChild(container.children[i]);
+else if(container.children[i].position.y >=renderer.view.height){
+      remove = true;
       if(currentEnemy == 'greenDust' ||
-         currentEnemy == 'blueDust' ||
-         currentEnemy == 'redDust'){
-         hp -= 3;
+         currentEnemy == 'wall'){
+         if (debug){
+           return;
+         }
+         else{
+           hp -= 3;
+         }
       }
+  }
+  
+  if(remove){
+    let currentEnemy = container.children[i]['name'];
+    level[currentEnemy].array.push(container.children[i]);
+    container.removeChild(container.children[i]);
+    i--
   }
 }
 }
