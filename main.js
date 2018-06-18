@@ -273,7 +273,7 @@ player = new PIXI.extras.AnimatedSprite(frames, false);
 player.name = "player";
 player.circular = true;
 player.anchor.set(0.5,0.5);
-player.position.x = 350;
+player.position.x = 359;
 player.position.y = 1130;
 player.animationSpeed = .2;
 player.play();
@@ -645,8 +645,8 @@ function bumpCheck(){
 //end of screen removal test should go here.
 else if(container.children[i].position.y >=renderer.view.height){
       remove = true;
-      if(currentEnemy == 'greenDust' ||
-         currentEnemy == 'wall'){
+      if(caseName == 'greenDust' ||
+         caseName == 'wall'){
          if (debug){
            return;
          }

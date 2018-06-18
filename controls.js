@@ -5,7 +5,7 @@ var curHl = 0;
 var curHlDif = 0;
 var curDif = 0;
 var debug = false;
-
+var lane = 2;
 //menu highlighting function
 function highlight(input){
   colorChange(false);
@@ -181,7 +181,45 @@ function colorChangeDif(status){
   }  
 }
 
-//Click Movement Controls
+function laneChange(direction){
+  switch(direction){
+    case 'left':
+      if(lane>0){
+        lane--
+      }
+      break;
+    case 'right':
+      if(lane<4){
+       lane++
+      }
+      break;
+    default:
+      console.log("Unrecognized directional input")
+      break;
+  }
+  switch(lane){
+    case 0:
+      player.position.x = 87;
+      break;
+    case 1:
+      player.position.x = 222;
+      break;
+    case 2:
+      player.position.x = 359;
+      break;
+    case 3:
+      player.position.x = 496;
+      break;
+    case 4:
+      player.position.x = 633;
+      break;
+    default:
+      console.log("Lane out of bounds!");
+      break;
+  }
+}
+
+//Keyboard & Click Movement Controls (click controls need updating for mobile)
 function clicked(event){
   switch(state){
     case play:
@@ -209,10 +247,7 @@ function debugMode(){
 function leftArrowMove(){
   switch(state){
     case play: 
-      removeBeam();
-      if((player.position.x-100)>0){
-        player.position.x -= 100;
-      };
+      laneChange('left'); 
       break;
     case title:
       highlight('left');  
@@ -224,10 +259,7 @@ function leftArrowMove(){
 function rightArrowMove(){
   switch(state){
     case play:
-      removeBeam();
-      if((player.position.x+100)<appWidth){
-        player.position.x += 100;
-      }
+      laneChange('right'); 
       break;
     case title:
       highlight('right');

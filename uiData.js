@@ -29,6 +29,14 @@ var stageInfo = [
     difficulty:'Easy',
     highScore:'0000',
     execute: function(){ loadLevel('alleySpectre',alleySpectre); }
+  },
+  
+  {
+    title:'Test Stage',
+    artist:'Andrew Niehoff',
+    difficulty:'Easy',
+    highScore:'0000',
+    execute: function(){ loadLevel('faerieFM', testStage); }
   }
 
 ];
