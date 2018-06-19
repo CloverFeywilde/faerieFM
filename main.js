@@ -648,7 +648,7 @@ else if(container.children[i].position.y >=renderer.view.height){
       if(caseName == 'greenDust' ||
          caseName == 'wall'){
          if (debug){
-           return;
+           ;
          }
          else{
            hp -= 3;
