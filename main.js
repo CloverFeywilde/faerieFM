@@ -611,10 +611,10 @@ function bumpCheck(){
   for(var i=defNum; i<container.children.length; i++){
     var case1 = container.children[i];
     var caseName = container.children[i]['name'];
-    var colTest = b.hit(player, case1);
+    //var colTest = b.hit(player, case1);
     var collision = b.hitTestCircleRectangle(player, case1);
     var remove = false;
-    if(colTest){ 
+    if(collision!=undefined && collision!=true && collision!=false){ 
       if(caseName == "greenDust" || 
         caseName == "wall"){ 
         var currentEnemy = container.children[i]['name'];
