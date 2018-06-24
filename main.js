@@ -243,6 +243,19 @@ function pauseSetup(){
 };
 
 function fcSetup(){
+let frames =[];
+for(let i=1; i<=18; i++){
+  frames.push(PIXI.Texture.fromFrame('musette'+i+'.png'));
+}
+character = new PIXI.extras.AnimatedSprite(frames, false);
+
+character.name = "musette";
+character.anchor.set(0.5,0.5);
+character.position.x = 359;
+character.position.y = 1130;
+character.animationSpeed = .2;
+character.play();
+
   for(i=0; i<11; i++){ 
     let hitText = new PIXI.Text("Good!", {fontFamily:"Arial", fontSize:25, fill:"green"});
     let missText = new PIXI.Text("Bad!", {fontFamily:"Arial", fontSize:25, fill:"red"});
@@ -264,22 +277,17 @@ titleContainer.removeChildren(0, titleContainer.children.length); //clears the t
 goContainer.removeChildren(0, goContainer.children.length);
 
 //set up Musette's Animation frames
-let frames =[];
-for(let i=1; i<=18; i++){
-  frames.push(PIXI.Texture.fromFrame('player'+i+'.png'));
-}
-player = new PIXI.extras.AnimatedSprite(frames, false);
-
-player.name = "player";
+player = new Sprite(id["player.png"]);
+player.name = "playerHitBox";
 player.circular = true;
 player.anchor.set(0.5,0.5);
 player.position.x = 359;
 player.position.y = 1130;
-player.animationSpeed = .2;
-player.play();
 beam1 = new Sprite(id["beam1.png"]);
 beam1.position.x = undefined;
 beam1.position.y = undefined;
+
+//add new character to frontContainer. Update position of character properly with movement. debug.
 
 //frontContainer setup
 fcSetup();
@@ -315,7 +323,7 @@ reload = true;
 renderer.ticker.add(function(delta){
 deltaGlobal = delta;
 if(state==play){
-player.update(delta);
+character.update(delta);
 }
 state();
 });
@@ -442,6 +450,7 @@ function newStageCheck(){
     backContainer.addChild(testBG);
     container.addChild(player);
     uiContainer.addChild(scoreText);
+    frontContainer.addChild(character);
     enemyInit(level);
     createSprite(level);
     songEndTime = level['greenDust']['y'][level['greenDust']['y'].length-1];

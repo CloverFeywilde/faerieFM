@@ -85,7 +85,7 @@ function noteScore(colScore){
 };
 
 function noteScoreAni(){
-  for(i=0; i<frontContainer.children.length; i++){
+  for(i=1; i<frontContainer.children.length; i++){
     let currentChild = frontContainer.children[i];
     if(currentChild['name'] == "hitTxt"||"missTxt"||"mehTxt"){
       if(currentChild['position']['y'] <= (player.position.y-60)){

@@ -200,18 +200,23 @@ function laneChange(direction){
   switch(lane){
     case 0:
       player.position.x = 87;
+      character.position.x = 87;
       break;
     case 1:
       player.position.x = 222;
+      character.position.x = 222;
       break;
     case 2:
       player.position.x = 359;
+      character.position.x = 359;
       break;
     case 3:
       player.position.x = 496;
+      character.position.x = 496;
       break;
     case 4:
       player.position.x = 633;
+      character.position.x = 633;
       break;
     default:
       console.log("Lane out of bounds!");
