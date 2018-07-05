@@ -60,7 +60,7 @@ pauseContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d;
+var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d, character, character2, transformState;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
@@ -90,7 +90,9 @@ var feverCounter = 0;
 var fontFix = new PIXI.TextStyle({
   padding:5
 });
-var transformState = 'red';
+
+
+
 //Load the Sounds & load the setup functions
 loadSounds();
 function loadSounds(){
@@ -245,16 +247,32 @@ function pauseSetup(){
 function fcSetup(){
 let frames =[];
 for(let i=1; i<=18; i++){
-  frames.push(PIXI.Texture.fromFrame('musette'+i+'.png'));
+  frames.push(PIXI.Texture.fromFrame('musetteRed'+i+'.png'));
 }
 character = new PIXI.extras.AnimatedSprite(frames, false);
 
 character.name = "musette";
+character.color = 'red';
 character.anchor.set(0.5,0.5);
 character.position.x = 359;
 character.position.y = 1130;
 character.animationSpeed = .2;
 character.play();
+
+let frames2 =[];
+for(let i=1; i<=18; i++){
+  frames2.push(PIXI.Texture.fromFrame('musetteBlue'+i+'.png'));
+}
+character2 = new PIXI.extras.AnimatedSprite(frames2, false);
+
+character2.name = "musette";
+character2.color = 'blue';
+character2.anchor.set(0.5,0.5);
+character2.position.x = 359;
+character2.position.y = 1130;
+character2.animationSpeed = .2;
+character2.play();
+
 
   for(i=0; i<11; i++){ 
     let hitText = new PIXI.Text("Good!", {fontFamily:"Arial", fontSize:25, fill:"green"});
@@ -324,6 +342,7 @@ renderer.ticker.add(function(delta){
 deltaGlobal = delta;
 if(state==play){
 character.update(delta);
+character2.update(delta);
 }
 state();
 });
@@ -451,6 +470,10 @@ function newStageCheck(){
     container.addChild(player);
     uiContainer.addChild(scoreText);
     frontContainer.addChild(character);
+    frontContainer.addChild(character2);
+    character.visible=true;
+    character2.visible=false;
+    transformState = character.color;
     enemyInit(level);
     createSprite(level);
     songEndTime = level['greenDust']['y'][level['greenDust']['y'].length-1];
@@ -533,7 +556,8 @@ function placeSprite(levelNum, enemy){
   var newSprite = container.children.length-1
   container.children[newSprite].spawnTime = spawnTime;
   container.children[newSprite].movement = movement[enemy];
-  container.children[newSprite].name = levelNum[enemy]['name']
+  container.children[newSprite].name = levelNum[enemy]['name'];
+  container.children[newSprite].color = levelNum[enemy]['color'];
 }
 
 function addDistance(){
@@ -623,6 +647,7 @@ function bumpCheck(){
     //var colTest = b.hit(player, case1);
     var collision = b.hitTestCircleRectangle(player, case1);
     var remove = false;
+    let noteColor = container.children[i]['color'];
     if(collision!=undefined && collision!=true && collision!=false){ 
       if(caseName == "greenDust" || 
         caseName == "wall"){ 
@@ -638,11 +663,15 @@ function bumpCheck(){
                console.log(collision);
                noteScore(collision);
                }
-            score += 100;
+            if(noteColor == transformState){
+              score += 100;
+            }
             break;
                       
         }
-        remove = true;
+        if(noteColor == transformState){
+          remove = true;
+        }
         scoreText.text ="Score:"+score;
       }
       bumpedWallY = undefined;

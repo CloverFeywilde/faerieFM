@@ -8,16 +8,23 @@ var feverTimer = 0;
 
 //Color Change Mechanic
 function transform(){
-  switch(transformState){
-    case 'red':
-      transformState = 'blue';
+  switch(character.visible){
+    case true:
+      character.visible = false;
+      character2.visible = true;
+      transformState = character2.color;
       break;
-    case 'blue':
-      transformState = 'red';
-      break
+    case false:
+      character.visible = true;
+      character2.visible = false;
+      transformState = character.color;
+      break;
     default: 
-      console.log('Error! Transform State out of bounds!')
-      transformState = 'red';
+      console.log('Error! Transform State out of bounds!');
+      character.visible = true;
+      character2.visible = false;
+      transformState = character.color;
+      break;
   }
 }
 
