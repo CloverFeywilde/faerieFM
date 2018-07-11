@@ -5,6 +5,7 @@ var crotchet = 60/bpm; //this will no longer work since the BPM isn't calculated
 var canDie = false;
 var comboCount = 0;
 var feverTimer = 0;
+var comboMultiplier = 0;
 
 //Color Change Mechanic
 function transform(){
@@ -52,6 +53,13 @@ function noteScore(colScore){
           feverCounter++
           feverBarUpdate();
         }
+
+      comboMult++
+      let m = Math.floor(comboMult/4)
+      if(m<1){
+        m=1;
+      }
+      score += (m * m * 10); 
       break;
     case "topMiddle":
     case "topRight":
@@ -66,6 +74,7 @@ function noteScore(colScore){
       let justAdded2 = frontContainer.children.length -1;
       frontContainer.children[justAdded2]['movement'] = frontMovement['hit'];
       comboCount = 0;
+      comboMult = 0;
       if(debug){
         return;
       }
@@ -85,6 +94,12 @@ function noteScore(colScore){
       let justAdded3 = frontContainer.children.length -1;
       frontContainer.children[justAdded3]['movement'] = frontMovement['hit'];
       comboCount = 0;
+      let m = Math.floor(comboMult/4)
+      if(m<1){
+        m=1;
+      }
+      score += (m * 10);
+      comboMult = 0; 
       break;
     default: 
       break;

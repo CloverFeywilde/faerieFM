@@ -665,7 +665,7 @@ function bumpCheck(){
               noteScore(collision);
               remove = true;
             }
-            else if(noteColor=! transformState){
+            else{
               //play some panic animation here  
             } 
             break;        
