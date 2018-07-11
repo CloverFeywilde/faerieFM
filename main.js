@@ -654,25 +654,23 @@ function bumpCheck(){
         var currentEnemy = container.children[i]['name'];
         switch(currentEnemy){
           case "greenDust":
-          case "wall": 
-            if(feverTime){ 
-               let perfect = "bottomLeft";  
-               noteScore(perfect);
-               }
-            else{
-               console.log(collision);
-               noteScore(collision);
-               }
-            if(noteColor == transformState){
-              score += 100;
+          case "wall":
+            if(feverTime){
+              let perfect = "bottomMiddle";
+              noteScore(perfect);
             }
-            break;
-                      
+            else if(noteColor == transformState){ 
+              console.log(collision);
+              //Scores need to be controlled in the noteScore() area
+              noteScore(collision);
+              remove = true;
+            }
+            else if(noteColor=! transformState){
+              //play some panic animation here  
+            } 
+            break;        
         }
-        if(noteColor == transformState){
-          remove = true;
-        }
-        scoreText.text ="Score:"+score;
+              scoreText.text ="Score:"+score;
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
