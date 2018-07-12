@@ -60,7 +60,7 @@ pauseContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, returnToTitle, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d, character, character2, transformState;
+var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d, character, character2, transformState, scoreResult;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
@@ -90,6 +90,7 @@ var feverCounter = 0;
 var fontFix = new PIXI.TextStyle({
   padding:5
 });
+var returnToTitle = false;
 
 
 
@@ -203,6 +204,8 @@ window.onFocus = function(){
 }
 
 function titleSetup(){ 
+  titleContainer.removeChildren(0, titleContainer.children.length); 
+
   loadingContainer.visible = false;
   backContainer.visible = false;
   container.visible = false;
@@ -230,6 +233,46 @@ function titleSetup(){
   titleContainer.addChild(scoreButton);
 
   state=title;
+  renderer.ticker.start();
+  
+}
+
+function resultsSetup(){ 
+  titleContainer.removeChildren(0, titleContainer.children.length); 
+
+  loadingContainer.visible = false;
+  backContainer.visible = false;
+  container.visible = false;
+  frontContainer.visible = false;
+  goContainer.visible = false;
+  uiContainer.visible = false;
+  titleContainer.visible = true; 
+
+  let titleText = new PIXI.Text("Results!", {fontFamily:"Conv_monogram", fontSize:184, fill:"white"})
+  titleText.anchor.set(0.5,0.5);
+  titleText.position.set(360,200);
+  titleContainer.addChild(titleText);
+
+  let scoreTitle = new PIXI.Text("Your Score:", {fontFamily:"Conv_Minecraftia-Regular", fontSize:32, fill:"white", padding:20});
+  scoreTitle.anchor.set(0.5,0.5);
+  scoreTitle.position.set(360,600);
+  titleContainer.addChild(scoreTitle);
+  
+  let displayResult = new PIXI.Text(scoreResult, {fontFamily:"Conv_Minecraftia-Regular", fontSize:32, fill:"white", padding:20});
+  displayResult.interactive = true;
+  displayResult.buttonMode = true;
+  displayResult.on('pointerdown', selectStage);
+  displayResult.anchor.set(0.46,0.5);
+  displayResult.position.set(360,675);
+  titleContainer.addChild(displayResult);
+
+  let instructionsText = new PIXI.Text("tap or press enter to continue...", {fontFamily:"Conv_Minecraftia-Regular", fontSize:32, fill:"white", padding:20});
+  instructionsText.anchor.set(0.46,0.5);
+  instructionsText.position.set(360,1000);
+  titleContainer.addChild(instructionsText);
+
+
+  state=results;
   renderer.ticker.start();
   
 }
@@ -353,6 +396,9 @@ function title(){
   //Event listeners from the titleSetup are handling menu clicks
 }
 
+function results{
+};
+
 function loading(){
 titleContainer.visible = false;
 loadingContainer.visible = true;  
@@ -414,40 +460,9 @@ function newGame(){
 
 function selectStage(){ 
   titleContainer.removeChildren(0, titleContainer.children.length); 
-  //hard code the list and add it to the title container. Each list item needs to run the setup function, and the setup function needs to be changed to initialize the sage at a particular variable that the list item determines when clicked.
 
-ssBuildMenu();
-
-/*   
-  var songOne = new PIXI.Text("blank", {fontFamily:"Arial", fontSize:32, fill:"white"});
-  var songTwo = new PIXI.Text("Pipe Panorama", {fontFamily:"Arial", fontSize:32, fill:"white"});
-  var songThree = new PIXI.Text("Alley Spectre", {fontFamily:"Arial", fontSize:32, fill:"white"});
-    
-songOne.position.set(200,400);
-songTwo.position.set(200,600);
-songThree.position.set(200,800);
-
-//Set the interactions to change level and run newGame()  
-songOne.interactive = true;
-songOne.buttonMode = true;
-songOne.on('pointerdown', function(){loadLevel(blank); newGame();})
-
-
-songTwo.interactive = true;
-songTwo.buttonMode = true;
-songTwo.on('pointerdown', function(){currentSong=sounds["sounds/faerieFM.mp3"]; loadLevel(pipePanorama); newGame();})
-
-
-songThree.interactive = true;
-songThree.buttonMode = true;
-songThree.on('pointerdown', function(){currentSong=sounds["sounds/alleySpectre.mp3"]; loadLevel(alleySpectre); newGame();})
-
-
-//Add each song to the titleContainer
-titleContainer.addChild(songOne);
-titleContainer.addChild(songTwo);
-titleContainer.addChild(songThree);
-*/
+  ssBuildMenu();
+  state = title;
 
 };
 
@@ -602,7 +617,6 @@ function updatePauseTotal(){
 function stageEnd(){
   
   if(level['greenDust']['y'].length == 0 && container.children.length==1){
-    returnToTitle=true; 
     container.removeChildren(0, container.children.length); 
     restartGame(); 
   }  
@@ -671,6 +685,7 @@ function bumpCheck(){
             break;        
         }
               scoreText.text ="Score:"+score;
+
       }
       bumpedWallY = undefined;
       bumpedWallX = undefined;
@@ -801,7 +816,7 @@ function removePlayer(){
 
       //Game Over Text creation
       if(state=gameOver){
-        goText1 = new PIXI.Text("Signal Lost!", {fontFamily:"Arial", fontSize:32, fill:"white"});
+        goText1 = new PIXI.Text("Stage Failed! Press enter to restart!", {fontFamily:"Arial", fontSize:32, fill:"white"});
         goText1.position.set(200,400);
         goContainer.addChild(goText1);
       }
@@ -818,6 +833,8 @@ function restartGame(){
   container.removeChildren(0, container.children.length); 
   frontContainer.removeChildren(0, frontContainer.children.length);
   uiContainer.removeChildren(0, uiContainer.children.length); 
+  //transfer Score to new variable
+  score = scoreResult;
   //reset all counters
   upClock = 0;
   frame = 0;
@@ -844,10 +861,17 @@ function restartGame(){
     //run setup function or title setup function
   switch(returnToTitle){
     case false:
-      setup();
+      if(debug){
+        console.log("skipping results screen; restarting stage");
+        setup();
+      };
+      else{
+      resultsSetup();
+      }
       break;
     case true:
-      titleSetup();
+      returnToTitle=false;
+      selectStage();
       break;  
 }
 }

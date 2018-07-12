@@ -232,7 +232,9 @@ function clicked(event){
       moveShip(event);
       break;
     case gameOver:
-      goOptionsCreate();
+      returnToTitle=false; 
+      goContainer.removeChildren(0, goContainer.children.length); 
+      restartGame();
       break;
     case title:
       document.body.focus();
@@ -242,6 +244,10 @@ function clicked(event){
 
 function debugMode(){
   switch(state){
+    case title:
+       console.log("Debug Mode Activated; Refresh page to end");
+       debug=true;
+       break;
     case play:
        console.log("Debug Mode Activated; Refresh page to end");
        debug=true;
@@ -334,8 +340,13 @@ function enterPressed(){
         console.log("This icon is under construction!");
       }
       break;
+    case results:
+      scoreResult=0;
+      selectStage();  
     case gameOver:
-      goOptionsCreate();
+      returnToTitle=false; 
+      goContainer.removeChildren(0, goContainer.children.length); 
+      restartGame();
       break;
     default:
       break;
