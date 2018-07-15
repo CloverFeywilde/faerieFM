@@ -396,7 +396,7 @@ function title(){
   //Event listeners from the titleSetup are handling menu clicks
 }
 
-function results{
+function results(){
 };
 
 function loading(){
@@ -811,12 +811,12 @@ else{
 function removePlayer(){ 
   //remove the player sprite
   for(i=0; i<container.children.length; i++){
-    if(container.children[i]['name'] == "player"){
+    if(container.children[i]['name'] == "playerHitBox"){
       container.removeChild(container.children[i]);
-
+      frontContainer.removeChildren(); 
       //Game Over Text creation
-      if(state=gameOver){
-        goText1 = new PIXI.Text("Stage Failed! Press enter to restart!", {fontFamily:"Arial", fontSize:32, fill:"white"});
+      if(state==gameOver){
+        let goText1 = new PIXI.Text("Stage Failed! Press enter to restart!", {fontFamily:"Arial", fontSize:32, fill:"white"});
         goText1.position.set(200,400);
         goContainer.addChild(goText1);
       }
@@ -834,7 +834,7 @@ function restartGame(){
   frontContainer.removeChildren(0, frontContainer.children.length);
   uiContainer.removeChildren(0, uiContainer.children.length); 
   //transfer Score to new variable
-  score = scoreResult;
+  scoreResult = score;
   //reset all counters
   upClock = 0;
   frame = 0;
@@ -864,7 +864,7 @@ function restartGame(){
       if(debug){
         console.log("skipping results screen; restarting stage");
         setup();
-      };
+      }
       else{
       resultsSetup();
       }

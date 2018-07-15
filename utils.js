@@ -5,7 +5,7 @@ var crotchet = 60/bpm; //this will no longer work since the BPM isn't calculated
 var canDie = false;
 var comboCount = 0;
 var feverTimer = 0;
-var comboMultiplier = 0;
+var comboMult = 0;
 
 //Color Change Mechanic
 function transform(){
@@ -94,11 +94,11 @@ function noteScore(colScore){
       let justAdded3 = frontContainer.children.length -1;
       frontContainer.children[justAdded3]['movement'] = frontMovement['hit'];
       comboCount = 0;
-      let m = Math.floor(comboMult/4)
-      if(m<1){
-        m=1;
+      let m2 = Math.floor(comboMult/4)
+      if(m2<1){
+        m2=1;
       }
-      score += (m * 10);
+      score += (m2 * 10);
       comboMult = 0; 
       break;
     default: 
@@ -107,7 +107,7 @@ function noteScore(colScore){
 };
 
 function noteScoreAni(){
-  for(i=1; i<frontContainer.children.length; i++){
+  for(i=2; i<frontContainer.children.length; i++){
     let currentChild = frontContainer.children[i];
     if(currentChild['name'] == "hitTxt"||"missTxt"||"mehTxt"){
       if(currentChild['position']['y'] <= (player.position.y-60)){
