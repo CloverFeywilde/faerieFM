@@ -200,32 +200,36 @@ function laneChange(direction){
   switch(lane){
     case 0:
       player.position.x = 87;
-      character.position.x = 87;
-      character2.position.x = 87;
+      moveAllChar(87);
       break;
     case 1:
       player.position.x = 222;
-      character.position.x = 222;
-      character2.position.x = 222;
+      moveAllChar(222);
       break;
     case 2:
       player.position.x = 359;
-      character.position.x = 359;
-      character2.position.x = 359;
+      moveAllChar(359);
       break;
     case 3:
       player.position.x = 496;
-      character.position.x = 496;
-      character2.position.x = 496;
+      moveAllChar(496);
       break;
     case 4:
       player.position.x = 633;
-      character.position.x = 633;
-      character2.position.x = 633;
+      moveAllChar(633);
       break;
     default:
       console.log("Lane out of bounds!");
       break;
+  }
+}
+
+function moveAllChar(xposition){
+  let fBox = frontContainer.children;
+  for(i=0; i<fBox.length; i++){
+    if(fBox[i].name == "musette"){
+      fBox[i].position.x = xposition;
+    }
   }
 }
 

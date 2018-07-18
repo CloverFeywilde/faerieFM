@@ -1,5 +1,3 @@
-//This branch is for experimenting with new scaling and gameplay changes that could potentially alter the course of this project
-
 //Renderer Setup
 var renderer = new PIXI.Application(720, 1280);
 document.body.appendChild(renderer.view);
@@ -858,6 +856,7 @@ function restartGame(){
   feverCounter = 0;
   feverTimer = 0;
   comboCount = 0;
+  lane = 2;
     //run setup function or title setup function
   switch(returnToTitle){
     case false:

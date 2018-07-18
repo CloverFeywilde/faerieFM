@@ -39,7 +39,7 @@ function ssBuildMenu(){
   icon2.on('pointerdown',stageInfo[1].execute);  
   
   //First Diamond
-  icon1.beginFill(0xF52549)
+  icon1.beginFill(0xFFFFFF)
   .drawPolygon(0, 87.5, 87.5, 0, 175, 87.5, 87.5, 175)
   .drawPolygon(12.5, 87.5, 87.5, 12.5, 162.5, 87.5, 87.5, 162.5)
   .addHole();
@@ -112,6 +112,11 @@ function ssBuildMenu(){
   idleLine.play();
 
   titleContainer.addChild(icon1, icon2, icon3, infoBar, dif1, dif2, dif3, idleLine, songTitle, songArtist);
+
+  //Highlight Currently Selected Song and Difficulty
+  colorChange(true);
+  colorChangeDif(true);
+
 };
 
 
