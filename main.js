@@ -1,3 +1,5 @@
+//Editing the current branch for more varied collisions
+
 //Renderer Setup
 var renderer = new PIXI.Application(720, 1280);
 document.body.appendChild(renderer.view);
@@ -458,7 +460,7 @@ function newGame(){
 
 function selectStage(){ 
   titleContainer.removeChildren(0, titleContainer.children.length); 
-
+  
   ssBuildMenu();
   state = title;
 
