@@ -497,23 +497,26 @@ function newStageCheck(){
 function enemyInit(levelNum){
 //Enemy positions are copied from a starting array to a writeable array where they can be manipulated freely.
   Object.keys(level).forEach(function(key,index){
-   if(levelNum[key]['iy'][0] != undefined){
-     levelNum[key]['x'] = [];
-     levelNum[key]['y'] = [];
+   if(levelNum[key] != levelNum['settings']){
+     if(levelNum[key]['iy'][0] != undefined){
+       levelNum[key]['x'] = [];
+       levelNum[key]['y'] = [];
 
-     var newArrayX = levelNum[key]['x']; 
-     var memArrayX =levelNum[key]['ix'];
-     newArrayX.push.apply(newArrayX, memArrayX);
+       var newArrayX = levelNum[key]['x']; 
+       var memArrayX =levelNum[key]['ix'];
+       newArrayX.push.apply(newArrayX, memArrayX);
 
-     var newArrayY = levelNum[key]['y'];
-     var memArrayY =  levelNum[key]['iy'];
-     newArrayY.push.apply(newArrayY, memArrayY);
-    }
+       var newArrayY = levelNum[key]['y'];
+       var memArrayY =  levelNum[key]['iy'];
+       newArrayY.push.apply(newArrayY, memArrayY);
+     }
+   }
   })
 };
 function createSprite(levelNum){
   //When a new stage is selected, this creates a new array for each type of enemy, and fills the empty array with a specified number new sprite copies
   Object.keys(levelNum).forEach(function(key,index){
+   if(levelNum[key] != levelNum['settings']){
    levelNum[key]['array'] = [];
     for(j=0; j <= levelNum[key]['quantity']; j++){
       //check if animated 
@@ -521,7 +524,7 @@ function createSprite(levelNum){
         //prepare frames here
         var frames = [];
         for(var i=1; i<=levelNum[key]['frames']; i++){
-          frames.push(PIXI.Texture.fromFrame(levelNum[key]['name']+i+'.png'));
+          frames.push(PIXI.Texture.fromFrame(levelNum[key]['fileName']+i+'.png'));
         }
 
         var tempAniHolder = new PIXI.extras.AnimatedSprite(frames); 
@@ -529,26 +532,29 @@ function createSprite(levelNum){
         levelNum[key]['array'].push(tempAniHolder);
       }
       else{
-        var tempHolder = new Sprite(id[levelNum[key]['name']+".png"])
+        var tempHolder = new Sprite(id[levelNum[key]['fileName']+".png"])
         tempHolder.anchor.set(0.5,0.5);
         levelNum[key]['array'].push(tempHolder);
       }
     }       
+   }
   })
 }
 
 function checkDistance(currentDist, levelNum){
 //checks the massive array of enemy positions every frame to see if an enemy is ready to be spawned at the top of the screen. 
   Object.keys(levelNum).forEach(function(key,index){
-    var yDist = levelNum[key]['y'][0];
-    //offset and BPM need globals and a way to read them from .SM file
-    var offset = (yDist - distance)*bpm*3;
-    var enemyPosY = feyPosY - offset; 
-    if(yDist != null){
-      if(enemyPosY >= 0){
-        placeSprite(levelNum, key);   
-      }
-    } 
+    if(levelNum[key] != levelNum['settings']){
+      var yDist = levelNum[key]['y'][0];
+      //offset and BPM need globals and a way to read them from .SM file
+      var offset = (yDist - distance)*bpm*3;
+      var enemyPosY = feyPosY - offset; 
+      if(yDist != null){
+        if(enemyPosY >= 0){
+          placeSprite(levelNum, key);   
+        }
+      } 
+   }
 })
 }
 
@@ -697,7 +703,8 @@ function bumpCheck(){
 else if(container.children[i].position.y >=renderer.view.height){
       remove = true;
       if(caseName == 'greenDust' ||
-         caseName == 'wall'){
+         caseName == 'wall' ||
+         caseName == 'small'){
          if (debug){
            ;
          }

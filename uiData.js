@@ -6,7 +6,7 @@ var loadLevel = function(song,thisLevel){
   //set currentLevel variable equal to a stage object from levels.json
   var currentLevel = JSON.parse(thisLevel);
   level = currentLevel;
-  bpm = level['greenDust']['bpm'];
+  bpm = level['settings']['bpm'];
 
   //start the new game
   newGame();
@@ -32,11 +32,11 @@ var stageInfo = [
   },
   
   {
-    title:'Test Stage',
+    title:'Test Stage 2',
     artist:'Andrew Niehoff',
     difficulty:'Easy',
     highScore:'0000',
-    execute: function(){ loadLevel('faerieFM', testStage); }
+    execute: function(){ loadLevel('faerieFM', testStage2); }
   }
 
 ];
