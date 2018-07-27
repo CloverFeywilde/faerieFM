@@ -340,6 +340,8 @@ goContainer.removeChildren(0, goContainer.children.length);
 //set up Musette's Animation frames
 player = new Sprite(id["player.png"]);
 player.name = "playerHitBox";
+player.width = 98;
+player.height = 120;
 player.circular = true;
 player.anchor.set(0.5,0.5);
 player.position.x = 359;
