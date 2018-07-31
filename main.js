@@ -91,7 +91,7 @@ var fontFix = new PIXI.TextStyle({
   padding:5
 });
 var returnToTitle = false;
-
+var perfectMargin = 1;
 
 
 //Load the Sounds & load the setup functions
@@ -378,6 +378,9 @@ distance = 0;
 renderer.ticker.start();
 
 reload = true;
+
+perfectMargin = Math.ceil(.0166*bpm*3);
+
 }
 
 
@@ -666,11 +669,11 @@ function bumpCheck(){
   for(var i=defNum; i<container.children.length; i++){
     var case1 = container.children[i];
     var caseName = container.children[i]['name'];
-    //var colTest = b.hit(player, case1);
-    var collision = b.hitTestCircleRectangle(player, case1);
+    var colTest = b.hit(player, case1);
+    //var collision = b.hitTestCircleRectangle(player, case1);
     var remove = false;
     let noteColor = container.children[i]['color'];
-    if(collision!=undefined && collision!=true && collision!=false){ 
+    if(colTest){ 
       if(caseName == "greenDust" || 
         caseName == "wall"){ 
         var currentEnemy = container.children[i]['name'];
@@ -678,13 +681,11 @@ function bumpCheck(){
           case "greenDust":
           case "wall":
             if(feverTime){
-              let perfect = "bottomMiddle";
-              noteScore(perfect);
+              hitscore(player, case1, true);
             }
             else if(noteColor == transformState){ 
-              console.log(collision);
-              //Scores need to be controlled in the noteScore() area
-              noteScore(collision);
+              //new custom score function 
+              hitScore(player, case1, false);
               remove = true;
             }
             else{

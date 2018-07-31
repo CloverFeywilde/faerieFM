@@ -29,6 +29,70 @@ function transform(){
   }
 }
 
+//Updated Custom Scoring System
+function hitScore(player, note, ftStatus){
+  let playerValue = player.position.y - (player.height / 2);
+  let noteValue = note.position.y + (note.height / 2);
+  let hitPoint = noteValue - playerValue;   
+
+  if(hitPoint <= perfectMargin || ftStatus == true){
+    //perfect score
+    console.log("perfect");
+    //Fever Bar and Health Recovery calculation goes here
+
+    //score Calculation
+    comboMult++
+    let m = Math.floor(comboMult/4)
+    if(m<1){
+      m=1;
+    }
+    score += (m * m * 10) * 3;
+  }
+
+  else if(hitPoint <= 40){
+    //good score
+    console.log("good");
+    //Fever Bar and Health Recovery calculation goes here
+
+    //score Calculation
+    comboMult++
+    let m = Math.floor(comboMult/4)
+    if(m<1){
+      m=1;
+    }
+    score += (m * m * 10);
+  }
+
+  else if(hitPoint <= 80){
+    //meh score
+    console.log("meh");
+   //Fever Bar and Health Recovery Calculation Goes here
+
+   //score Calculation
+   let m2 = Math.floor(comboMult/4)
+      if(m2<1){
+        m2=1;
+      }
+      score += (m2 * 10);
+      comboMult = 0;
+  }
+
+  else if(hitPoint <= 120){
+    //bad score
+    console.log("bad");
+    //Fever Bar and Health Recover Calculation goes here
+
+    //score calculation
+    comboMult = 0;
+      if(debug){
+        return;
+      }
+      else{
+        hp--;
+      }
+  }
+}
+
 //Checks how well you hit the note
 function noteScore(colScore){
   switch(colScore){
@@ -53,7 +117,8 @@ function noteScore(colScore){
           feverCounter++
           feverBarUpdate();
         }
-
+      
+      //score Calculation
       comboMult++
       let m = Math.floor(comboMult/4)
       if(m<1){
