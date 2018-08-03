@@ -6,6 +6,7 @@ var canDie = false;
 var comboCount = 0;
 var feverTimer = 0;
 var comboMult = 0;
+var ftMax = 0;
 
 //Color Change Mechanic
 function transform(){
@@ -201,6 +202,25 @@ function noteScoreAni(){
     };
   };
 };
+
+//Fever Bar Calculation
+function ftBarCalc(){
+  let totalNotes = level['greenDust']['y'].length + level['wall']['y'].length;
+  let comboMult = 0;
+  let score = 0;
+  
+  for (i=1; i<total; i++){
+    comboMult++
+    let m = Math.floor(comboMult/4); 
+    if(m<1){
+      m = 1;
+    }
+    score += (m * m * 10);
+  }
+  
+  ftMax = score;
+
+}
 
 //Fever Time, down arrow triggered
 function feverTimeStart(){

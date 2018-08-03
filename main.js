@@ -60,7 +60,7 @@ pauseContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d, character, character2, transformState, scoreResult;
+var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d, character, character2, transformState, scoreResult, innerBar, outerBar;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
@@ -364,9 +364,24 @@ hpText = new PIXI.Text("HP[----------]", {fontFamily:"Arial", fontSize:32, fill:
 hpText.position.set(250, 10);
 uiContainer.addChild(hpText);
 
+/*
 feverText = new PIXI.Text("Fever[   ]", {fontFamily:"Arial", fontSize:32, fill:"white"});
 feverText.position.set(450, 10);
 uiContainer.addChild(feverText);
+*/
+
+innerBar = new PIXI.Graphics();
+innerBar.beginFill(0x000000);
+innerBar.drawRect(0, 0, 128, 20);
+innerBar.endFill();
+innerBar.position.set(450, 10)
+
+outerBar = new PIXI.Graphics();
+outerBar.beginFill(0xFF3300);
+outerBar.drawRect(0, 0, 128, 20);
+outerBar.endFill();
+
+uiContainer.addChild(innerBar, outerBar);
 
 //Start the Song
 currentSong.playFrom(0);
@@ -379,6 +394,7 @@ renderer.ticker.start();
 
 reload = true;
 
+ftBarCalc();
 perfectMargin = Math.ceil(.0166*bpm*3);
 
 }
