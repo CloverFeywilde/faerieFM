@@ -205,11 +205,11 @@ function noteScoreAni(){
 
 //Fever Bar Calculation
 function ftBarCalc(){
-  let totalNotes = level['greenDust']['y'].length + level['wall']['y'].length;
+  let totalNotes = level['greenDust']['iy'].length + level['wall']['iy'].length;
   let comboMult = 0;
   let score = 0;
   
-  for (i=1; i<total; i++){
+  for (i=0; i<totalNotes; i++){
     comboMult++
     let m = Math.floor(comboMult/4); 
     if(m<1){

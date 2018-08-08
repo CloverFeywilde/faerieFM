@@ -92,7 +92,7 @@ var fontFix = new PIXI.TextStyle({
 });
 var returnToTitle = false;
 var perfectMargin = 1;
-
+var maxBarWidth = 128;
 
 //Load the Sounds & load the setup functions
 loadSounds();
@@ -372,14 +372,15 @@ uiContainer.addChild(feverText);
 
 innerBar = new PIXI.Graphics();
 innerBar.beginFill(0x000000);
-innerBar.drawRect(0, 0, 128, 20);
+innerBar.drawRect(0, 0, maxBarWidth, 20);
 innerBar.endFill();
 innerBar.position.set(450, 10)
 
 outerBar = new PIXI.Graphics();
 outerBar.beginFill(0xFF3300);
-outerBar.drawRect(0, 0, 128, 20);
+outerBar.drawRect(0, 0, 1, 20);
 outerBar.endFill();
+outerBar.position.set(450, 10);
 
 uiContainer.addChild(innerBar, outerBar);
 
@@ -449,6 +450,8 @@ checkDistance(distance,level);
 //beatKeeper();
 //Check collisions, if yes, apply penalties, rewards, and/or remove enemies. Control with switch statement.
 bumpCheck();
+//update the UI
+uiUpdate();
 //Check if fever time is activated and keep track of how long it has left
 feverCheck();
 //Check crash damage to see if the player has lost
@@ -740,6 +743,17 @@ else if(container.children[i].position.y >=renderer.view.height){
     i--
   }
 }
+}
+
+//in-game Ui Updates & Animations
+function uiUpdate(){
+  //feverBar
+  let ftPercent = (score * 100) / ftMax;
+  let ftBarWidth = (maxBarWidth * ftPercent) / 100;
+  outerBar.width = ftBarWidth;
+  if(outerBar.width >= maxBarWidth){
+    outerBar.width = maxBarWidth;
+  }
 }
 
 //Move Background
