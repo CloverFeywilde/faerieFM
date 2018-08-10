@@ -218,7 +218,7 @@ function ftBarCalc(){
   let comboMult = 0;
   let score = 0;
   
-  for (i=0; i<totalNotes; i++){
+  for (i=0; i<totalNotes/3; i++){
     comboMult++
     let m = Math.floor(comboMult/4); 
     if(m<1){
