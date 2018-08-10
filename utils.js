@@ -48,7 +48,9 @@ function hitScore(player, note, ftStatus){
       m=1;
     }
     score += (m * m * 10) * 3;
-  }
+    hp += hpPerf;
+    
+   }
 
   else if(hitPoint <= 40){
     //good score
@@ -62,6 +64,7 @@ function hitScore(player, note, ftStatus){
       m=1;
     }
     score += (m * m * 10);
+    hp += hpGood;
   }
 
   else if(hitPoint <= 80){
@@ -76,6 +79,7 @@ function hitScore(player, note, ftStatus){
       }
       score += (m2 * 10);
       comboMult = 0;
+      hp += hpMeh;
   }
 
   else if(hitPoint <= 120){
@@ -89,9 +93,14 @@ function hitScore(player, note, ftStatus){
         return;
       }
       else{
-        hp--;
+        hp += hpBad;
       }
   }
+
+  if(hp >= hpTotal){
+    hp = hpTotal;
+  }
+
 }
 
 //Checks how well you hit the note

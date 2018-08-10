@@ -60,14 +60,18 @@ pauseContainer.visible = false;
 
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
-var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d, character, character2, transformState, scoreResult, innerBar, outerBar;
+var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d, character, character2, transformState, scoreResult, innerBar, outerBar, hp, hpBarIn, hpBarOut;
 var appWidth = renderer.renderer.width;
 var appHeight = renderer.renderer.height;
 var frame = 0;
 var score = 0;
 var cdFrame = 0;
 var crashDamage = 0;
-var hp = 10; 
+var hpTotal = 70; 
+var hpPerf = 2;
+var hpGood = 1;
+var hpMeh = -5;
+var hpBad = -10;
 var greenTP = 0;
 var redTP = 0;
 var blueTP = 0;
@@ -93,6 +97,8 @@ var fontFix = new PIXI.TextStyle({
 var returnToTitle = false;
 var perfectMargin = 1;
 var maxBarWidth = 128;
+var maxHPBarWidth = 128;
+
 
 //Load the Sounds & load the setup functions
 loadSounds();
@@ -342,7 +348,6 @@ player = new Sprite(id["player.png"]);
 player.name = "playerHitBox";
 player.width = 98;
 player.height = 120;
-player.circular = true;
 player.anchor.set(0.5,0.5);
 player.position.x = 359;
 player.position.y = 1130;
@@ -360,10 +365,25 @@ fcSetup();
 scoreText = new PIXI.Text("Score:"+score , {fontFamily:"Arial", fontSize:32, fill:"white"});
 scoreText.position.set(10, 10);
 
+/*
 hpText = new PIXI.Text("HP[----------]", {fontFamily:"Arial", fontSize:32, fill:"white"});
 hpText.position.set(250, 10);
 uiContainer.addChild(hpText);
+*/
 
+hpBarIn = new PIXI.Graphics();
+hpBarIn.beginFill(0x000000);
+hpBarIn.drawRect(0, 0, maxHPBarWidth, 20);
+hpBarIn.endFill();
+hpBarIn.position.set(250, 10)
+
+hpBarOut = new PIXI.Graphics();
+hpBarOut.beginFill(0xF52549);
+hpBarOut.drawRect(0, 0, maxHPBarWidth, 20);
+hpBarOut.endFill();
+hpBarOut.position.set(250, 10);
+
+hp = hpTotal;
 /*
 feverText = new PIXI.Text("Fever[   ]", {fontFamily:"Arial", fontSize:32, fill:"white"});
 feverText.position.set(450, 10);
@@ -377,12 +397,12 @@ innerBar.endFill();
 innerBar.position.set(450, 10)
 
 outerBar = new PIXI.Graphics();
-outerBar.beginFill(0xFF3300);
+outerBar.beginFill(0x6AA1C3);
 outerBar.drawRect(0, 0, 1, 20);
 outerBar.endFill();
 outerBar.position.set(450, 10);
 
-uiContainer.addChild(innerBar, outerBar);
+uiContainer.addChild(innerBar, outerBar, hpBarIn, hpBarOut);
 
 //Start the Song
 currentSong.playFrom(0);
@@ -731,7 +751,7 @@ else if(container.children[i].position.y >=renderer.view.height){
            ;
          }
          else{
-           hp -= 3;
+           hp += hpBad;
          }
       }
   }
@@ -754,6 +774,15 @@ function uiUpdate(){
   if(outerBar.width >= maxBarWidth){
     outerBar.width = maxBarWidth;
   }
+  //HPBar
+  
+  let hpPercent = (hp * 100) / hpTotal;
+  let hpBarWidth = (maxHPBarWidth * hpPercent) / 100;
+  hpBarOut.width =  hpBarWidth;
+  if(hpBarOut.width >= maxHPBarWidth){
+    hpBarOut.width = maxHPBarWidth;
+  }
+
 }
 
 //Move Background
@@ -804,13 +833,15 @@ if(upCoolDown==true){
 //Check Damage for GameOver
 function damageCheck(){
   if(crashDamage == 1){
-    state=gameOver;
-    
+    state=gameOver;    
   }
-if(hp <= 0 ){
-  hpText.text = "HP[          ]";
-  state=gameOver;
-}
+  if(hp <= 0 ){
+    //hpText.text = "HP[          ]";
+    state=gameOver;
+  } 
+
+//outDated UI Code
+/*
 else{
   switch(hp){
     case 1:
@@ -845,6 +876,7 @@ else{
       break;
   }
 }
+*/
 }
 
 //GameOver State Functions
@@ -882,7 +914,7 @@ function restartGame(){
   cdFrame = 0;
   crashDamage = 0;
   distance = 0;
-  hp = 10;
+  hp = hpTotal; 
   greenTP = 0;
   blueTP = 0;
   redTP = 0;
