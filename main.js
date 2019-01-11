@@ -58,6 +58,12 @@ pauseContainer.scale.x = pauseContainer.scale.y = 1;
 renderer.stage.addChild(pauseContainer);
 pauseContainer.visible = false;
 
+var storyContainer = new PIXI.Container();
+storyContainer.scale.x = storyContainer.scale.y = 1;
+renderer.stage.addChild(storyContainer);
+storyContainer.visible = false;
+
+
 //Aliases and Globals
 var Sprite = PIXI.Sprite;
 var state, newPosition, level, player, testBG, distance, id, dust, firstTime, scoreText, bumpedWallY, bumpedWallX, goText, testSong, currentSong, songCreationTime, songStartTime, left, right, up, down, spacebar, songEndTime, beam1, pauseTime, pauseStartTime, pauseEndTime, d, character, character2, transformState, scoreResult, innerBar, outerBar, hp, hpBarIn, hpBarOut;
@@ -434,6 +440,10 @@ state();
 
 
 //Game States
+function story(){
+  
+}
+
 function title(){
   //Event listeners from the titleSetup are handling menu clicks
 }

@@ -6,6 +6,7 @@ var curHlDif = 0;
 var curDif = 0;
 var debug = false;
 var lane = 2;
+var fromPlay = false;
 //menu highlighting function
 function highlight(input){
   colorChange(false);
@@ -312,6 +313,36 @@ function downArrowBonus(){
     default:
       break;
   }
+}
+
+function storyStart(){
+  if(state==play){
+    fromPlay = true;
+    pauseStartTime = currentSong.soundNode.context.currentTime;
+  }
+  state=story;
+  //Story Code Goes here
+	
+}
+
+function storyStop(nextfunction){
+  if(fromPlay==true){
+    gamePaused++; //How many times you've paused     
+    //The time when you leave the pause menu
+    pauseEndTime = currentSong.soundNode.context.currentTime;
+    //variable used to store length of this pause
+    pauseTemp = pauseEndTime-pauseStartTime;
+    //Variable used to adjust distance formula after first pause.
+    pauseTime = (pauseEndTime-pauseStartTime)+songStartTime+pauseTotal;
+    pauseContainer.visible=false;
+    currentSong.play();
+    state=play;
+  }
+  storyContainer.removeChildren(0, children.length);	
+  storyContainer.visible=false;
+ 
+  //what happens next goes below
+  nextFunction()
 }
 
 function pauseStart(){
